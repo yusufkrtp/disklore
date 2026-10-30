@@ -2,7 +2,10 @@ namespace DiskLore.Core.Model;
 
 public sealed class ScanNode
 {
-    private readonly List<ScanNode> _children = new();
+    private static readonly ScanNode[] NoChildren = Array.Empty<ScanNode>();
+
+    // Files never allocate a list; directories allocate on first child.
+    private List<ScanNode>? _children;
 
     internal ScanNode(string name, ScanNode? parent, bool isDirectory)
     {
@@ -22,7 +25,7 @@ public sealed class ScanNode
     public long FolderCount { get; internal set; }
     public DateTime LastWriteUtc { get; internal set; }
     public bool AccessDenied { get; internal set; }
-    public IReadOnlyList<ScanNode> Children => _children;
+    public IReadOnlyList<ScanNode> Children => (IReadOnlyList<ScanNode>?)_children ?? NoChildren;
 
     public string FullPath => Parent == null ? Name : Path.Combine(Parent.FullPath, Name);
 
@@ -41,16 +44,33 @@ public sealed class ScanNode
     internal void AddChild(ScanNode child)
     {
         child.Parent = this;
-        _children.Add(child);
+        (_children ??= new List<ScanNode>()).Add(child);
     }
 
-    internal bool RemoveChild(ScanNode child) => _children.Remove(child);
+    internal bool RemoveChild(ScanNode child) => _children != null && _children.Remove(child);
+
+    // Size descending, name as a stable tie-break. Non-recursive: trees can be very deep.
+    internal void SortChildren()
+    {
+        _children?.Sort(static (a, b) =>
+        {
+            int c = b.Size.CompareTo(a.Size);
+            return c != 0 ? c : string.CompareOrdinal(a.Name, b.Name);
+        });
+    }
 
     internal void SortChildrenBySizeDescending()
     {
-        _children.Sort((a, b) => b.Size.CompareTo(a.Size));
-        foreach (var c in _children)
-            if (c.IsDirectory) c.SortChildrenBySizeDescending();
+        var stack = new Stack<ScanNode>();
+        stack.Push(this);
+        while (stack.Count > 0)
+        {
+            var n = stack.Pop();
+            n.SortChildren();
+            if (n._children == null) continue;
+            foreach (var c in n._children)
+                if (c.IsDirectory) stack.Push(c);
+        }
     }
 
     public override string ToString() => FullPath;
