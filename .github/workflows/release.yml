@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - run: dotnet test DiskLore.sln -c Release
+
+  package:
+    needs: test
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - os: windows-latest
+            rids: win-x64
+            name: windows
+          - os: ubuntu-latest
+            rids: linux-x64
+            name: linux
+          - os: macos-latest
+            rids: osx-x64 osx-arm64
+            name: macos
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/publish.ps1 -Rid ('${{ matrix.rids }}' -split ' ') -Dotnet dotnet
+      - name: Package (Linux and macOS)
+        if: runner.os != 'Windows'
+        run: ./scripts/publish.sh ${{ matrix.rids }}
+      - uses: actions/upload-artifact@v7
+        with:
+          name: packages-${{ matrix.name }}
+          path: |
+            dist/*.zip
+            dist/*.tar.gz
+          if-no-files-found: error
+
+  release:
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          pattern: packages-*
+          merge-multiple: true
+      - name: Checksums
+        working-directory: dist
+        run: sha256sum DiskLore-* > SHA256SUMS.txt
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release create "$GITHUB_REF_NAME" dist/DiskLore-* dist/SHA256SUMS.txt --title "$GITHUB_REF_NAME" --generate-notes
