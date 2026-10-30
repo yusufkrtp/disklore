@@ -153,8 +153,9 @@ public sealed class LeftoverHeuristic : IExplainer
 
         if (MatchesProgram(token, name, parentPath + Path.DirectorySeparatorChar + name, out var owner))
         {
-            // Program Files children are install roots, which ProgramMatcher explains; stay quiet there.
-            if (owner == null || Last(parentPath).StartsWith("Program Files", StringComparison.OrdinalIgnoreCase)) return null;
+            if (owner == null) return null;
+            // Program Files children are mostly install roots that ProgramMatcher explains; this covers clear name matches.
+            if (Last(parentPath).StartsWith("Program Files", StringComparison.OrdinalIgnoreCase)) return FilesOf(owner);
             return DataOf(owner);
         }
 
@@ -261,6 +262,25 @@ public sealed class LeftoverHeuristic : IExplainer
             $"{p.DisplayName} loses its settings, sign-ins or cached data and may recreate the folder; " +
             "uninstall the program first if you want both gone.",
             $"Use {p.DisplayName}'s own settings to clear its cache, or uninstall it from Settings > Apps.",
+            new SaferAction("settingsUri", "Open Installed apps", "ms-settings:appsfeatures"),
+            ExplanationSource.InstalledProgram,
+            0.6,
+            null);
+    }
+
+    private static Explanation FilesOf(InstalledProgram p)
+    {
+        var publisher = string.IsNullOrWhiteSpace(p.Publisher) ? null : p.Publisher;
+        return new Explanation(
+            $"Files of {p.DisplayName}",
+            Badge.App,
+            publisher,
+            $"Program files of {p.DisplayName} (installed)",
+            $"The folder's name matches {p.DisplayName}, a program installed on this computer, so it most likely " +
+            "holds that program's files.",
+            "Installed programs keep their binaries, assets, runtimes and updates in their program folder.",
+            $"{p.DisplayName} will stop working; uninstall it from Settings > Apps instead of deleting the folder.",
+            "Uninstall the program from Settings > Apps.",
             new SaferAction("settingsUri", "Open Installed apps", "ms-settings:appsfeatures"),
             ExplanationSource.InstalledProgram,
             0.6,

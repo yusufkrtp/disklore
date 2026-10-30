@@ -1,11 +1,15 @@
 using DiskLore.Core.Explanations;
+using DiskLore.Core.Ai;
 using DiskLore.Core.Model;
+using DiskLore.Core.Platform;
+using DiskLore.Core.Rules;
+using DiskLore.Core.Scanning;
 using DiskLore.Core.Programs;
 using Xunit;
 
 namespace DiskLore.Tests.Programs;
 
-public class ProgramTests
+public class ProgramTests(Xunit.Abstractions.ITestOutputHelper output)
 {
     private static readonly string Drive = OperatingSystem.IsWindows() ? @"C:\" : "/";
 
@@ -141,6 +145,87 @@ public class ProgramTests
         Assert.Null(matcher.FindOwner(Chain("Anything")));
     }
 
+    [Fact]
+    [Trait("Category", "Manual")]
+    public async Task Manual_ProgramFiles_Unknowns()
+    {
+        if (Environment.GetEnvironmentVariable("DISKLORE_MANUAL") != "1") return;
+        var programs = PlatformServices.Create().Programs.GetInstalled();
+        var service = new ExplanationService(RuleSet.Load(null), new ProgramMatcher(programs), new LeftoverHeuristic(programs),
+            new AiCache(Path.Combine(Path.GetTempPath(), "disklore-pf-" + Guid.NewGuid().ToString("N") + ".json")));
+        foreach (var root in new[] { @"C:\Program Files", @"C:\Program Files (x86)" })
+        {
+            var scan = await new Scanner().ScanAsync(root, null, CancellationToken.None);
+            var unknown = scan.Root.Children.Where(c => c.IsDirectory && service.Explain(c).Badge == Badge.Unknown).ToList();
+            var msg = $"UNKNOWN under {root}: {unknown.Count} of {scan.Root.Children.Count(c => c.IsDirectory)}";
+            output.WriteLine(msg); Console.Error.WriteLine(msg);
+            foreach (var c in unknown.OrderByDescending(c => c.Size))
+            {
+                var line = $"   {c.Size / 1048576.0,10:F1} MB  {c.Name}";
+                output.WriteLine(line); Console.Error.WriteLine(line);
+            }
+        }
+    }
+
+    private static string PfRoot => Path.Combine(Drive, "Program Files");
+
+    [Fact]
+    public void Matcher_VendorFolder_With_One_Program()
+    {
+        var loc = Path.Combine(PfRoot, "Google", "Chrome", "Application");
+        var matcher = new ProgramMatcher(new[] { Prog("Google Chrome", "Google LLC", loc, "130.0") }, new[] { PfRoot });
+        var pf = Chain("Program Files");
+        var google = Child(pf, "Google");
+        var e = matcher.Explain(google)!;
+        Assert.Equal(Badge.App, e.Badge);
+        Assert.Equal(ExplanationSource.InstalledProgram, e.Source);
+        Assert.Equal(1.0, e.Confidence);
+        Assert.Equal("Google", e.Title);
+        Assert.Equal("Google LLC", e.Owner);
+        Assert.Equal("Contains Google Chrome", e.Summary);
+        Assert.Contains("130.0", e.WhatItIs);
+        Assert.Equal("ms-settings:appsfeatures", e.Action!.Value);
+        Assert.Null(matcher.FindOwner(google));
+
+        // Deeper nodes follow the install-root logic, siblings and non-ancestors stay unmatched.
+        Assert.Equal("Google Chrome", matcher.Explain(Child(Child(google, "Chrome"), "Application"))!.Title);
+        Assert.Null(matcher.Explain(Child(google, "Chrome")));
+        Assert.Null(matcher.Explain(Child(pf, "Other")));
+    }
+
+    [Fact]
+    public void Matcher_VendorFolder_With_Several_Programs()
+    {
+        var progs = new[]
+        {
+            Prog("Tool A", "Acme", Path.Combine(PfRoot, "Acme", "A")),
+            Prog("Tool B", "Acme", Path.Combine(PfRoot, "Acme", "B")),
+            Prog("Tool C", "Other", Path.Combine(PfRoot, "Acme", "C")),
+        };
+        var matcher = new ProgramMatcher(progs, new[] { PfRoot });
+        var e = matcher.Explain(Child(Chain("Program Files"), "Acme"))!;
+        Assert.Equal("Acme", e.Owner);
+        Assert.Equal("Contains 3 installed programs: Tool A, Tool B, Tool C", e.Summary);
+    }
+
+    [Fact]
+    public void Matcher_VendorFolder_Summary_Is_Trimmed()
+    {
+        var progs = Enumerable.Range(1, 8).Select(i =>
+            Prog("A Rather Long Program Name " + i, null, Path.Combine(PfRoot, "Big", "p" + i))).ToArray();
+        var e = new ProgramMatcher(progs, new[] { PfRoot }).Explain(Child(Chain("Program Files"), "Big"))!;
+        Assert.True(e.Summary.Length <= 90);
+        Assert.Equal("Big", e.Owner);
+    }
+
+    [Fact]
+    public void Matcher_VendorFolder_Only_Directly_Under_Program_Files()
+    {
+        var matcher = new ProgramMatcher(new[] { Prog("X", null, Path.Combine(PfRoot, "Acme", "X")) }, new[] { PfRoot });
+        Assert.Null(matcher.Explain(Child(Chain("Elsewhere"), "Acme")));
+        Assert.Null(matcher.Explain(Child(Chain("Program Files", "Sub"), "Acme")));
+    }
+
     // ---------- LeftoverHeuristic ----------
 
     private static readonly DateTime Now = new(2026, 10, 30, 12, 0, 0, DateTimeKind.Utc);
@@ -225,8 +310,30 @@ public class ProgramTests
         var h = new LeftoverHeuristic(new[] { Prog("Steam", "Valve Corporation", null) }, new[] { pd, pf },
             Path.Combine(Drive, "Users"), true, () => Now);
         Assert.Equal(Badge.App, h.Explain(Child(Chain("ProgramData"), "Steam"))!.Badge);
-        Assert.Null(h.Explain(Child(Chain("Program Files"), "Steam")));
+        var files = h.Explain(Child(Chain("Program Files"), "Steam"))!;
+        Assert.Equal(Badge.App, files.Badge);
+        Assert.Equal("Files of Steam", files.Title);
         Assert.Equal(Badge.Leftover, h.Explain(Child(Chain("Program Files"), "ObscureOldTool"))!.Badge);
+    }
+
+    [Fact]
+    public void ProgramFiles_NameMatch_Is_App_WeakMatch_Is_Null()
+    {
+        var pf = Path.Combine(Drive, "Program Files");
+        var progs = new[]
+        {
+            Prog("OBS Studio", "OBS Project", null),
+            Prog("Microsoft Edge WebView2 Runtime", "Microsoft Corporation", null),
+        };
+        var h = new LeftoverHeuristic(progs, new[] { pf }, Path.Combine(Drive, "Users"), true, () => Now);
+        var e = h.Explain(Child(Chain("Program Files"), "obs-studio"))!;
+        Assert.Equal(Badge.App, e.Badge);
+        Assert.Equal(ExplanationSource.InstalledProgram, e.Source);
+        Assert.Equal(0.6, e.Confidence);
+        Assert.Equal("Files of OBS Studio", e.Title);
+        Assert.Equal("Program files of OBS Studio (installed)", e.Summary);
+        Assert.Contains("Settings > Apps", e.SaferAlternative);
+        Assert.Null(h.Explain(Child(Chain("Program Files"), "Runtime")));
     }
 
     [Fact]
