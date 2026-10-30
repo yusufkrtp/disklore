@@ -1,6 +1,103 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="DiskLore.App.Views.StartView">
-  <TextBlock Text="Pick a drive or folder to scan" HorizontalAlignment="Center" VerticalAlignment="Center"
-             Foreground="{DynamicResource App.TextMuted}" />
+             xmlns:vm="using:DiskLore.App.ViewModels"
+             x:Class="DiskLore.App.Views.StartView"
+             x:DataType="vm:MainViewModel">
+  <UserControl.Styles>
+    <Style Selector="TextBlock.low">
+      <Setter Property="Foreground" Value="{DynamicResource App.Danger}" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="TextBlock.stat">
+      <Setter Property="FontSize" Value="22" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+  </UserControl.Styles>
+
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel MaxWidth="900" Margin="32,40,32,32" Spacing="20" HorizontalAlignment="Center">
+
+      <StackPanel Spacing="4">
+        <TextBlock Text="DiskLore" FontSize="30" FontWeight="SemiBold" />
+        <TextBlock Text="See what is using your disk, and what is safe to remove."
+                   Classes="muted" FontSize="14" />
+      </StackPanel>
+
+      <Border IsVisible="{Binding ScanError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+              Classes="card" Padding="14,10" BorderBrush="{DynamicResource App.Warning}">
+        <TextBlock Text="{Binding ScanError}" TextWrapping="Wrap" Foreground="{DynamicResource App.Warning}" />
+      </Border>
+
+      <!-- Scanning -->
+      <Border IsVisible="{Binding IsScanning}" Classes="card" Padding="24">
+        <StackPanel Spacing="16">
+          <TextBlock Text="{Binding ScanTitle}" FontSize="16" FontWeight="SemiBold"
+                     TextTrimming="CharacterEllipsis" />
+          <ProgressBar Classes="big" IsIndeterminate="True" />
+          <Grid ColumnDefinitions="*,*,*,*">
+            <StackPanel Grid.Column="0" Spacing="2">
+              <TextBlock Text="{Binding ScanFilesText}" Classes="stat" />
+              <TextBlock Text="files" Classes="muted" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Spacing="2">
+              <TextBlock Text="{Binding ScanFoldersText}" Classes="stat" />
+              <TextBlock Text="folders" Classes="muted" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" Spacing="2">
+              <TextBlock Text="{Binding ScanBytesText}" Classes="stat" />
+              <TextBlock Text="found so far" Classes="muted" />
+            </StackPanel>
+            <StackPanel Grid.Column="3" Spacing="2">
+              <TextBlock Text="{Binding ScanElapsedText}" Classes="stat" />
+              <TextBlock Text="elapsed" Classes="muted" />
+            </StackPanel>
+          </Grid>
+          <TextBlock Text="{Binding ScanPathText}" Classes="muted small" MinHeight="16"
+                     FontFamily="Cascadia Mono,Consolas,Menlo,monospace" TextTrimming="CharacterEllipsis" />
+          <Button Content="Cancel" Command="{Binding CancelScanCommand}" HorizontalAlignment="Left" MinWidth="88" />
+        </StackPanel>
+      </Border>
+
+      <!-- Picker -->
+      <StackPanel Spacing="14" IsVisible="{Binding !IsScanning}">
+        <Grid ColumnDefinitions="*,Auto">
+          <TextBlock Text="Choose a drive to scan" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+          <Button Grid.Column="1" Content="Back to results" Classes="link"
+                  Command="{Binding BackToResultsCommand}" IsVisible="{Binding CanBackToResults}" />
+        </Grid>
+
+        <ItemsControl ItemsSource="{Binding Drives}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:DriveCardViewModel">
+              <Button Classes="card" Command="{Binding ScanCommand}" Width="272" Margin="0,0,14,14">
+                <StackPanel Spacing="8">
+                  <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Path Data="{StaticResource Icon.Drive}" Stroke="{DynamicResource App.TextMuted}" StrokeThickness="1.3"
+                          StrokeJoin="Round" Width="18" Height="18" Stretch="Uniform" Margin="0,0,8,0" />
+                    <TextBlock Grid.Column="1" Text="{Binding Title}" FontWeight="SemiBold" FontSize="14"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock Grid.Column="2" Text="{Binding Format}" Classes="muted small" VerticalAlignment="Center" />
+                  </Grid>
+                  <TextBlock Text="{Binding Root}" Classes="muted small" />
+                  <ProgressBar Classes="big" Classes.low="{Binding IsLow}" Value="{Binding UsedFraction}" Margin="0,4,0,0" />
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Text="{Binding UsageText}" Classes="small" />
+                    <TextBlock Grid.Column="1" Text="{Binding FreeText}" Classes="small muted" Classes.low="{Binding IsLow}" />
+                  </Grid>
+                </StackPanel>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Content="Scan a folder…" Command="{Binding ScanFolderCommand}" HorizontalAlignment="Left"
+                Classes="primary" MinWidth="140" MinHeight="32" />
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
 </UserControl>

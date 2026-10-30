@@ -8,7 +8,7 @@ namespace DiskLore.App;
 
 public partial class App : Application
 {
-    // Optional path from the command line; consumed by the main view model later.
+    // Optional path from the command line; consumed by the main view model on startup.
     public static string? StartupPath { get; set; }
 
     public override void Initialize()
@@ -18,7 +18,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        ThemeManager.Apply("Dark");
+        // Provisional theme so the first frame is never unstyled; the saved choice is applied by MainViewModel.
+        ThemeManager.Apply(ThemeManager.System);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             desktop.MainWindow = new MainWindow();

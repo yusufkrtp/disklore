@@ -39,14 +39,14 @@ public class BadgePill : Border
 
     public static string LabelFor(Badge badge) => badge switch
     {
-        Badge.Critical => "Critical",
-        Badge.Shrink => "Shrink",
-        Badge.App => "App",
-        Badge.Check => "Check",
-        Badge.Safe => "Safe",
-        Badge.Leftover => "Leftover",
-        Badge.User => "Yours",
-        _ => "Unknown",
+        Badge.Critical => "CRITICAL",
+        Badge.Shrink => "SHRINK",
+        Badge.App => "APP",
+        Badge.Check => "CHECK",
+        Badge.Safe => "SAFE",
+        Badge.Leftover => "LEFTOVER",
+        Badge.User => "USER",
+        _ => "?",
     };
 
     public static string BrushKeyFor(Badge badge) => "Badge." + badge;
