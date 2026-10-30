@@ -60,6 +60,8 @@ public class RuleSetPerformanceTests(ITestOutputHelper output)
 
         output.WriteLine($"{all.Count} nodes, {set.Count} rules: {sw.ElapsedMilliseconds} ms ({sw.Elapsed.TotalMilliseconds * 1000 / all.Count:0.00} us/node), hits={hits}");
         Assert.True(hits > 0);
-        Assert.True(sw.Elapsed < TimeSpan.FromSeconds(3), $"took {sw.Elapsed}");
+        // Shared CI runners are several times slower than a desktop; keep a generous ceiling there.
+        var limit = TimeSpan.FromSeconds(Environment.GetEnvironmentVariable("CI") is null ? 3 : 20);
+        Assert.True(sw.Elapsed < limit, $"took {sw.Elapsed}");
     }
 }

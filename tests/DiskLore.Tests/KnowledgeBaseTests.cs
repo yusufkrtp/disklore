@@ -76,15 +76,38 @@ public class KnowledgeBaseTests
     }
 
     [Fact]
+    public void EmbeddedRules_ForThisPlatform_AllCompile()
+    {
+        var dtos = RuleLoader.LoadEmbedded().ToList();
+        var expected = dtos.Count(RuleCompiler.AppliesToThisPlatform);
+        var errors = new List<string>();
+        var set = RuleSet.FromDtos(dtos, errors);
+        Assert.Empty(errors);
+        Assert.Equal(expected, set.Count);
+    }
+
+    [Fact]
     public void UnixRules_CompileOnAnyPlatform()
     {
-        // Patterns are validated where they run; compiling every rule here catches typos in the Unix files.
-        var dtos = RuleLoader.LoadEmbedded().Select(d => { d.Platforms = null; return d; }).ToList();
+        // Rules without Windows-style paths must compile everywhere; this catches typos in the Unix files on Windows too.
+        var dtos = RuleLoader.LoadEmbedded()
+            .Where(d => !RuleCompiler.IsWindowsPattern(d.Match?.Path) && !RuleCompiler.IsWindowsPattern(d.Match?.Under))
+            .Select(d => { d.Platforms = null; return d; }).ToList();
         var errors = new List<string>();
         var all = RuleSet.FromDtos(dtos, errors);
         Assert.Empty(errors);
         Assert.Equal(dtos.Count, all.Count);
     }
+
+    [Theory]
+    [InlineData(@"%PROGRAMFILES%\Foo", true)]
+    [InlineData(@"%LOCALAPPDATA%/pip", true)]
+    [InlineData(@"C:\Riot Games", true)]
+    [InlineData("~/.cache", false)]
+    [InlineData("%HOME%/Library/Caches", false)]
+    [InlineData(null, false)]
+    public void WindowsPatterns_AreDetected(string? pattern, bool windows) =>
+        Assert.Equal(windows, RuleCompiler.IsWindowsPattern(pattern));
 
     // 1. '*' inside a segment.
     [Fact]

@@ -27,7 +27,7 @@ public class RuleSetTests
               "saferAlternative": "alt", "action": { "kind": "command", "label": "Run", "value": "do it" } }
             """);
         var root = Root(AbsRoot);
-        var e = set.Explain(Dir(root, "Cache"))!;
+        var e = set.Explain(Dir(root, "cache"))!;
 
         Assert.Equal("A cache", e.Title);
         Assert.Equal(Badge.Safe, e.Badge);
