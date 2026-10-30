@@ -159,6 +159,9 @@ public class TreemapControl : Control
                 cell.BadgeIndex = Array.IndexOf(Badges, badge);
             }
             var b = Badges[cell.BadgeIndex];
+            // Unknown is a neutral tone drawn from the theme itself: visibly different from the background,
+            // never a loud gray slab.
+            if (b == Badge.Unknown) return Mix(_bg, _fg, _dark ? 0.30 : 0.26);
             return ResourceColor("Badge." + b, Colors.Gray);
         }
 
@@ -188,6 +191,35 @@ public class TreemapControl : Control
         }
     }
 
+    private Color _bg = Colors.Black;
+    private Color _fg = Colors.White;
+    private bool _dark = true;
+
+    internal static Color Mix(Color a, Color b, double t)
+    {
+        t = Math.Clamp(t, 0, 1);
+        return Color.FromRgb((byte)Math.Round(a.R + (b.R - a.R) * t), (byte)Math.Round(a.G + (b.G - a.G) * t),
+            (byte)Math.Round(a.B + (b.B - a.B) * t));
+    }
+
+    private static double Luminance(Color c) => (0.299 * c.R + 0.587 * c.G + 0.114 * c.B) / 255.0;
+
+    // Nested levels step towards the text color (lighter on dark themes, darker on light ones), so a folder reads
+    // differently from the folder around it. Headers sit between the body tint and the leaf color.
+    internal Color BodyTone(Color color, int depth)
+        => Mix(Mix(_bg, color, _dark ? 0.17 : 0.14), _fg, 0.03 * Math.Min(depth - 1, 4));
+
+    internal Color HeaderTone(Color color, int depth)
+        => Mix(Mix(_bg, color, _dark ? 0.50 : 0.58), _fg, 0.035 * Math.Min(depth - 1, 4));
+
+    internal Color LeafTone(Color color, int depth, string name)
+    {
+        // Deeper leaves fade a little into the background; a name-derived nudge separates equal-colored siblings.
+        var tone = Mix(color, _bg, 0.08 + 0.06 * Math.Min(depth - 1, 4));
+        var nudge = (StableHash(name) % 5 - 2) * 0.035;
+        return nudge >= 0 ? Mix(tone, _fg, nudge) : Mix(tone, _bg, -nudge);
+    }
+
     private static Color TextOn(Color c)
     {
         var lum = (0.299 * c.R + 0.587 * c.G + 0.114 * c.B) / 255.0;
@@ -204,6 +236,9 @@ public class TreemapControl : Control
         if (full.Width < 1 || full.Height < 1) return;
 
         EnsureLayout();
+        _bg = ResourceColor("App.Background", Colors.Black);
+        _fg = ResourceColor("App.Text", Colors.White);
+        _dark = Luminance(_bg) < 0.5;
         var gap = new Pen(ResourceBrush("App.Background"), 1);
 
         foreach (var cell in _cells)
@@ -213,18 +248,20 @@ public class TreemapControl : Control
             var r = cell.Rect;
             if (cell.IsGroup)
             {
-                context.DrawRectangle(Solid(0, color, 0.26), gap, r);
+                context.DrawRectangle(Solid(0, BodyTone(color, cell.Depth), 1), gap, r);
                 if (cell.HasHeader)
                 {
                     var hr = cell.HeaderRect;
-                    context.FillRectangle(Solid(1, color, 0.9), hr);
-                    DrawLabel(context, cell, hr, TextOn(color), true);
+                    var header = HeaderTone(color, cell.Depth);
+                    context.FillRectangle(Solid(1, header, 1), hr);
+                    DrawLabel(context, cell, hr, TextOn(header), true);
                 }
             }
             else
             {
-                context.DrawRectangle(Solid(2, color, 0.92), gap, r);
-                if (r.Width >= 48 && r.Height >= 16) DrawLabel(context, cell, r, TextOn(color), false);
+                var leaf = LeafTone(color, cell.Depth, cell.Node.Name);
+                context.DrawRectangle(Solid(2, leaf, 1), gap, r);
+                if (r.Width >= 48 && r.Height >= 16) DrawLabel(context, cell, r, TextOn(leaf), false);
             }
         }
 
@@ -236,22 +273,24 @@ public class TreemapControl : Control
 
     private void DrawLabel(DrawingContext context, TreemapCell cell, Rect area, Color textColor, bool header)
     {
-        if (!cell.LabelBuilt)
+        if (!cell.LabelBuilt || cell.LabelColor != textColor)
         {
             cell.LabelBuilt = true;
+            cell.LabelColor = textColor;
             var text = cell.Node.Name;
             if (!header && area.Height >= 32) text += "\n" + SizeFormat.Format(cell.Node.Size);
             cell.Label = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, _typeface, 11,
                 new SolidColorBrush(textColor))
             {
                 MaxTextWidth = Math.Max(1, area.Width - 6),
-                MaxTextHeight = Math.Max(1, area.Height - 2),
+                MaxTextHeight = Math.Max(1, header ? 40 : area.Height - 2),
+                MaxLineCount = header ? 1 : int.MaxValue,
                 Trimming = TextTrimming.CharacterEllipsis,
             };
         }
         if (cell.Label == null) return;
         using (context.PushClip(area))
-            context.DrawText(cell.Label, new Point(area.X + 3, area.Y + (header ? 0 : 2)));
+            context.DrawText(cell.Label, new Point(area.X + 3, area.Y + (header ? 0.5 : 2)));
     }
 
     // ---- input ----

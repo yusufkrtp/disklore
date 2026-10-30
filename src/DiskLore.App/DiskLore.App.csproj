@@ -18,6 +18,9 @@
     <PackageReference Include="CommunityToolkit.Mvvm" />
   </ItemGroup>
   <ItemGroup>
+    <InternalsVisibleTo Include="DiskLore.Tests" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\DiskLore.Core\DiskLore.Core.csproj" />
   </ItemGroup>
   <Import Project="../../build/Publish.props" />

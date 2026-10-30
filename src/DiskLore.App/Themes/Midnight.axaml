@@ -17,7 +17,6 @@
   <SolidColorBrush x:Key="App.Danger" Color="#FF7A85" />
   <SolidColorBrush x:Key="App.Warning" Color="#F2B24C" />
 
-  <SolidColorBrush x:Key="Badge.Text" Color="#07101C" />
   <SolidColorBrush x:Key="Badge.Critical" Color="#FF8A8A" />
   <SolidColorBrush x:Key="Badge.Shrink" Color="#F5C25A" />
   <SolidColorBrush x:Key="Badge.App" Color="#7AA7FF" />
