@@ -13,7 +13,7 @@ it. It runs on Windows, Linux and macOS; Windows is the primary platform.
 | | |
 |---|---|
 | ![Scan result tree](docs/screenshots/tree.png) | ![Treemap](docs/screenshots/treemap.png) |
-| ![Explanation panel](docs/screenshots/detail.png) | ![What grew](docs/screenshots/changes.png) |
+| ![Explanation panel](docs/screenshots/detail.png) | ![AI provider settings](docs/screenshots/settings.png) |
 
 ## Features
 
