@@ -13,8 +13,7 @@ Product spec: [spec.md](spec.md).
   Windows is the primary platform; Linux and macOS build and run with the
   Windows-only features switched off (see [Platform](#platform)).
 - Tests: xUnit.
-- The SDK on the development machine lives in `%USERPROFILE%\.dotnet\dotnet.exe`
-  (not on PATH).
+- The .NET 10 SDK (see `global.json`).
 
 ## Layout
 
@@ -429,7 +428,7 @@ Views use only these keys, never hard-coded colors.
 ## Build and test
 
 ```
-%USERPROFILE%\.dotnet\dotnet.exe build DiskLore.sln -c Debug
-%USERPROFILE%\.dotnet\dotnet.exe test tests/DiskLore.Tests
-%USERPROFILE%\.dotnet\dotnet.exe run --project src/DiskLore.App -- "C:\some\folder"
+dotnet build DiskLore.sln -c Debug
+dotnet test tests/DiskLore.Tests
+dotnet run --project src/DiskLore.App -- "C:\some\folder"
 ```
