@@ -1,0 +1,1675 @@
+{
+  "rules": [
+    {
+      "id": "win.windows",
+      "match": {
+        "path": "%WINDIR%"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 10,
+      "title": "Windows folder",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "The Windows operating system itself; do not delete anything here by hand",
+      "whatItIs": "The installation of Windows: the kernel, drivers, system programs and settings, plus the servicing data that keeps them updated.",
+      "whyBig": "A Windows 10/11 installation is usually 20-40 GB. The component store (WinSxS), drivers, updates and language packs make up most of it.",
+      "ifDeleted": "Windows will not start or breaks in ways that usually need a repair install. Most files here are protected and cannot be deleted without taking ownership first.",
+      "saferAlternative": "Use Storage settings > Temporary files or Disk Cleanup to remove the parts Windows marks as disposable. The Temp, SoftwareDistribution and WinSxS entries below explain the big ones.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.system32",
+      "match": {
+        "path": "%WINDIR%\\System32"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 50,
+      "title": "System32 (core system files)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Core 64-bit Windows programs, drivers and libraries",
+      "whatItIs": "The main system folder: the kernel, device drivers, services, DLLs, the registry hives (config) and built-in tools such as cmd.exe and PowerShell.",
+      "whyBig": "It holds thousands of system binaries plus the driver store (DriverStore) and per-language resources; 5-15 GB is normal.",
+      "ifDeleted": "Windows will not start. Nothing in here is safe to remove by hand.",
+      "saferAlternative": "Remove optional features you do not use in Settings > System > Optional features, and old drivers as described for DriverStore.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Optional features",
+        "value": "ms-settings:optionalfeatures"
+      }
+    },
+    {
+      "id": "win.syswow64",
+      "match": {
+        "path": "%WINDIR%\\SysWOW64"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 50,
+      "title": "SysWOW64 (32-bit system files)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "32-bit Windows libraries that let 32-bit programs run on 64-bit Windows",
+      "whatItIs": "Despite the name, this folder holds the 32-bit versions of system DLLs and tools. 'WOW64' is the layer that runs 32-bit programs on 64-bit Windows.",
+      "whyBig": "It mirrors much of System32 for 32-bit programs, usually 1-3 GB.",
+      "ifDeleted": "Every 32-bit program, including many installers and games, stops working, and parts of Windows break.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.winsxs",
+      "match": {
+        "path": "%WINDIR%\\WinSxS"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows component store (WinSxS)",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Windows components and update backups; shrink with DISM, never delete",
+      "whatItIs": "The component store: every version of every Windows component that is installed or staged, plus what is needed to repair Windows and uninstall updates. Most files in System32 are hard links into this folder.",
+      "whyBig": "Each cumulative update adds new versions of changed components and keeps the old ones until cleanup runs. The size shown is inflated because files hard-linked into System32 are counted twice; 'Dism.exe /Online /Cleanup-Image /AnalyzeComponentStore' reports the real figure.",
+      "ifDeleted": "Windows Update, optional features and repair tools (sfc, DISM) stop working, and Windows may not boot. Deleting files here by hand is never supported.",
+      "saferAlternative": "Run the DISM component cleanup below, or Disk Cleanup > Clean up system files > Windows Update Cleanup. Adding /ResetBase frees more but makes installed updates permanent (they can no longer be uninstalled).",
+      "action": {
+        "kind": "command",
+        "label": "Clean up component store",
+        "value": "Dism.exe /Online /Cleanup-Image /StartComponentCleanup"
+      }
+    },
+    {
+      "id": "win.installer",
+      "match": {
+        "path": "%WINDIR%\\Installer"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows Installer cache",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Cached .msi/.msp files needed to repair, patch and uninstall programs",
+      "whatItIs": "Hidden cache of the installer packages (.msi) and patches (.msp) of every MSI-based program, stored under random names. Windows Installer reads them whenever a program is repaired, updated or removed.",
+      "whyBig": "Large suites such as Office (MSI editions), Visual Studio, SQL Server and Adobe products cache every patch they install, and superseded patches often stay.",
+      "ifDeleted": "Programs whose cached files are gone can no longer be updated, repaired or uninstalled cleanly; updates fail with missing-source errors. Fixing that usually means reinstalling those programs.",
+      "saferAlternative": "Uninstall programs you no longer use; their cached packages are removed with them. Avoid 'orphaned patch' cleaners unless you first back up this folder.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "win.installer-patchcache",
+      "match": {
+        "path": "%WINDIR%\\Installer\\$PatchCache$"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Windows Installer baseline cache ($PatchCache$)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Original copies of patched files; removable, but later patches may need setup media",
+      "whatItIs": "Copies of the original versions of files that Windows Installer patched, kept so patches can be applied or removed without the original installation media.",
+      "whyBig": "Products with many patches, such as SQL Server, Visual Studio and MSI-based Office, keep a baseline copy of every file they patch.",
+      "ifDeleted": "Installed programs keep working, but installing or removing later patches may ask for the original installation media.",
+      "saferAlternative": "Leave it unless space is critical. If you remove it, keep the setup media of the patched products available.",
+      "action": null
+    },
+    {
+      "id": "win.installer-msi",
+      "match": {
+        "extension": ".msi",
+        "under": "%WINDIR%\\Installer"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Cached installer package",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Cached copy of an installed program's .msi; needed for repair and uninstall",
+      "whatItIs": "Windows Installer keeps a copy of each installed MSI package here under a random name.",
+      "whyBig": "The package of a large product can be hundreds of MB.",
+      "ifDeleted": "The program it belongs to can no longer be repaired, updated or uninstalled cleanly.",
+      "saferAlternative": "Uninstall the program instead; Windows removes its cached package.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "win.installer-msp",
+      "match": {
+        "extension": ".msp",
+        "under": "%WINDIR%\\Installer"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Cached installer patch",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Cached patch for an installed program; needed to update and uninstall it",
+      "whatItIs": "Windows Installer keeps every installed patch (.msp) here so it can be removed or re-applied later.",
+      "whyBig": "Office and Visual Studio service packs and updates are often 100 MB or more each.",
+      "ifDeleted": "The patched program may no longer update, repair or uninstall.",
+      "saferAlternative": "Uninstall the program instead; Windows removes its cached patches.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "win.softwaredistribution",
+      "match": {
+        "path": "%WINDIR%\\SoftwareDistribution"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Windows Update working folder",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Windows Update downloads and history database; only Download is disposable",
+      "whatItIs": "Working folder of the Windows Update service: downloaded update packages (Download), the update history database (DataStore) and related state.",
+      "whyBig": "Downloaded cumulative and feature updates stay in Download until Windows cleans them up; a stuck or failed update can leave several GB.",
+      "ifDeleted": "Deleting the whole folder while the update service runs fails or corrupts update state. With the service stopped Windows rebuilds it, but update history is lost and pending updates download again.",
+      "saferAlternative": "Use Storage settings > Temporary files (Windows Update Cleanup, Delivery Optimization Files), or clear only the Download subfolder.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.sd-download",
+      "match": {
+        "path": "%WINDIR%\\SoftwareDistribution\\Download"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Windows Update downloads",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Downloaded update packages; Windows downloads them again if still needed",
+      "whatItIs": "Update packages that Windows Update has downloaded, including ones that are already installed.",
+      "whyBig": "Monthly cumulative updates are often several hundred MB to a few GB each, and feature updates more; old ones are not always removed.",
+      "ifDeleted": "Nothing breaks. An update that has not finished installing is downloaded again. Files that an installing update is using are locked.",
+      "saferAlternative": "Best done with the update service stopped: run 'net stop wuauserv', delete the contents of this folder, then 'net start wuauserv'. Storage settings > Temporary files does the same more gently.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.sd-datastore",
+      "match": {
+        "path": "%WINDIR%\\SoftwareDistribution\\DataStore"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Windows Update history database",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Windows Update history and state; leave it unless Windows Update is broken",
+      "whatItIs": "DataStore.edb, the database in which Windows Update tracks installed and pending updates, with its transaction logs.",
+      "whyBig": "Usually a few hundred MB; it grows over years of updates or after corruption.",
+      "ifDeleted": "Update history in Settings is emptied and Windows rescans for updates from scratch. It is only removed as part of a Windows Update reset, with the service stopped.",
+      "saferAlternative": "Run the Windows Update troubleshooter (Settings > System > Troubleshoot) before resetting anything here.",
+      "action": null
+    },
+    {
+      "id": "win.sd-delivery-optimization",
+      "match": {
+        "path": "%WINDIR%\\SoftwareDistribution\\DeliveryOptimization"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Delivery Optimization data (older location)",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Delivery Optimization data used by older Windows 10 versions; safe to clear",
+      "whatItIs": "Delivery Optimization downloads updates and Store apps in pieces and can share them with other PCs. Older Windows 10 versions kept part of its data here.",
+      "whyBig": "Downloaded update pieces are kept for a while so they can be shared.",
+      "ifDeleted": "Nothing breaks; content is downloaded again if needed.",
+      "saferAlternative": "Clear it with Storage settings > Temporary files > Delivery Optimization Files.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Delivery Optimization settings",
+        "value": "ms-settings:delivery-optimization"
+      }
+    },
+    {
+      "id": "win.delivery-optimization",
+      "match": {
+        "path": "%WINDIR%\\ServiceProfiles\\NetworkService\\AppData\\Local\\Microsoft\\Windows\\DeliveryOptimization"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 120,
+      "title": "Delivery Optimization cache",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Cached pieces of Windows updates and Store apps; safe to clear",
+      "whatItIs": "Cache of the Delivery Optimization service, which downloads Windows updates and Store apps in pieces and can share them with other PCs on your network or the internet.",
+      "whyBig": "Windows keeps downloaded update content for a few days, up to a share of the disk, so it can serve it to other devices. Large feature updates make it grow quickly.",
+      "ifDeleted": "Nothing breaks; content is downloaded again if needed. Files in use are locked while the service runs.",
+      "saferAlternative": "Clear it from Storage settings > Temporary files > Delivery Optimization Files, or limit its disk use in the Delivery Optimization advanced options.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Delivery Optimization settings",
+        "value": "ms-settings:delivery-optimization"
+      }
+    },
+    {
+      "id": "win.serviceprofiles",
+      "match": {
+        "path": "%WINDIR%\\ServiceProfiles"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Service account profiles",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Profiles of the built-in service accounts (LocalService, NetworkService)",
+      "whatItIs": "User profiles of the built-in accounts that Windows services run under; services keep their settings and caches here.",
+      "whyBig": "Mostly small. The Delivery Optimization cache under NetworkService can grow to several GB.",
+      "ifDeleted": "Services that use these profiles fail, including networking and update services.",
+      "saferAlternative": "Clear the Delivery Optimization cache through Settings instead.",
+      "action": null
+    },
+    {
+      "id": "win.temp",
+      "match": {
+        "path": "%WINDIR%\\Temp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows temporary files",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "System-wide temporary files; safe to clear, files in use are skipped",
+      "whatItIs": "Temporary files created by Windows services, installers and programs running as SYSTEM or as an administrator.",
+      "whyBig": "Installers and update components extract packages here and do not always clean up; failed installs, crash data and logs pile up.",
+      "ifDeleted": "Nothing breaks. Files a running installer is using are locked and stay; avoid clearing it in the middle of an installation.",
+      "saferAlternative": "Use Storage settings > Temporary files, which removes only what is not in use.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.systemtemp",
+      "match": {
+        "path": "%WINDIR%\\SystemTemp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Temporary files of system processes",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Temporary folder for processes running as SYSTEM (newer Windows builds)",
+      "whatItIs": "Newer Windows versions give processes that run as SYSTEM this separate temporary folder instead of Windows\\Temp, with stricter permissions.",
+      "whyBig": "Installers, updaters and services running as SYSTEM extract packages here and may leave them behind.",
+      "ifDeleted": "Nothing breaks. Files in use are locked; avoid clearing it while software is being installed.",
+      "saferAlternative": "Use Storage settings > Temporary files.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.prefetch",
+      "match": {
+        "path": "%WINDIR%\\Prefetch"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Prefetch (app launch data)",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Launch-speed hints for apps; tiny, deleting only slows the next launches",
+      "whatItIs": "Prefetch files (.pf) that record which files each program loads at start-up, so Windows can preload them next time.",
+      "whyBig": "Windows keeps a limited number of entries (about a thousand at most), usually well under 100 MB.",
+      "ifDeleted": "Nothing breaks; programs may start a bit slower until Windows learns them again. There is no real space to gain.",
+      "saferAlternative": "Leave it alone; Windows trims it automatically.",
+      "action": null
+    },
+    {
+      "id": "win.logs",
+      "match": {
+        "path": "%WINDIR%\\Logs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows logs",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Windows setup, update and servicing logs; old logs are safe to delete",
+      "whatItIs": "Diagnostic logs from Windows components: servicing (CBS), DISM, Windows Update, setup, System Restore and others.",
+      "whyBig": "Logs are rotated and compressed, but old archives are kept; a servicing problem can make CBS logs grow to gigabytes.",
+      "ifDeleted": "Nothing breaks; you lose history that helps with troubleshooting. Logs that are being written are locked.",
+      "saferAlternative": "Delete old archives and leave the current log files in place.",
+      "action": null
+    },
+    {
+      "id": "win.cbs-logs",
+      "match": {
+        "path": "%WINDIR%\\Logs\\CBS"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Component servicing logs (CBS)",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Update servicing logs; old CbsPersist archives can grow to many GB",
+      "whatItIs": "Logs of Component Based Servicing, the engine that installs updates and features. CBS.log is the current log; CbsPersist_*.log and .cab files are archives.",
+      "whyBig": "A failing update, or archives that fail to compress, can leave many large CbsPersist files that are never cleaned up.",
+      "ifDeleted": "Nothing breaks. CBS.log is locked while the Windows Modules Installer runs; the archives can be deleted at any time.",
+      "saferAlternative": "Delete the CbsPersist_* files and keep CBS.log.",
+      "action": null
+    },
+    {
+      "id": "win.livekernelreports",
+      "match": {
+        "path": "%WINDIR%\\LiveKernelReports"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Live kernel reports",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Dumps from driver hangs Windows recovered from (often GPU); safe to delete",
+      "whatItIs": "Kernel memory dumps that Windows writes when a driver hangs but the system recovers, most often a graphics driver timeout (TDR) or a USB or network watchdog.",
+      "whyBig": "Each dump can be hundreds of MB to several GB, and frequent GPU driver timeouts fill it quickly.",
+      "ifDeleted": "Nothing breaks; you lose data that could help diagnose the hangs. A steady stream of new dumps points to a driver problem worth fixing.",
+      "saferAlternative": "Delete old dumps, or remove them with Storage settings > Temporary files (system error memory dump files).",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.minidump",
+      "match": {
+        "path": "%WINDIR%\\Minidump"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Blue screen minidumps",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Small crash dumps from blue screens; safe to delete after troubleshooting",
+      "whatItIs": "Small memory dumps (.dmp) that Windows writes after each blue screen crash.",
+      "whyBig": "Each is a few hundred KB to a few MB; the folder only grows large after many crashes.",
+      "ifDeleted": "Nothing breaks; tools such as WinDbg can no longer analyse those crashes.",
+      "saferAlternative": "Delete them once the cause of the crashes is known.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.memory-dmp",
+      "match": {
+        "path": "%WINDIR%\\MEMORY.DMP"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Full crash dump (MEMORY.DMP)",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Memory dump from the last blue screen; safe to delete",
+      "whatItIs": "The kernel or complete memory dump that Windows writes after a system crash (blue screen).",
+      "whyBig": "It can be as large as the kernel memory in use or all of RAM, often several GB. Each new crash overwrites it.",
+      "ifDeleted": "Nothing breaks; the last crash can no longer be analysed in detail.",
+      "saferAlternative": "Storage settings > Temporary files lists it as system error memory dump files. To keep future dumps small, choose 'Small memory dump' under Startup and Recovery in System Properties > Advanced.",
+      "action": {
+        "kind": "command",
+        "label": "Open System Properties (Advanced)",
+        "value": "SystemPropertiesAdvanced.exe"
+      }
+    },
+    {
+      "id": "win.driverstore",
+      "match": {
+        "path": "%WINDIR%\\System32\\DriverStore"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Driver store",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Trusted copies of every installed driver; remove old ones with pnputil, not by hand",
+      "whatItIs": "The driver store: verified copies of all inbox and third-party driver packages. Windows installs devices from here.",
+      "whyBig": "Every driver update adds a new package and the old one usually stays. Graphics drivers are about 1-2 GB each, so years of GPU driver updates add up.",
+      "ifDeleted": "Devices lose their drivers the next time they are installed or plugged in, and Windows may fail to boot if a boot-critical driver is missing.",
+      "saferAlternative": "List packages with 'pnputil /enum-drivers' and remove an old, unused one with 'pnputil /delete-driver oemNN.inf'. Disk Cleanup (Clean up system files) can also remove old 'Device driver packages'.",
+      "action": {
+        "kind": "command",
+        "label": "List driver packages",
+        "value": "pnputil /enum-drivers"
+      }
+    },
+    {
+      "id": "win.filerepository",
+      "match": {
+        "path": "%WINDIR%\\System32\\DriverStore\\FileRepository"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Driver package repository",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "One folder per installed driver package; old GPU drivers pile up here",
+      "whatItIs": "Each subfolder is one driver package, named after its .inf file plus a hash. Graphics, audio and chipset packages are the largest.",
+      "whyBig": "Every driver update adds a package and the previous one usually stays; NVIDIA and AMD graphics packages are often over 1 GB each.",
+      "ifDeleted": "Devices lose their drivers on reinstall, and deleting the wrong package can leave Windows unable to boot.",
+      "saferAlternative": "Use 'pnputil /enum-drivers' to find old versions of the same driver and 'pnputil /delete-driver oemNN.inf' to remove them, or Disk Cleanup's 'Device driver packages'.",
+      "action": {
+        "kind": "command",
+        "label": "List driver packages",
+        "value": "pnputil /enum-drivers"
+      }
+    },
+    {
+      "id": "win.config",
+      "match": {
+        "path": "%WINDIR%\\System32\\config"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Registry hives",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "The system registry files; Windows cannot start without them",
+      "whatItIs": "The system registry hives (SYSTEM, SOFTWARE, SAM, SECURITY, DEFAULT) with their transaction logs.",
+      "whyBig": "SOFTWARE and the logs together are usually a few hundred MB and grow with installed software.",
+      "ifDeleted": "Windows does not boot.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.winevt",
+      "match": {
+        "path": "%WINDIR%\\System32\\winevt\\Logs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Windows event logs",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Event Viewer logs; each one has a size cap you can lower in Event Viewer",
+      "whatItIs": "The .evtx files behind Event Viewer: System, Application, Security and hundreds of component logs.",
+      "whyBig": "Each log has a maximum size and older events are overwritten; logs set to archive instead of overwrite can grow without limit.",
+      "ifDeleted": "Logs in use cannot be deleted while the Event Log service runs; deleting closed logs loses that history.",
+      "saferAlternative": "In Event Viewer, right-click a log > Properties to lower its maximum size, or choose Clear Log.",
+      "action": {
+        "kind": "command",
+        "label": "Open Event Viewer",
+        "value": "eventvwr.msc"
+      }
+    },
+    {
+      "id": "win.assembly",
+      "match": {
+        "path": "%WINDIR%\\assembly"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": ".NET Framework assembly cache (legacy)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": ".NET Framework shared libraries and their precompiled native images",
+      "whatItIs": "The global assembly cache for .NET Framework 1.x-3.5, plus NativeImages_* folders with precompiled copies of .NET Framework assemblies.",
+      "whyBig": "Native image folders hold one precompiled copy per assembly and framework version; Office and older .NET apps add more.",
+      "ifDeleted": ".NET Framework programs, PowerShell and parts of Windows fail to start.",
+      "saferAlternative": "Nothing to do by hand; Windows Update and the .NET optimization service maintain it.",
+      "action": null
+    },
+    {
+      "id": "win.microsoft-net",
+      "match": {
+        "path": "%WINDIR%\\Microsoft.NET"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": ".NET Framework",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": ".NET Framework runtimes, shared libraries and precompiled images",
+      "whatItIs": "The .NET Framework 2.0-4.8 runtimes (Framework and Framework64), the .NET 4 global assembly cache (assembly) and precompiled native images.",
+      "whyBig": "Native images and the assembly cache grow with each framework update and with apps that install shared assemblies.",
+      "ifDeleted": "Many desktop programs, Windows tools and PowerShell stop working.",
+      "saferAlternative": "Nothing to do by hand; Windows Update maintains it.",
+      "action": null
+    },
+    {
+      "id": "win.servicing",
+      "match": {
+        "path": "%WINDIR%\\servicing"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows servicing stack",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Windows servicing stack used to install updates and features",
+      "whatItIs": "The servicing stack (Windows Modules Installer) and its packages, used by Windows Update, DISM and optional features.",
+      "whyBig": "Feature-on-demand packages and servicing stack versions add up to a few GB.",
+      "ifDeleted": "Windows can no longer install updates or features, and repair tools fail.",
+      "saferAlternative": "To reduce update leftovers, clean the component store (WinSxS) with DISM.",
+      "action": null
+    },
+    {
+      "id": "win.fonts",
+      "match": {
+        "path": "%WINDIR%\\Fonts"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Installed fonts",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Fonts installed for all users; uninstall fonts in Settings, not here",
+      "whatItIs": "All fonts installed for every user, including the fonts the Windows interface itself uses, such as Segoe UI.",
+      "whyBig": "Large font families (CJK fonts, Office fonts, design packs) are 10-50 MB each.",
+      "ifDeleted": "Deleting system fonts breaks text in Windows and apps; deleting other fonts removes them from every program.",
+      "saferAlternative": "Remove fonts you added yourself in Settings > Personalization > Fonts.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Fonts settings",
+        "value": "ms-settings:fonts"
+      }
+    },
+    {
+      "id": "win.panther",
+      "match": {
+        "path": "%WINDIR%\\Panther"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows Setup logs (Panther)",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Logs from Windows installation and upgrades",
+      "whatItIs": "Log files written by Windows Setup during installation and feature upgrades, such as setupact.log and setuperr.log.",
+      "whyBig": "Usually tens of MB; a failed upgrade can leave larger diagnostic data.",
+      "ifDeleted": "Windows keeps working; you lose the logs that explain a failed upgrade.",
+      "saferAlternative": "Leave it; there is little space to gain.",
+      "action": null
+    },
+    {
+      "id": "win.boot",
+      "match": {
+        "path": "%WINDIR%\\Boot"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Boot files (master copy)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Boot manager files and boot fonts used to (re)create the boot setup",
+      "whatItIs": "Master copies of the Windows Boot Manager, boot fonts and resources. Tools such as bcdboot copy them to the boot partition.",
+      "whyBig": "Small, typically under 100 MB.",
+      "ifDeleted": "Boot repair can no longer rebuild a broken boot configuration, and Windows updates to the boot files fail.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.inf",
+      "match": {
+        "path": "%WINDIR%\\INF"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Driver setup information (INF)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Driver setup files used by Plug and Play, plus device install logs",
+      "whatItIs": "Setup information (.inf) files for installed drivers and Windows components, and the setupapi logs of device installations.",
+      "whyBig": "Thousands of small files; setupapi.dev.log can reach hundreds of MB on PCs with many driver installs.",
+      "ifDeleted": "Device installation and Plug and Play stop working.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.systemapps",
+      "match": {
+        "path": "%WINDIR%\\SystemApps"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Built-in system apps",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Built-in Windows app parts such as Start, search and the lock screen",
+      "whatItIs": "Packaged apps that are part of Windows itself: Start menu, search, the lock screen, parts of Settings and sign-in.",
+      "whyBig": "Each app is tens to hundreds of MB.",
+      "ifDeleted": "Start, search, the lock screen or sign-in break.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.csc",
+      "match": {
+        "path": "%WINDIR%\\CSC"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Offline Files cache",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Offline copies of network files; may contain changes not yet synced",
+      "whatItIs": "Cache of the Offline Files feature (client-side caching), which keeps local copies of files from network shares.",
+      "whyBig": "Every network folder made available offline is copied here.",
+      "ifDeleted": "Offline copies are lost, including edits that were not synced back to the server yet. The folder is protected and should not be deleted by hand.",
+      "saferAlternative": "Sync in Sync Center first, then turn off Offline Files there if you no longer need it.",
+      "action": {
+        "kind": "command",
+        "label": "Open Sync Center",
+        "value": "control.exe /name Microsoft.SyncCenter"
+      }
+    },
+    {
+      "id": "win.search-index",
+      "match": {
+        "path": "%PROGRAMDATA%\\Microsoft\\Search"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows Search index",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Windows Search index; rebuild it or index less in Indexing Options",
+      "whatItIs": "The database of the Windows Search indexer (Windows.edb, or Windows.db on newer Windows 11 versions) that makes Start and Explorer search fast.",
+      "whyBig": "It grows with the number of indexed files and with indexed Outlook mail. A corrupted index can balloon to tens of GB.",
+      "ifDeleted": "Search stops working until the index is rebuilt; the files are locked while the search service runs.",
+      "saferAlternative": "Open Indexing Options > Advanced > Rebuild, or remove large folders and Outlook from the indexed locations.",
+      "action": {
+        "kind": "command",
+        "label": "Open Indexing Options",
+        "value": "control.exe srchadmin.dll"
+      }
+    },
+    {
+      "id": "win.search-edb",
+      "match": {
+        "name": "Windows.edb",
+        "under": "%PROGRAMDATA%\\Microsoft\\Search"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Windows Search database",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "The Windows Search index database; rebuild it in Indexing Options",
+      "whatItIs": "The database file of the Windows Search indexer.",
+      "whyBig": "It grows with indexed files and mail and does not shrink by itself; a corrupted index can reach tens of GB.",
+      "ifDeleted": "Search breaks until rebuilt; the file is locked while the search service runs.",
+      "saferAlternative": "Open Indexing Options > Advanced > Rebuild to recreate it at its real size.",
+      "action": {
+        "kind": "command",
+        "label": "Open Indexing Options",
+        "value": "control.exe srchadmin.dll"
+      }
+    },
+    {
+      "id": "win.defender",
+      "match": {
+        "path": "%PROGRAMDATA%\\Microsoft\\Windows Defender"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Microsoft Defender data",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Antivirus definitions, engine versions, scan history and quarantine",
+      "whatItIs": "Data of Microsoft Defender Antivirus: virus definitions, engine and platform updates, scan history and quarantined files.",
+      "whyBig": "Definitions update several times a day and a backup set is kept; older platform versions and the scan cache can add 1-3 GB.",
+      "ifDeleted": "Tamper Protection blocks deletion; if it succeeded, the PC would be left without working antivirus.",
+      "saferAlternative": "Let Defender manage it. Protection history can be reviewed in Windows Security.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Windows Security",
+        "value": "ms-settings:windowsdefender"
+      }
+    },
+    {
+      "id": "win.defender-definitions",
+      "match": {
+        "path": "%PROGRAMDATA%\\Microsoft\\Windows Defender\\Definition Updates"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Defender definition updates",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Current and backup antivirus definition sets",
+      "whatItIs": "Folders named by GUID hold the current Defender signature set; Backup and Default hold fallback copies.",
+      "whyBig": "A full definition set is several hundred MB, and two or three are kept.",
+      "ifDeleted": "Defender loses its definitions and cannot detect threats until it downloads them again.",
+      "saferAlternative": "Leave it to Defender.",
+      "action": null
+    },
+    {
+      "id": "win.wer",
+      "match": {
+        "path": "%PROGRAMDATA%\\Microsoft\\Windows\\WER"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows Error Reporting",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Crash reports and dumps, sent or waiting to be sent; safe to clear",
+      "whatItIs": "Windows Error Reporting keeps crash and hang reports here: ReportQueue (not sent yet), ReportArchive (sent) and Temp. Reports can include memory dumps.",
+      "whyBig": "Apps that crash repeatedly, or a report with a large dump, can leave GBs, mostly in ReportQueue.",
+      "ifDeleted": "Nothing breaks; queued reports are simply not sent to Microsoft or the app vendor.",
+      "saferAlternative": "Storage settings > Temporary files includes 'Windows error reports and feedback diagnostics'.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.windowsapps",
+      "match": {
+        "path": "%PROGRAMFILES%\\WindowsApps"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Microsoft Store apps",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Installed Store apps, their frameworks and some Xbox games; uninstall via Settings",
+      "whatItIs": "Install location of packaged apps: Store apps, the frameworks they need (VCLibs, .NET Native, Windows App SDK), parts of Windows itself, and Xbox app games installed to this drive.",
+      "whyBig": "Each app version and framework is stored in its own folder; games from the Xbox app can be tens of GB.",
+      "ifDeleted": "The folder is locked down by permissions. Forcing a delete breaks Store apps, the Start menu and Windows features that ship as packaged apps.",
+      "saferAlternative": "Uninstall apps in Settings > Apps > Installed apps, or move Xbox games from the Xbox app.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "win.programdata-packages",
+      "match": {
+        "path": "%PROGRAMDATA%\\Packages"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Shared Store app data",
+      "badge": "app",
+      "owner": "Windows",
+      "summary": "Machine-wide data of Microsoft Store apps",
+      "whatItIs": "Per-package data of packaged apps that is shared by all users of the PC.",
+      "whyBig": "Usually small; a few apps keep shared caches here.",
+      "ifDeleted": "Affected apps lose their shared data and may need to be reset or reinstalled.",
+      "saferAlternative": "Reset or uninstall the app in Settings > Apps > Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "win.users",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Users"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "User profiles",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Profiles of every account on this PC; look inside each one",
+      "whatItIs": "Each subfolder is one account's profile with its documents, settings (AppData) and app data, plus Public and the hidden Default template.",
+      "whyBig": "Personal files and the caches of the apps each person uses; usually the largest folder after Windows itself.",
+      "ifDeleted": "Deleting a profile folder removes that person's files and breaks their sign-in. Remove accounts through Settings instead.",
+      "saferAlternative": "To remove another account and its profile, use Settings > Accounts > Other users.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Other users",
+        "value": "ms-settings:otherusers"
+      }
+    },
+    {
+      "id": "win.users-default",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Users\\Default"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "Default profile template",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Template copied to create every new user profile",
+      "whatItIs": "Hidden template profile. When a new account signs in for the first time, Windows copies this folder to create its profile.",
+      "whyBig": "Normally under 100 MB; some deployment tools and apps add files here.",
+      "ifDeleted": "New accounts cannot be created or get a broken profile.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.users-public",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Users\\Public"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "Public (shared) folders",
+      "badge": "user",
+      "owner": "Windows",
+      "summary": "Folders shared by all users of this PC",
+      "whatItIs": "Public Documents, Pictures, Music, Videos, Downloads and Desktop, shared by every account. Some programs and games also store data in Public Documents.",
+      "whyBig": "Whatever users or apps saved here; some apps put game data, sample content or license files in Public Documents.",
+      "ifDeleted": "Shared files and public desktop shortcuts are gone; apps that keep data here may lose it.",
+      "saferAlternative": "Review the contents and move personal files to your own folders.",
+      "action": null
+    },
+    {
+      "id": "win.junction-documents-and-settings",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Documents and Settings"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Documents and Settings",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to C:\\Users.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.junction-all-users",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Users\\All Users"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: All Users",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to C:\\ProgramData.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.junction-default-user",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Users\\Default User"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Default User",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to C:\\Users\\Default.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.windows-old",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Windows.old"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Previous Windows installation (Windows.old)",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Your previous Windows version kept for rollback; remove it via Storage settings",
+      "whatItIs": "A copy of the previous Windows installation left by an upgrade or reset. It lets you go back to the earlier version and recover files that were left behind.",
+      "whyBig": "It contains a whole Windows installation plus the old Program Files and user folders, often 15-30 GB or more.",
+      "ifDeleted": "You can no longer go back to the previous version, and files left in its user folders are gone. Deleting it by hand fails on permissions and leaves parts behind.",
+      "saferAlternative": "Copy anything you need from Windows.old\\Users first, then remove it in Storage settings > Temporary files > Previous Windows installation(s). Windows also removes it by itself after about 10 days.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.windows-bt",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\$Windows.~BT"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows upgrade files ($Windows.~BT)",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Feature-upgrade setup files and rollback data; remove via Storage settings",
+      "whatItIs": "Working folder of Windows Setup during a feature upgrade; after an upgrade it can also hold data used to roll back.",
+      "whyBig": "It holds the new Windows image and setup files, typically several GB.",
+      "ifDeleted": "An upgrade in progress fails, and rolling back a recent upgrade may stop working.",
+      "saferAlternative": "When no upgrade is pending, remove it with Storage settings > Temporary files (Temporary Windows installation files or Previous Windows installation(s)).",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.windows-ws",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\$Windows.~WS"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows upgrade download ($Windows.~WS)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Windows installation files downloaded for an upgrade",
+      "whatItIs": "Download and staging folder used by Windows Setup, the Update Assistant and the Media Creation Tool.",
+      "whyBig": "It contains a full Windows installation image, several GB.",
+      "ifDeleted": "A pending upgrade has to download again; nothing else breaks.",
+      "saferAlternative": "Remove it with Storage settings > Temporary files when you are not in the middle of an upgrade.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.getcurrent",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\$GetCurrent"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows upgrade leftovers ($GetCurrent)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Logs and sometimes media left by a Windows feature update",
+      "whatItIs": "Created by Windows Setup during feature updates; it holds logs and sometimes the downloaded installation files.",
+      "whyBig": "If installation files were kept it can be a few GB; otherwise only logs.",
+      "ifDeleted": "Once the upgrade has finished, nothing breaks.",
+      "saferAlternative": "Delete it after the upgrade has completed and you do not plan to roll back.",
+      "action": null
+    },
+    {
+      "id": "win.winreagent",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\$WinREAgent"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Recovery environment update ($WinREAgent)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Temporary folder used while Windows updates its recovery environment",
+      "whatItIs": "Created by Windows Update while it services the Windows Recovery Environment (WinRE); it holds a staged copy and backups.",
+      "whyBig": "A staged recovery image is several hundred MB.",
+      "ifDeleted": "Deleting it while a recovery environment update is pending can make that update fail. After the update has finished it is not needed.",
+      "saferAlternative": "Restart and let Windows Update finish; Windows normally removes it. Storage settings > Temporary files can clean leftovers.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.sysreset",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\$SysReset"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Reset this PC logs ($SysReset)",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Logs left by a 'Reset this PC' operation",
+      "whatItIs": "Logs and temporary data from a Reset this PC operation, kept for troubleshooting.",
+      "whyBig": "Usually small; a failed reset can leave more data.",
+      "ifDeleted": "Nothing breaks; you lose the reset logs.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.winre-wim",
+      "match": {
+        "name": "Winre.wim"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Windows Recovery Environment image",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "The recovery system used by Startup Repair and Reset this PC",
+      "whatItIs": "A small Windows image (WinRE) that starts when Windows cannot, offering Startup Repair, System Restore, Reset this PC and a command prompt.",
+      "whyBig": "About 500 MB to 1 GB; recovery environment updates replace it.",
+      "ifDeleted": "Advanced startup, Startup Repair and Reset this PC stop working, exactly when you need them.",
+      "saferAlternative": "Check its state with 'reagentc /info' and leave it in place.",
+      "action": {
+        "kind": "command",
+        "label": "Show recovery environment status",
+        "value": "reagentc /info"
+      }
+    },
+    {
+      "id": "win.recovery",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Recovery"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Recovery folder",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Recovery data for Windows (recovery environment, reset settings)",
+      "whatItIs": "Hidden folder used by Windows recovery. It may hold the recovery environment image (WindowsRE\\Winre.wim) and reset or manufacturer recovery settings.",
+      "whyBig": "When the recovery environment lives on the Windows partition, its image (about 1 GB) is stored here; manufacturer recovery images can be larger.",
+      "ifDeleted": "Recovery tools and Reset this PC may stop working.",
+      "saferAlternative": "Leave it; 'reagentc /info' shows where the recovery environment is.",
+      "action": {
+        "kind": "command",
+        "label": "Show recovery environment status",
+        "value": "reagentc /info"
+      }
+    },
+    {
+      "id": "win.recycle-bin",
+      "match": {
+        "name": "$Recycle.Bin"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Recycle Bin",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Files you deleted, kept until the Recycle Bin is emptied",
+      "whatItIs": "The Recycle Bin of this drive. Each account has a subfolder named after its security ID (S-1-5-...); deleted files are renamed to $R... with a matching $I... info file.",
+      "whyBig": "Deleted files keep their full size until the bin is emptied, and by default the bin may use a sizeable share of each drive.",
+      "ifDeleted": "Deleting the folder by hand empties the bin of every account on this drive at once. Windows recreates the folder.",
+      "saferAlternative": "Open the Recycle Bin, restore anything you still need, then choose Empty Recycle Bin. Storage Sense can empty it automatically after a set number of days.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.svi",
+      "match": {
+        "name": "System Volume Information"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "System Volume Information (restore points)",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Restore points and shadow copies; shrink them in System Protection settings",
+      "whatItIs": "Protected system folder on each drive. It holds System Restore points and Volume Shadow Copies, plus indexing, deduplication and file tracking data.",
+      "whyBig": "Restore points are created before updates and installs, and System Protection may fill up to its configured maximum. The folder is normally unreadable even for administrators, so its real size may not show here; 'vssadmin list shadowstorage' reports it.",
+      "ifDeleted": "Restore points and previous versions of files are lost, and the indexer and other services can break. Windows does not let you delete it without changing permissions.",
+      "saferAlternative": "In System Properties > System Protection > Configure, lower Max Usage or click Delete to remove all restore points. Disk Cleanup > More Options can delete all but the newest one.",
+      "action": {
+        "kind": "command",
+        "label": "Open System Protection",
+        "value": "SystemPropertiesProtection.exe"
+      }
+    },
+    {
+      "id": "win.found-chk",
+      "match": {
+        "name": "FOUND.*"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 50,
+      "title": "Recovered file fragments (chkdsk)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "File fragments that chkdsk recovered from a damaged file system",
+      "whatItIs": "When chkdsk repairs a damaged drive it saves orphaned data it finds as .chk files in FOUND.000, FOUND.001 and so on, at the root of the drive.",
+      "whyBig": "Its size equals whatever data chkdsk could not place back into files.",
+      "ifDeleted": "Nothing breaks; the fragments are gone. Rarely they contain the only copy of something you lost.",
+      "saferAlternative": "If nothing is missing after the repair, delete it.",
+      "action": null
+    },
+    {
+      "id": "win.perflogs",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\PerfLogs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Performance logs",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Performance Monitor output folder; normally empty",
+      "whatItIs": "Default output folder for Performance Monitor data collector sets and some diagnostic reports.",
+      "whyBig": "Empty unless someone ran a performance trace; long traces can be large.",
+      "ifDeleted": "Nothing breaks; Windows recreates the folder when needed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.onedrivetemp",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\OneDriveTemp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "OneDrive temporary files",
+      "badge": "safe",
+      "owner": "Microsoft OneDrive",
+      "summary": "OneDrive's temporary staging area for downloads",
+      "whatItIs": "Temporary folder that OneDrive uses while it downloads or moves files.",
+      "whyBig": "Large files that are being downloaded are staged here, and interrupted transfers can leave leftovers.",
+      "ifDeleted": "Nothing breaks; transfers in progress restart. Pause or quit OneDrive first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.config-msi",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Config.Msi"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows Installer rollback folder",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Rollback data of installations in progress; usually empty",
+      "whatItIs": "Hidden folder where Windows Installer keeps rollback scripts and backups of replaced files while an installation runs.",
+      "whyBig": "Normally empty or tiny; an interrupted installation can leave rollback files (.rbf, .rbs).",
+      "ifDeleted": "Deleting it during an installation breaks that installation's rollback. When no installer is running, leftovers can go.",
+      "saferAlternative": "Restart, make sure no installation is running, then delete leftovers.",
+      "action": null
+    },
+    {
+      "id": "win.boot-root",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Boot"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Boot configuration (system drive)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Boot configuration and boot files on PCs that boot from this drive",
+      "whatItIs": "On PCs whose system partition is this drive (mostly older BIOS installs), the boot configuration data (BCD) and boot files live here.",
+      "whyBig": "Small, a few tens of MB.",
+      "ifDeleted": "The PC no longer boots.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.inetpub",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\inetpub"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "IIS web server folder (inetpub)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "IIS web server content and logs; may also be an empty folder created by Windows",
+      "whatItIs": "Folder of Internet Information Services (IIS): websites (wwwroot), logs and other server data. Since April 2025, Windows updates also create an empty inetpub folder as part of a security fix.",
+      "whyBig": "If IIS is used, site content and its logs (inetpub\\logs) grow with traffic; otherwise it is empty.",
+      "ifDeleted": "If IIS is used, websites and logs are lost. If it is the empty folder from the 2025 update, Microsoft advises not to delete it.",
+      "saferAlternative": "If IIS runs here, delete old log files under inetpub\\logs; otherwise leave the folder alone.",
+      "action": null
+    },
+    {
+      "id": "win.amd-root",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\AMD"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "AMD driver installer files",
+      "badge": "safe",
+      "owner": "AMD",
+      "summary": "Extracted AMD driver installers; safe to delete once the drivers are installed",
+      "whatItIs": "AMD Software (Adrenalin) and chipset installers unpack their driver packages here before installing them.",
+      "whyBig": "Every installed driver version is extracted into its own subfolder (often several hundred MB to over 1 GB) and kept.",
+      "ifDeleted": "Installed drivers keep working; reinstalling them needs a fresh download.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.nvidia-root",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\NVIDIA"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NVIDIA driver installer files",
+      "badge": "safe",
+      "owner": "NVIDIA",
+      "summary": "Extracted NVIDIA driver installers; safe to delete once the drivers are installed",
+      "whatItIs": "NVIDIA driver installers unpack their packages here before installing them.",
+      "whyBig": "Each extracted driver version can be close to 1 GB or more.",
+      "ifDeleted": "Installed drivers keep working; reinstalling them needs a fresh download.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.intel-root",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Intel"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Intel installer logs",
+      "badge": "check",
+      "owner": "Intel",
+      "summary": "Logs and sometimes extracted packages from Intel driver installers",
+      "whatItIs": "Intel driver and utility installers write their logs here, and some leave extracted packages.",
+      "whyBig": "Usually small; extracted driver packages can add a few hundred MB.",
+      "ifDeleted": "Installed drivers keep working; you lose installation logs and extracted installers.",
+      "saferAlternative": "Delete extracted packages you no longer need; the logs are tiny.",
+      "action": null
+    },
+    {
+      "id": "win.xboxgames",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\XboxGames"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Xbox app games",
+      "badge": "app",
+      "owner": "Microsoft Xbox app",
+      "summary": "Games installed by the Xbox app; uninstall or move them from the Xbox app",
+      "whatItIs": "Default folder for PC Game Pass and Microsoft Store games installed through the Xbox app. Each game's files are in its Content folder.",
+      "whyBig": "Modern games are 20-150 GB each.",
+      "ifDeleted": "The game stops working and the Xbox app may report it as damaged. Saves are usually in the cloud or in AppData, not here.",
+      "saferAlternative": "Uninstall or move games in the Xbox app (Manage > Files) or in Settings > Apps > Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "win.gamingroot",
+      "match": {
+        "name": ".GamingRoot"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Xbox game library marker",
+      "badge": "app",
+      "owner": "Microsoft Xbox app",
+      "summary": "Marker that tells the Xbox app this drive holds a game library",
+      "whatItIs": "A tiny file the Xbox app creates at the root of drives that have an XboxGames folder.",
+      "whyBig": "A few bytes.",
+      "ifDeleted": "The Xbox app may lose track of the games installed on this drive.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.riot-games",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Riot Games"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Riot Games installs",
+      "badge": "app",
+      "owner": "Riot Games",
+      "summary": "Riot Client and Riot games such as VALORANT and League of Legends",
+      "whatItIs": "Default install location of the Riot Client and Riot games.",
+      "whyBig": "Each game is tens of GB, and updates are patched in place.",
+      "ifDeleted": "The games stop working and the Riot Client has to download them again.",
+      "saferAlternative": "Uninstall a game from the Riot Client or Settings > Apps > Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "win.esd",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\ESD"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows installation download (ESD)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Windows image downloaded by Windows Setup or an upgrade tool",
+      "whatItIs": "Folder used by Windows Setup and Microsoft's upgrade tools to store downloaded Windows installation images (.esd).",
+      "whyBig": "A full Windows image is about 3-5 GB.",
+      "ifDeleted": "A pending upgrade or reinstall downloads the image again; nothing else breaks.",
+      "saferAlternative": "Remove it when no upgrade is pending; Storage settings > Temporary files also offers it.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.windows10upgrade",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Windows10Upgrade"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows 10 Update Assistant",
+      "badge": "app",
+      "owner": "Windows",
+      "summary": "Windows 10 Update Assistant; uninstall it from Installed apps",
+      "whatItIs": "Program files of the Windows 10 Update Assistant, a tool that upgrades Windows to a newer version.",
+      "whyBig": "It keeps its downloads and logs here.",
+      "ifDeleted": "The assistant stops working; Windows itself is not affected.",
+      "saferAlternative": "Uninstall 'Windows 10 Update Assistant' in Settings > Apps > Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1710 @@
+{
+  "rules": [
+    {
+      "id": "proj.node-modules",
+      "match": {
+        "name": "node_modules",
+        "sibling": "package.json"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "node_modules (project dependencies)",
+      "badge": "safe",
+      "owner": "npm / Node.js",
+      "summary": "Installed npm packages of a project; restored with npm install",
+      "whatItIs": "The installed dependencies of a JavaScript or TypeScript project, as listed in package.json and the lockfile next to it.",
+      "whyBig": "Every dependency and their dependencies are installed per project; build tools, Electron, TypeScript and native modules make 200 MB to several GB normal.",
+      "ifDeleted": "Nothing is lost if package.json and the lockfile are kept: run 'npm install' (or yarn / pnpm install) to restore it. The project does not run or build until then.",
+      "saferAlternative": "Delete node_modules of projects you are not working on; reinstall when you return.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-pf",
+      "match": {
+        "path": "%PROGRAMFILES%\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside Program Files. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-pf86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside Program Files (x86). Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-local-programs",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Programs\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside a per-user installed program. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-npm-global",
+      "match": {
+        "path": "%APPDATA%\\npm\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside the global npm folder (npm install -g). Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-nvm",
+      "match": {
+        "path": "%APPDATA%\\nvm\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside a Node.js version installed by nvm-windows. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-vscode-ext",
+      "match": {
+        "path": "%USERPROFILE%\\.vscode\\extensions\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside a VS Code extension. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-cursor-ext",
+      "match": {
+        "path": "%USERPROFILE%\\.cursor\\extensions\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside a Cursor extension. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-bun-global",
+      "match": {
+        "path": "%USERPROFILE%\\.bun\\install\\global\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside Bun's global packages. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-pnpm-global",
+      "match": {
+        "path": "%LOCALAPPDATA%\\pnpm\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside pnpm's global packages. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-yarn-global",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Yarn\\Data\\global\\**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside Yarn's global packages. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-usr",
+      "match": {
+        "path": "/usr/**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside a system location (/usr). Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-opt",
+      "match": {
+        "path": "/opt/**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside an application installed in /opt. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-homebrew",
+      "match": {
+        "path": "/opt/homebrew/**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside Homebrew. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-applications",
+      "match": {
+        "path": "/Applications/**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside an installed app bundle. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-nvm-unix",
+      "match": {
+        "path": "~/.nvm/**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside a Node.js version installed by nvm. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-npm-global-unix",
+      "match": {
+        "path": "~/.npm-global/**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside the global npm prefix. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-vscode-ext-unix",
+      "match": {
+        "path": "~/.vscode/extensions/**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside a VS Code extension. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.node-modules-vscode-server",
+      "match": {
+        "path": "~/.vscode-server/**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Dependencies of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A node_modules folder inside the VS Code remote server. Here it is part of an installed program or globally installed tool, not a project you can reinstall with npm install.",
+      "whyBig": "Programs built on Node.js or Electron ship their dependencies this way.",
+      "ifDeleted": "The program or tool it belongs to stops working until it is reinstalled.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.pkg-dist",
+      "match": {
+        "name": "dist",
+        "under": "**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "Package build output (inside node_modules)",
+      "badge": "safe",
+      "owner": "npm / Node.js",
+      "summary": "Built files of an installed npm package; part of node_modules",
+      "whatItIs": "The published build of a package installed in node_modules.",
+      "whyBig": "Packages ship their compiled code here.",
+      "ifDeleted": "Same as deleting node_modules: restore with 'npm install'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.pkg-dist-win",
+      "match": {
+        "name": "dist",
+        "under": "**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "Package build output (inside node_modules)",
+      "badge": "safe",
+      "owner": "npm / Node.js",
+      "summary": "Built files of an installed npm package; part of node_modules",
+      "whatItIs": "The published build of a package installed in node_modules.",
+      "whyBig": "Packages ship their compiled code here.",
+      "ifDeleted": "Same as deleting node_modules: restore with 'npm install'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.pkg-build-win",
+      "match": {
+        "name": "build",
+        "under": "**\\node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "Package build output (inside node_modules)",
+      "badge": "safe",
+      "owner": "npm / Node.js",
+      "summary": "Built files of an installed npm package; part of node_modules",
+      "whatItIs": "The published build or native addon output of a package installed in node_modules.",
+      "whyBig": "Packages ship compiled code or native binaries here.",
+      "ifDeleted": "Same as deleting node_modules: restore with 'npm install'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.pkg-build",
+      "match": {
+        "name": "build",
+        "under": "**/node_modules"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "Package build output (inside node_modules)",
+      "badge": "safe",
+      "owner": "npm / Node.js",
+      "summary": "Built files of an installed npm package; part of node_modules",
+      "whatItIs": "The published build or native addon output of a package installed in node_modules.",
+      "whyBig": "Packages ship compiled code or native binaries here.",
+      "ifDeleted": "Same as deleting node_modules: restore with 'npm install'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.js-dist",
+      "match": {
+        "name": "dist",
+        "sibling": "package.json"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "JavaScript build output (dist)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Build output of a JavaScript project; may be your only copy of a release",
+      "whatItIs": "The output of a project's build step (bundlers such as Vite, webpack, tsc, electron-builder).",
+      "whyBig": "Bundles, source maps and packaged apps (installers can be hundreds of MB) accumulate across builds.",
+      "ifDeleted": "Running the build script recreates it, but a release you shipped is gone if this was the only copy.",
+      "saferAlternative": "Rebuild with the project's build script when needed; keep released installers elsewhere.",
+      "action": null
+    },
+    {
+      "id": "proj.js-build",
+      "match": {
+        "name": "build",
+        "sibling": "package.json"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "JavaScript build output (build)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Build output of a JavaScript project; may be your only copy of a release",
+      "whatItIs": "The output of a project's build step (Create React App, Electron builds, Docusaurus and others use 'build').",
+      "whyBig": "Bundles, assets and packaged apps from each build.",
+      "ifDeleted": "Running the build script recreates it, but a shipped build is gone if this was the only copy. In some projects 'build' holds checked-in build scripts instead.",
+      "saferAlternative": "Check whether the folder is in version control before deleting it.",
+      "action": null
+    },
+    {
+      "id": "proj.js-out",
+      "match": {
+        "name": "out",
+        "sibling": "package.json"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "JavaScript build output (out)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Build output of a JavaScript project (Next.js export, Electron Forge, VS Code extensions)",
+      "whatItIs": "Output of a project's build: static exports, compiled extension code or packaged Electron apps.",
+      "whyBig": "Packaged Electron apps and installers can be hundreds of MB per build.",
+      "ifDeleted": "Running the build recreates it; a shipped build is gone if this was the only copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.next",
+      "match": {
+        "name": ".next"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Next.js build cache",
+      "badge": "safe",
+      "owner": "Next.js",
+      "summary": "Next.js build output and cache; recreated by next build or next dev",
+      "whatItIs": "Build output and cache of a Next.js app, created by 'next dev' and 'next build'.",
+      "whyBig": "The cache folder grows with every build and development session and can reach GBs.",
+      "ifDeleted": "Nothing is lost; the next dev or build run recreates it (slower the first time).",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.nuxt",
+      "match": {
+        "name": ".nuxt"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Nuxt build folder",
+      "badge": "safe",
+      "owner": "Nuxt",
+      "summary": "Generated files of a Nuxt app; recreated on the next dev or build",
+      "whatItIs": "Files Nuxt generates during development and builds.",
+      "whyBig": "Generated code and types.",
+      "ifDeleted": "Nothing is lost; Nuxt recreates it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.turbo",
+      "match": {
+        "name": ".turbo"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Turborepo cache",
+      "badge": "safe",
+      "owner": "Turborepo",
+      "summary": "Local task cache of Turborepo; safe to clear",
+      "whatItIs": "Cached outputs and logs of tasks run with Turborepo.",
+      "whyBig": "Every cached task output is kept until cleaned.",
+      "ifDeleted": "Nothing is lost; tasks run again instead of hitting the cache.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.parcel-cache",
+      "match": {
+        "name": ".parcel-cache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Parcel cache",
+      "badge": "safe",
+      "owner": "Parcel",
+      "summary": "Build cache of the Parcel bundler; safe to clear",
+      "whatItIs": "Parcel's build cache.",
+      "whyBig": "It grows with every build.",
+      "ifDeleted": "Nothing is lost; the next build is slower.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.angular",
+      "match": {
+        "name": ".angular"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Angular CLI cache",
+      "badge": "safe",
+      "owner": "Angular",
+      "summary": "Build cache of the Angular CLI; safe to clear",
+      "whatItIs": "The Angular CLI's persistent build cache.",
+      "whyBig": "It grows with builds and can reach GBs on large apps.",
+      "ifDeleted": "Nothing is lost; the next build is slower.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.svelte-kit",
+      "match": {
+        "name": ".svelte-kit"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "SvelteKit generated files",
+      "badge": "safe",
+      "owner": "SvelteKit",
+      "summary": "Generated files of a SvelteKit app; recreated automatically",
+      "whatItIs": "Files SvelteKit generates during development and builds.",
+      "whyBig": "Generated code and build output.",
+      "ifDeleted": "Nothing is lost; SvelteKit recreates it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.js-coverage",
+      "match": {
+        "name": "coverage",
+        "sibling": "package.json"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Test coverage report",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Test coverage report; recreated by running tests with coverage",
+      "whatItIs": "HTML and data reports produced by test runners (Jest, Vitest, nyc) with coverage enabled.",
+      "whyBig": "One report per run, overwritten each time.",
+      "ifDeleted": "Nothing is lost; run the tests with coverage again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.yarn-cache",
+      "match": {
+        "name": "cache",
+        "parentName": ".yarn"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Yarn project cache",
+      "badge": "check",
+      "owner": "Yarn",
+      "summary": "Yarn's per-project package cache; sometimes committed on purpose",
+      "whatItIs": "Package archives Yarn 2+ keeps for a project. In 'zero-install' setups this folder is committed to version control.",
+      "whyBig": "Every dependency of the project as a zip archive.",
+      "ifDeleted": "If it is committed, deleting it changes the repository; otherwise 'yarn install' downloads it again.",
+      "saferAlternative": "Check whether .yarn/cache is tracked in git before deleting.",
+      "action": null
+    },
+    {
+      "id": "proj.venv-dot",
+      "match": {
+        "name": ".venv",
+        "minSize": 5000000
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Python virtual environment (.venv)",
+      "badge": "safe",
+      "owner": "Python",
+      "summary": "A project's Python virtual environment; recreate it from requirements",
+      "whatItIs": "An isolated Python environment for one project, with its own interpreter link and installed packages.",
+      "whyBig": "Packages like PyTorch, TensorFlow or CUDA libraries are GBs each.",
+      "ifDeleted": "The project's packages are gone until you recreate the environment (python -m venv .venv, then pip install -r requirements.txt, or 'uv sync' / 'poetry install'). Packages you installed by hand without recording them must be reinstalled from memory.",
+      "saferAlternative": "Make sure the project lists its dependencies (requirements.txt, pyproject.toml) before deleting.",
+      "action": null
+    },
+    {
+      "id": "proj.venv",
+      "match": {
+        "name": "venv",
+        "minSize": 5000000
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Python virtual environment (venv)",
+      "badge": "safe",
+      "owner": "Python",
+      "summary": "A project's Python virtual environment; recreate it from requirements",
+      "whatItIs": "An isolated Python environment for one project, with its own interpreter link and installed packages.",
+      "whyBig": "Packages like PyTorch, TensorFlow or CUDA libraries are GBs each.",
+      "ifDeleted": "The project's packages are gone until you recreate the environment and reinstall from requirements.txt or pyproject.toml. Packages you installed by hand without recording them must be reinstalled from memory.",
+      "saferAlternative": "Make sure the project lists its dependencies before deleting.",
+      "action": null
+    },
+    {
+      "id": "proj.pycache",
+      "match": {
+        "name": "__pycache__"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Python bytecode cache",
+      "badge": "safe",
+      "owner": "Python",
+      "summary": "Compiled Python bytecode; recreated automatically",
+      "whatItIs": "Compiled .pyc files that Python writes next to source files so modules load faster.",
+      "whyBig": "One small file per module and Python version.",
+      "ifDeleted": "Nothing is lost; Python recompiles on the next import.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.pytest-cache",
+      "match": {
+        "name": ".pytest_cache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "pytest cache",
+      "badge": "safe",
+      "owner": "pytest",
+      "summary": "pytest's cache of last-failed tests; safe to delete",
+      "whatItIs": "pytest's cache, used for options such as --last-failed.",
+      "whyBig": "Tiny.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.mypy-cache",
+      "match": {
+        "name": ".mypy_cache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "mypy cache",
+      "badge": "safe",
+      "owner": "mypy",
+      "summary": "Type checker cache of mypy; safe to delete",
+      "whatItIs": "Incremental cache of the mypy type checker.",
+      "whyBig": "It grows with the code base and the stubs it checks; hundreds of MB on large projects.",
+      "ifDeleted": "Nothing is lost; the next mypy run is slower.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.ruff-cache",
+      "match": {
+        "name": ".ruff_cache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Ruff cache",
+      "badge": "safe",
+      "owner": "Ruff",
+      "summary": "Linter cache of Ruff; safe to delete",
+      "whatItIs": "Cache of the Ruff linter and formatter.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Nothing is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.tox",
+      "match": {
+        "name": ".tox"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "tox environments",
+      "badge": "safe",
+      "owner": "tox",
+      "summary": "Test environments created by tox; recreated on the next run",
+      "whatItIs": "Virtual environments that tox creates for each test environment.",
+      "whyBig": "One full virtual environment per Python version and environment.",
+      "ifDeleted": "Nothing is lost; tox recreates them on the next run.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.ipynb-checkpoints",
+      "match": {
+        "name": ".ipynb_checkpoints"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Jupyter checkpoints",
+      "badge": "safe",
+      "owner": "Jupyter",
+      "summary": "Jupyter notebook checkpoints; safe to delete",
+      "whatItIs": "Checkpoint copies of notebooks that Jupyter saves so you can revert to them.",
+      "whyBig": "One copy per notebook; notebooks with embedded images can be large.",
+      "ifDeleted": "You can no longer 'Revert to checkpoint'; the notebooks themselves are not affected.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.egg-info",
+      "match": {
+        "name": "*.egg-info"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Python package metadata (egg-info)",
+      "badge": "safe",
+      "owner": "Python",
+      "summary": "Generated package metadata from setuptools; recreated on build",
+      "whatItIs": "Metadata that setuptools generates when a package is built or installed in development mode.",
+      "whyBig": "Tiny.",
+      "ifDeleted": "Nothing is lost; a development install ('pip install -e .') may need to be run again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.site-packages",
+      "match": {
+        "name": "site-packages"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 40,
+      "title": "Installed Python packages",
+      "badge": "app",
+      "owner": "Python",
+      "summary": "Packages installed into a Python environment; remove them with pip",
+      "whatItIs": "Third-party packages installed into a Python installation or virtual environment.",
+      "whyBig": "Machine learning and data science packages can be GBs.",
+      "ifDeleted": "Programs and scripts that use this Python environment fail. If it is inside a virtual environment, deleting the whole environment is cleaner.",
+      "saferAlternative": "Remove packages with 'pip uninstall' (or delete the whole virtual environment).",
+      "action": null
+    },
+    {
+      "id": "proj.unity-library",
+      "match": {
+        "name": "Library",
+        "sibling": "ProjectSettings"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unity Library (import cache)",
+      "badge": "safe",
+      "owner": "Unity",
+      "summary": "Unity's import cache; regenerated on next open, but reimport can take long",
+      "whatItIs": "Unity's per-project cache of imported assets, compiled scripts, the package cache and editor state. It is never meant to be committed.",
+      "whyBig": "Every asset is stored again in its imported, platform-specific form; projects with many textures, models or audio often have 5-50 GB here.",
+      "ifDeleted": "No project data is lost. The next time you open the project Unity reimports every asset, which can take minutes to hours, and some editor state (window layouts, selection) resets.",
+      "saferAlternative": "Delete it for projects you are not working on; keep it for active projects to avoid the long reimport.",
+      "action": null
+    },
+    {
+      "id": "proj.unity-temp",
+      "match": {
+        "name": "Temp",
+        "sibling": "ProjectSettings"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unity Temp",
+      "badge": "safe",
+      "owner": "Unity",
+      "summary": "Temporary files of an open Unity project; deleted when Unity closes",
+      "whatItIs": "Temporary files the Unity editor uses while the project is open.",
+      "whyBig": "Builds and imports in progress write here; a crash can leave it behind.",
+      "ifDeleted": "Nothing is lost when Unity is closed; Unity recreates it. Do not delete it while the project is open.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.unity-logs",
+      "match": {
+        "name": "Logs",
+        "sibling": "ProjectSettings"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unity project logs",
+      "badge": "safe",
+      "owner": "Unity",
+      "summary": "Unity editor and package manager logs for this project; safe to delete",
+      "whatItIs": "Log files Unity writes for this project (package manager, shader compiler, asset import workers).",
+      "whyBig": "Logs accumulate with every session.",
+      "ifDeleted": "Nothing is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.unity-obj",
+      "match": {
+        "name": "obj",
+        "sibling": "ProjectSettings"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unity script build intermediates",
+      "badge": "safe",
+      "owner": "Unity",
+      "summary": "C# build intermediates of a Unity project; regenerated",
+      "whatItIs": "Intermediate files from building the project's C# scripts and the IDE project files.",
+      "whyBig": "Grows with the number of assemblies.",
+      "ifDeleted": "Nothing is lost; Unity and your IDE regenerate it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.unity-builds",
+      "match": {
+        "name": "Builds",
+        "sibling": "ProjectSettings"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unity player builds",
+      "badge": "check",
+      "owner": "Unity",
+      "summary": "Built game players; may be the only copy of a release",
+      "whatItIs": "Player builds you made from this project (the folder name is the common default chosen in Build Settings).",
+      "whyBig": "Each build contains the whole game, often hundreds of MB to GBs.",
+      "ifDeleted": "The builds are gone; you can build again from the project, but an exact shipped version may not be reproducible.",
+      "saferAlternative": "Keep the builds you released elsewhere and delete old test builds.",
+      "action": null
+    },
+    {
+      "id": "proj.unity-build",
+      "match": {
+        "name": "Build",
+        "sibling": "ProjectSettings"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unity player builds",
+      "badge": "check",
+      "owner": "Unity",
+      "summary": "Built game players; may be the only copy of a release",
+      "whatItIs": "Player builds you made from this project.",
+      "whyBig": "Each build contains the whole game, often hundreds of MB to GBs.",
+      "ifDeleted": "The builds are gone; you can build again from the project, but an exact shipped version may not be reproducible.",
+      "saferAlternative": "Keep the builds you released elsewhere and delete old test builds.",
+      "action": null
+    },
+    {
+      "id": "proj.godot-dir",
+      "match": {
+        "name": ".godot",
+        "sibling": "project.godot"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Godot project cache (.godot)",
+      "badge": "safe",
+      "owner": "Godot Engine",
+      "summary": "Godot 4 import cache and editor state; regenerated when the project opens",
+      "whatItIs": "Godot 4's per-project folder with imported assets, shader caches, the global class cache and editor state.",
+      "whyBig": "Imported textures, meshes and audio are stored again in engine formats.",
+      "ifDeleted": "No project data is lost; the editor reimports everything on next open, which takes time on large projects, and resets editor layout state.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.godot-import",
+      "match": {
+        "name": ".import",
+        "sibling": "project.godot"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Godot 3 import cache (.import)",
+      "badge": "safe",
+      "owner": "Godot Engine",
+      "summary": "Godot 3 imported assets; regenerated when the project opens",
+      "whatItIs": "Godot 3's folder of imported assets.",
+      "whyBig": "Imported textures, meshes and audio in engine formats.",
+      "ifDeleted": "No project data is lost; the editor reimports on next open.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.dotnet-bin-cs",
+      "match": {
+        "name": "bin",
+        "sibling": "*.csproj"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": ".NET build output (bin)",
+      "badge": "safe",
+      "owner": ".NET SDK",
+      "summary": "Compiled output of a C# project; rebuilt with dotnet build",
+      "whatItIs": "Build output of a .NET project (compiled program, libraries and copied dependencies).",
+      "whyBig": "One subfolder per configuration and target framework (Debug, Release, net8.0, ...); self-contained or published builds include the whole runtime.",
+      "ifDeleted": "Nothing is lost if the source is intact; 'dotnet build' recreates it. Keep it if it is the only copy of a build you shipped.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.dotnet-obj-cs",
+      "match": {
+        "name": "obj",
+        "sibling": "*.csproj"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": ".NET intermediate files (obj)",
+      "badge": "safe",
+      "owner": ".NET SDK",
+      "summary": "Intermediate files of a C# build; recreated by restore and build",
+      "whatItIs": "Intermediate files of a .NET build: compiled objects, generated code, the NuGet restore output (project.assets.json) and incremental build caches.",
+      "whyBig": "One subfolder per configuration and target framework; large projects and WPF/WinUI apps generate many files.",
+      "ifDeleted": "Nothing is lost; the next restore and build recreate it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.dotnet-bin-fs",
+      "match": {
+        "name": "bin",
+        "sibling": "*.fsproj"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": ".NET build output (bin)",
+      "badge": "safe",
+      "owner": ".NET SDK",
+      "summary": "Compiled output of an F# project; rebuilt with dotnet build",
+      "whatItIs": "Build output of a .NET project (compiled program, libraries and copied dependencies).",
+      "whyBig": "One subfolder per configuration and target framework (Debug, Release, net8.0, ...); self-contained or published builds include the whole runtime.",
+      "ifDeleted": "Nothing is lost if the source is intact; 'dotnet build' recreates it. Keep it if it is the only copy of a build you shipped.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.dotnet-obj-fs",
+      "match": {
+        "name": "obj",
+        "sibling": "*.fsproj"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": ".NET intermediate files (obj)",
+      "badge": "safe",
+      "owner": ".NET SDK",
+      "summary": "Intermediate files of an F# build; recreated by restore and build",
+      "whatItIs": "Intermediate files of a .NET build: compiled objects, generated code, the NuGet restore output (project.assets.json) and incremental build caches.",
+      "whyBig": "One subfolder per configuration and target framework; large projects and WPF/WinUI apps generate many files.",
+      "ifDeleted": "Nothing is lost; the next restore and build recreate it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.dotnet-bin-vb",
+      "match": {
+        "name": "bin",
+        "sibling": "*.vbproj"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": ".NET build output (bin)",
+      "badge": "safe",
+      "owner": ".NET SDK",
+      "summary": "Compiled output of a VB.NET project; rebuilt with dotnet build",
+      "whatItIs": "Build output of a .NET project (compiled program, libraries and copied dependencies).",
+      "whyBig": "One subfolder per configuration and target framework (Debug, Release, net8.0, ...); self-contained or published builds include the whole runtime.",
+      "ifDeleted": "Nothing is lost if the source is intact; 'dotnet build' recreates it. Keep it if it is the only copy of a build you shipped.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.dotnet-obj-vb",
+      "match": {
+        "name": "obj",
+        "sibling": "*.vbproj"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": ".NET intermediate files (obj)",
+      "badge": "safe",
+      "owner": ".NET SDK",
+      "summary": "Intermediate files of a VB.NET build; recreated by restore and build",
+      "whatItIs": "Intermediate files of a .NET build: compiled objects, generated code, the NuGet restore output (project.assets.json) and incremental build caches.",
+      "whyBig": "One subfolder per configuration and target framework; large projects and WPF/WinUI apps generate many files.",
+      "ifDeleted": "Nothing is lost; the next restore and build recreate it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.vs-dir",
+      "match": {
+        "name": ".vs"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Visual Studio solution cache (.vs)",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio",
+      "summary": "Visual Studio's per-solution cache and user state; recreated automatically",
+      "whatItIs": "Hidden per-solution folder with IntelliSense databases (Browse.VC.db for C++), the component cache and user options (.suo: open files, breakpoints, startup project).",
+      "whyBig": "C++ solutions build IntelliSense databases of hundreds of MB to several GB.",
+      "ifDeleted": "Nothing in the code is lost; Visual Studio rebuilds IntelliSense and forgets open documents, breakpoints and the startup project. Close the solution first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.nuget-packages-folder",
+      "match": {
+        "name": "packages",
+        "sibling": "*.sln"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "NuGet packages folder (packages.config)",
+      "badge": "safe",
+      "owner": "NuGet",
+      "summary": "Packages restored for older .NET projects; restored again on build",
+      "whatItIs": "Solution-level folder where NuGet restores packages for projects that use packages.config.",
+      "whyBig": "Every package version referenced by the solution's projects.",
+      "ifDeleted": "Nothing is lost; NuGet restores them on the next build.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.rust-target",
+      "match": {
+        "name": "target",
+        "sibling": "Cargo.toml"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Rust build output (target)",
+      "badge": "safe",
+      "owner": "Rust (Cargo)",
+      "summary": "Rust build artefacts; rebuilt with cargo build",
+      "whatItIs": "Compiled dependencies, incremental compilation data and binaries of a Cargo project or workspace.",
+      "whyBig": "Debug builds with incremental data grow quickly; several to tens of GB is common, and old artefacts are never removed.",
+      "ifDeleted": "Nothing is lost; 'cargo build' recompiles everything, which can take a while. 'cargo clean' does the same deletion.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.maven-target",
+      "match": {
+        "name": "target",
+        "sibling": "pom.xml"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Maven build output (target)",
+      "badge": "safe",
+      "owner": "Apache Maven",
+      "summary": "Maven build output; rebuilt with mvn package",
+      "whatItIs": "Compiled classes, test reports and packaged artefacts of a Maven project.",
+      "whyBig": "Packaged JARs/WARs and test output of each build.",
+      "ifDeleted": "Nothing is lost; 'mvn package' rebuilds it. Same as 'mvn clean'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.gradle-build",
+      "match": {
+        "name": "build",
+        "sibling": "build.gradle"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Gradle build output",
+      "badge": "safe",
+      "owner": "Gradle",
+      "summary": "Gradle build output; rebuilt by the next build",
+      "whatItIs": "Compiled classes, generated sources, intermediates and packaged outputs (APKs, JARs) of a Gradle module.",
+      "whyBig": "Android modules keep many intermediates; several GB per module is common.",
+      "ifDeleted": "Nothing is lost; the next build recreates it. Same as 'gradlew clean'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.gradle-build-kts",
+      "match": {
+        "name": "build",
+        "sibling": "build.gradle.kts"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Gradle build output",
+      "badge": "safe",
+      "owner": "Gradle",
+      "summary": "Gradle build output; rebuilt by the next build",
+      "whatItIs": "Compiled classes, generated sources, intermediates and packaged outputs (APKs, JARs) of a Gradle module.",
+      "whyBig": "Android modules keep many intermediates; several GB per module is common.",
+      "ifDeleted": "Nothing is lost; the next build recreates it. Same as 'gradlew clean'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.gradle-project-cache",
+      "match": {
+        "name": ".gradle",
+        "sibling": "settings.gradle"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Gradle project cache",
+      "badge": "safe",
+      "owner": "Gradle",
+      "summary": "Per-project Gradle cache; recreated by the next build",
+      "whatItIs": "Gradle's per-project cache (file hashes, configuration cache, build output state).",
+      "whyBig": "Grows with builds and Gradle versions used.",
+      "ifDeleted": "Nothing is lost; the next build is slower.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.gradle-project-cache-kts",
+      "match": {
+        "name": ".gradle",
+        "sibling": "settings.gradle.kts"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Gradle project cache",
+      "badge": "safe",
+      "owner": "Gradle",
+      "summary": "Per-project Gradle cache; recreated by the next build",
+      "whatItIs": "Gradle's per-project cache (file hashes, configuration cache, build output state).",
+      "whyBig": "Grows with builds and Gradle versions used.",
+      "ifDeleted": "Nothing is lost; the next build is slower.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.android-cxx",
+      "match": {
+        "name": ".cxx",
+        "sibling": "build.gradle"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Android native build cache (.cxx)",
+      "badge": "safe",
+      "owner": "Android Gradle Plugin",
+      "summary": "CMake/ndk-build intermediates of an Android module; rebuilt",
+      "whatItIs": "Intermediate files the Android Gradle Plugin creates when building C/C++ code with CMake or ndk-build.",
+      "whyBig": "One tree per ABI and build variant.",
+      "ifDeleted": "Nothing is lost; the next build regenerates it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.android-cxx-kts",
+      "match": {
+        "name": ".cxx",
+        "sibling": "build.gradle.kts"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Android native build cache (.cxx)",
+      "badge": "safe",
+      "owner": "Android Gradle Plugin",
+      "summary": "CMake/ndk-build intermediates of an Android module; rebuilt",
+      "whatItIs": "Intermediate files the Android Gradle Plugin creates when building C/C++ code with CMake or ndk-build.",
+      "whyBig": "One tree per ABI and build variant.",
+      "ifDeleted": "Nothing is lost; the next build regenerates it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.cmake-build",
+      "match": {
+        "name": "build",
+        "sibling": "CMakeLists.txt"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "CMake build folder",
+      "badge": "check",
+      "owner": "CMake",
+      "summary": "Usually a CMake build tree; check for CMakeCache.txt before deleting",
+      "whatItIs": "Next to a CMakeLists.txt, a folder called build is usually a CMake build tree (it then contains CMakeCache.txt). Some projects keep build scripts under this name instead.",
+      "whyBig": "Object files, libraries and executables for each configuration; large C++ projects reach many GB.",
+      "ifDeleted": "If it is a build tree, nothing is lost: reconfigure and rebuild with cmake. If it holds checked-in scripts, project files are lost.",
+      "saferAlternative": "If it contains CMakeCache.txt it is a build tree and safe to delete.",
+      "action": null
+    },
+    {
+      "id": "proj.cmake-out",
+      "match": {
+        "name": "out",
+        "sibling": "CMakeLists.txt"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "CMake output folder (Visual Studio)",
+      "badge": "check",
+      "owner": "CMake",
+      "summary": "Usually Visual Studio's CMake build output (out/build, out/install)",
+      "whatItIs": "Visual Studio's CMake integration builds into out\\build and out\\install by default.",
+      "whyBig": "Object files and binaries for each configuration.",
+      "ifDeleted": "If it is build output, Visual Studio regenerates it; check that nothing else is stored in it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.cmake-build-ide",
+      "match": {
+        "name": "cmake-build-*"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "CLion CMake build folder",
+      "badge": "safe",
+      "owner": "JetBrains CLion",
+      "summary": "CMake build output created by CLion; rebuilt automatically",
+      "whatItIs": "Build trees CLion creates per CMake profile (cmake-build-debug, cmake-build-release).",
+      "whyBig": "Object files and binaries of each profile.",
+      "ifDeleted": "Nothing is lost; CLion reconfigures and rebuilds.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.cmakefiles",
+      "match": {
+        "name": "CMakeFiles"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 40,
+      "title": "CMake intermediate files",
+      "badge": "safe",
+      "owner": "CMake",
+      "summary": "CMake's internal build files; recreated when CMake runs",
+      "whatItIs": "Intermediate files and object files CMake generates in a build tree.",
+      "whyBig": "Object files of every target.",
+      "ifDeleted": "Nothing is lost; rebuild with cmake.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.dart-tool",
+      "match": {
+        "name": ".dart_tool"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Dart/Flutter tool cache",
+      "badge": "safe",
+      "owner": "Dart / Flutter",
+      "summary": "Generated files of a Dart or Flutter project; recreated by pub get",
+      "whatItIs": "Package configuration and generated files of the Dart toolchain.",
+      "whyBig": "Build caches grow with builds.",
+      "ifDeleted": "Nothing is lost; 'flutter pub get' or 'dart pub get' recreates it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.flutter-build",
+      "match": {
+        "name": "build",
+        "sibling": "pubspec.yaml"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Flutter build output",
+      "badge": "safe",
+      "owner": "Flutter",
+      "summary": "Flutter build output; rebuilt by flutter build",
+      "whatItIs": "Build output and intermediates of a Flutter app for every platform you built.",
+      "whyBig": "Android and iOS builds keep many intermediates; GBs are common.",
+      "ifDeleted": "Nothing is lost; the next build recreates it. Same as 'flutter clean'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.swift-build",
+      "match": {
+        "name": ".build",
+        "sibling": "Package.swift"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Swift package build folder",
+      "badge": "safe",
+      "owner": "Swift Package Manager",
+      "summary": "SwiftPM build output and checkouts; rebuilt by swift build",
+      "whatItIs": "Build output and dependency checkouts of a Swift package.",
+      "whyBig": "Debug builds and checkouts grow with dependencies.",
+      "ifDeleted": "Nothing is lost; 'swift build' recreates it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.cocoapods",
+      "match": {
+        "name": "Pods",
+        "sibling": "Podfile"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "CocoaPods dependencies",
+      "badge": "safe",
+      "owner": "CocoaPods",
+      "summary": "Installed CocoaPods dependencies; restored with pod install",
+      "whatItIs": "Dependencies installed by CocoaPods for an iOS or macOS project.",
+      "whyBig": "Every pod's sources and frameworks.",
+      "ifDeleted": "Nothing is lost if Podfile.lock is kept; run 'pod install' to restore.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.composer-vendor",
+      "match": {
+        "name": "vendor",
+        "sibling": "composer.json"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "PHP Composer dependencies",
+      "badge": "safe",
+      "owner": "Composer",
+      "summary": "Installed PHP dependencies; restored with composer install",
+      "whatItIs": "Dependencies installed by Composer for a PHP project.",
+      "whyBig": "Every package and its dependencies.",
+      "ifDeleted": "Nothing is lost if composer.lock is kept; run 'composer install' to restore.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.terraform",
+      "match": {
+        "name": ".terraform"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Terraform working directory",
+      "badge": "safe",
+      "owner": "Terraform",
+      "summary": "Downloaded Terraform providers and modules; restored with terraform init",
+      "whatItIs": "Providers, modules and backend settings that 'terraform init' downloads for a configuration. Your state file (terraform.tfstate) is not stored here.",
+      "whyBig": "Each provider binary is tens to hundreds of MB, per configuration.",
+      "ifDeleted": "Nothing is lost; run 'terraform init' again before the next plan or apply.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.unreal-intermediate",
+      "match": {
+        "name": "Intermediate",
+        "sibling": "*.uproject"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unreal Intermediate",
+      "badge": "safe",
+      "owner": "Unreal Engine",
+      "summary": "Unreal build intermediates and generated project files; regenerated",
+      "whatItIs": "Intermediate files of an Unreal project: compiled C++ objects, generated headers, project files and shader work data.",
+      "whyBig": "C++ projects build per platform and configuration; several GB is common.",
+      "ifDeleted": "Nothing is lost; C++ projects need 'Generate Visual Studio project files' and a rebuild, Blueprint projects regenerate it on open.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.unreal-ddc",
+      "match": {
+        "name": "DerivedDataCache",
+        "sibling": "*.uproject"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unreal project Derived Data Cache",
+      "badge": "safe",
+      "owner": "Unreal Engine",
+      "summary": "Compiled shaders and processed assets of this project; rebuilt when needed",
+      "whatItIs": "Project-local Derived Data Cache: compiled shaders, processed textures and other derived data.",
+      "whyBig": "Grows with assets and target platforms; tens of GB on large projects.",
+      "ifDeleted": "Nothing is lost, but the next open recompiles shaders and rebuilds derived data, which can take a long time.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.unreal-saved",
+      "match": {
+        "name": "Saved",
+        "sibling": "*.uproject"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unreal Saved folder",
+      "badge": "check",
+      "owner": "Unreal Engine",
+      "summary": "Logs, crash reports, autosaves, screenshots and local config of the project",
+      "whatItIs": "Per-project data written by the editor: logs, crash reports, autosaves (Autosaves), screenshots, local config and cooked builds (StagedBuilds, Cooked).",
+      "whyBig": "Logs, crash dumps, cooked content and staged builds accumulate.",
+      "ifDeleted": "Autosaves, local editor settings and staged builds are lost; logs and crash reports are only diagnostics.",
+      "saferAlternative": "Delete Logs, Crashes and old StagedBuilds, but keep Autosaves and Config if you rely on them.",
+      "action": null
+    },
+    {
+      "id": "proj.unreal-binaries",
+      "match": {
+        "name": "Binaries",
+        "sibling": "*.uproject"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unreal project binaries",
+      "badge": "check",
+      "owner": "Unreal Engine",
+      "summary": "Compiled game modules; C++ projects need a compiler to rebuild them",
+      "whatItIs": "Compiled modules (DLLs and executables) of the project's C++ code and editor targets.",
+      "whyBig": "Debug builds and multiple targets add hundreds of MB to GBs.",
+      "ifDeleted": "C++ projects can be rebuilt from source, but only with Visual Studio and the right toolchain installed; without them the project will not open.",
+      "saferAlternative": "Delete it only if you can rebuild the project's C++ code.",
+      "action": null
+    },
+    {
+      "id": "proj.unreal-plugin-intermediate",
+      "match": {
+        "name": "Intermediate",
+        "sibling": "*.uplugin"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unreal plugin intermediates",
+      "badge": "safe",
+      "owner": "Unreal Engine",
+      "summary": "Build intermediates of an Unreal plugin; regenerated by the next build",
+      "whatItIs": "Intermediate build files of an Unreal plugin.",
+      "whyBig": "Compiled objects per platform and configuration.",
+      "ifDeleted": "Nothing is lost; the next build recreates them.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.unreal-plugin-binaries",
+      "match": {
+        "name": "Binaries",
+        "sibling": "*.uplugin"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Unreal plugin binaries",
+      "badge": "check",
+      "owner": "Unreal Engine",
+      "summary": "Compiled plugin modules; marketplace plugins may ship without source",
+      "whatItIs": "Compiled modules of an Unreal plugin.",
+      "whyBig": "One set per platform and configuration.",
+      "ifDeleted": "Plugins with source can be rebuilt; plugins distributed as binaries only (some Fab/Marketplace plugins) must be downloaded again.",
+      "saferAlternative": "Check whether the plugin has a Source folder before deleting.",
+      "action": null
+    },
+    {
+      "id": "proj.git",
+      "match": {
+        "name": ".git"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Git repository data (.git)",
+      "badge": "check",
+      "owner": "Git",
+      "summary": "The full history of this repository; deleting it loses all unpushed work",
+      "whatItIs": "Git's database for this working copy: every commit, branch, tag and stash, plus the index and configuration. Objects are stored compressed in pack files (objects\\pack).",
+      "whyBig": "It grows with history and binary files committed over time; large assets, LFS objects and unreferenced objects from rewritten history add up.",
+      "ifDeleted": "All history, local branches, stashes and unpushed commits are lost; the folder stops being a repository. Your current files stay.",
+      "saferAlternative": "Run 'git gc' to repack and remove unreachable objects, 'git lfs prune' for old LFS files, or re-clone if everything is pushed.",
+      "action": null
+    },
+    {
+      "id": "proj.git-lfs",
+      "match": {
+        "name": "lfs",
+        "parentName": ".git"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Git LFS local object store",
+      "badge": "check",
+      "owner": "Git LFS",
+      "summary": "Local copies of Git LFS files; prune old ones with git lfs prune",
+      "whatItIs": "Local cache of large files tracked with Git LFS, including old versions you checked out before.",
+      "whyBig": "Every version of every LFS file you fetched stays until pruned; game and media repositories reach tens of GB.",
+      "ifDeleted": "LFS files not yet pushed to the server are lost; others are downloaded again on checkout.",
+      "saferAlternative": "Run 'git lfs prune' to delete old, already pushed LFS objects.",
+      "action": null
+    },
+    {
+      "id": "proj.git-pack",
+      "match": {
+        "name": "pack",
+        "parentName": "objects"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "Git pack files",
+      "badge": "check",
+      "owner": "Git",
+      "summary": "Compressed history of a Git repository",
+      "whatItIs": "Pack files that store a repository's commits, trees and file versions in compressed form.",
+      "whyBig": "They contain every version of every committed file; committed binaries make them large.",
+      "ifDeleted": "The repository's history is destroyed; Git can no longer read commits.",
+      "saferAlternative": "Run 'git gc' or 'git gc --aggressive' to repack, or re-clone a shallow copy if you do not need the history.",
+      "action": null
+    },
+    {
+      "id": "proj.blender-autosave",
+      "match": {
+        "name": "*autosave.blend"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 50,
+      "title": "Blender autosave",
+      "badge": "check",
+      "owner": "Blender Foundation",
+      "summary": "Automatic backup of an open Blender scene",
+      "whatItIs": "Blender's periodic autosave of a scene, written to the temporary folder.",
+      "whyBig": "As large as the scene.",
+      "ifDeleted": "You can no longer recover that scene after a crash with File > Recover > Auto Save.",
+      "saferAlternative": null,
+      "action": null
+    }
+  ]
+}

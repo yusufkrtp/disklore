@@ -1,0 +1,2246 @@
+{
+  "rules": [
+    {
+      "id": "pd.programdata",
+      "match": {
+        "path": "%PROGRAMDATA%"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "ProgramData",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Machine-wide data of Windows and installed programs; check each folder",
+      "whatItIs": "Hidden folder where Windows and programs keep data shared by all users: settings, licenses, databases, caches, installer caches and update downloads.",
+      "whyBig": "Installer caches (Package Cache), game launcher data, antivirus definitions, the search index and app databases.",
+      "ifDeleted": "Programs and Windows features that keep data here break; some lose licenses or must be reinstalled.",
+      "saferAlternative": "Check each subfolder; vendor folders of programs you uninstalled are reported as possible leftovers.",
+      "action": null
+    },
+    {
+      "id": "pd.microsoft",
+      "match": {
+        "path": "%PROGRAMDATA%\\Microsoft"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "Windows machine-wide data",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Machine-wide data of Windows and Microsoft components",
+      "whatItIs": "Data of Windows itself shared by all users: Defender, the search index, error reports, crypto keys, device setup, Windows Update orchestration and more.",
+      "whyBig": "Defender definitions, the search index and error reports are the usual large parts; they are explained separately.",
+      "ifDeleted": "Windows components break; some failures only show up later (sign-in, encryption, updates).",
+      "saferAlternative": "Clean only the parts marked SAFE (Error Reporting) or shrink the search index from Indexing Options.",
+      "action": null
+    },
+    {
+      "id": "pd.start-menu",
+      "match": {
+        "path": "%PROGRAMDATA%\\Microsoft\\Windows\\Start Menu"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Start menu (all users)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Start menu shortcuts installed for all users",
+      "whatItIs": "Shortcuts that programs installed for everyone put in the Start menu.",
+      "whyBig": "Tiny; shortcuts only.",
+      "ifDeleted": "Programs disappear from the Start menu but stay installed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.hyperv",
+      "match": {
+        "path": "%PROGRAMDATA%\\Microsoft\\Windows\\Hyper-V"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Hyper-V virtual machine configuration",
+      "badge": "check",
+      "owner": "Microsoft Hyper-V",
+      "summary": "Hyper-V VM configurations and saved states",
+      "whatItIs": "Default folder for Hyper-V virtual machine configuration files, saved states and checkpoint data.",
+      "whyBig": "Saved VM states are as large as the VM's memory.",
+      "ifDeleted": "Virtual machines disappear from Hyper-V Manager or fail to start.",
+      "saferAlternative": "Delete VMs and checkpoints in Hyper-V Manager.",
+      "action": null
+    },
+    {
+      "id": "pd.hyperv-public-vhds",
+      "match": {
+        "path": "%SYSTEMDRIVE%\\Users\\Public\\Documents\\Hyper-V"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Hyper-V virtual hard disks",
+      "badge": "check",
+      "owner": "Microsoft Hyper-V",
+      "summary": "Default location of Hyper-V virtual disks on Windows 10/11",
+      "whatItIs": "Hyper-V on Windows 10 and 11 stores new virtual hard disks (.vhdx) here by default.",
+      "whyBig": "Each disk grows to the data stored in its virtual machine.",
+      "ifDeleted": "The virtual machines lose their disks and everything inside them.",
+      "saferAlternative": "Delete VMs in Hyper-V Manager, then remove their disks.",
+      "action": null
+    },
+    {
+      "id": "pd.package-cache",
+      "match": {
+        "path": "%PROGRAMDATA%\\Package Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Installer package cache",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Cached installers needed to repair, upgrade or uninstall programs",
+      "whatItIs": "Installer bundles built with WiX Burn (Visual C++ runtimes, .NET, Visual Studio components, many SDKs and games) cache their setup packages here so they can repair, change or remove the program later.",
+      "whyBig": "Every bundle keeps its packages, and versions of frequently updated runtimes add up to several GB.",
+      "ifDeleted": "The programs keep running, but repairing, upgrading or uninstalling them can fail or ask for the original installer. Visual C++ runtime updates are a common victim.",
+      "saferAlternative": "Uninstall programs you do not need; their cached packages are removed with them. Do not delete folders by hand.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pd.vs-packages",
+      "match": {
+        "path": "%PROGRAMDATA%\\Microsoft\\VisualStudio\\Packages"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Visual Studio installer cache",
+      "badge": "check",
+      "owner": "Microsoft Visual Studio",
+      "summary": "Visual Studio installer packages; can be turned off, then downloaded on demand",
+      "whatItIs": "Package cache of the Visual Studio Installer, used to repair or modify Visual Studio without downloading.",
+      "whyBig": "It keeps the packages of every installed workload and component, often several GB.",
+      "ifDeleted": "Visual Studio keeps working; repairs, updates and changes download what they need again.",
+      "saferAlternative": "Microsoft documents a 'KeepDownloadedPayloads' policy (or the --nocache install option) to stop caching; with it set, the installer removes cached packages.",
+      "action": null
+    },
+    {
+      "id": "pd.usoprivate",
+      "match": {
+        "path": "%PROGRAMDATA%\\USOPrivate"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Update orchestrator data (private)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Windows Update orchestrator state",
+      "whatItIs": "Private data of the Update Session Orchestrator, the service that schedules Windows Update scans, downloads and restarts.",
+      "whyBig": "Small.",
+      "ifDeleted": "Windows Update scheduling can break.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.usoshared",
+      "match": {
+        "path": "%PROGRAMDATA%\\USOShared"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Update orchestrator data (shared)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Windows Update orchestrator logs and shared state",
+      "whatItIs": "Logs and shared data of the Update Session Orchestrator.",
+      "whyBig": "Logs rotate; usually small.",
+      "ifDeleted": "Windows Update scheduling can break.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.ssh",
+      "match": {
+        "path": "%PROGRAMDATA%\\ssh"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "OpenSSH server configuration",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "OpenSSH server settings and host keys",
+      "whatItIs": "Configuration and host keys of the Windows OpenSSH server, created when the server feature is installed or first started.",
+      "whyBig": "Tiny.",
+      "ifDeleted": "The SSH server loses its settings and host keys; clients see a host key change warning.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.regid",
+      "match": {
+        "path": "%PROGRAMDATA%\\regid.*"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Software identification tags",
+      "badge": "check",
+      "owner": null,
+      "summary": "Software identification tags used for license and inventory tracking",
+      "whatItIs": "ISO software identification (SWID) tags that vendors such as Microsoft and Adobe write so inventory and license tools can recognise installed products.",
+      "whyBig": "Tiny.",
+      "ifDeleted": "Inventory and licensing tools may no longer recognise the installed products.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.onedrive",
+      "match": {
+        "path": "%PROGRAMDATA%\\Microsoft OneDrive"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "OneDrive (machine-wide)",
+      "badge": "app",
+      "owner": "Microsoft OneDrive",
+      "summary": "Machine-wide OneDrive setup data",
+      "whatItIs": "Data of OneDrive when it is installed for all users.",
+      "whyBig": "Small.",
+      "ifDeleted": "OneDrive setup and updates may fail.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.junction-application-data",
+      "match": {
+        "path": "%PROGRAMDATA%\\Application Data"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Application Data",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to ProgramData.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.junction-desktop",
+      "match": {
+        "path": "%PROGRAMDATA%\\Desktop"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Desktop",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to the public desktop.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.junction-documents",
+      "match": {
+        "path": "%PROGRAMDATA%\\Documents"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Documents",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to the public documents.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.junction-start-menu",
+      "match": {
+        "path": "%PROGRAMDATA%\\Start Menu"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Start Menu",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to the all-users Start menu.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.junction-templates",
+      "match": {
+        "path": "%PROGRAMDATA%\\Templates"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Templates",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to the all-users templates.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.nvidia",
+      "match": {
+        "path": "%PROGRAMDATA%\\NVIDIA Corporation"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "NVIDIA machine-wide data",
+      "badge": "app",
+      "owner": "NVIDIA",
+      "summary": "NVIDIA driver and app data: settings, downloads and installer files",
+      "whatItIs": "Machine-wide data of NVIDIA drivers and software: driver settings (DRS), downloaded driver updates, installer files and SDK data.",
+      "whyBig": "Downloaded driver packages and installer leftovers are the usual large parts.",
+      "ifDeleted": "Driver settings and NVIDIA software break; the driver itself stays installed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.nvidia-downloader",
+      "match": {
+        "path": "%PROGRAMDATA%\\NVIDIA Corporation\\Downloader"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NVIDIA driver downloads",
+      "badge": "safe",
+      "owner": "NVIDIA",
+      "summary": "Driver updates downloaded by the NVIDIA app or GeForce Experience",
+      "whatItIs": "Driver packages that the NVIDIA app or GeForce Experience downloaded for installation.",
+      "whyBig": "Each driver download is several hundred MB to over 1 GB, and old ones can stay.",
+      "ifDeleted": "Nothing breaks; a driver that was not installed yet is downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.nvidia-installer2",
+      "match": {
+        "path": "%PROGRAMDATA%\\NVIDIA Corporation\\Installer2"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NVIDIA installer files",
+      "badge": "check",
+      "owner": "NVIDIA",
+      "summary": "Installer copies of NVIDIA driver components",
+      "whatItIs": "Files the NVIDIA installer keeps for installed driver components.",
+      "whyBig": "Older driver installers left copies for each version, which could reach several GB.",
+      "ifDeleted": "The current driver keeps working, but changing or removing NVIDIA components may fail.",
+      "saferAlternative": "Run a clean driver install with the NVIDIA installer, which removes outdated packages.",
+      "action": null
+    },
+    {
+      "id": "pd.nvidia-nvcache",
+      "match": {
+        "path": "%PROGRAMDATA%\\NVIDIA Corporation\\NV_Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NVIDIA shader cache (older drivers)",
+      "badge": "safe",
+      "owner": "NVIDIA",
+      "summary": "Shader cache used by older NVIDIA drivers; safe to clear",
+      "whatItIs": "Compiled shader cache of older NVIDIA drivers.",
+      "whyBig": "Each game adds compiled shaders.",
+      "ifDeleted": "Nothing breaks; shaders are recompiled, with stutter at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.docker",
+      "match": {
+        "path": "%PROGRAMDATA%\\Docker"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Docker Windows containers data",
+      "badge": "shrink",
+      "owner": "Docker",
+      "summary": "Images and containers of Docker's Windows containers mode; prune, do not delete",
+      "whatItIs": "Data root of Docker when it runs Windows containers: images, container layers, volumes and build cache.",
+      "whyBig": "Windows base images are several GB each, and every pulled image and stopped container adds layers.",
+      "ifDeleted": "Docker's state is corrupted; images, containers and volumes (including their data) are lost.",
+      "saferAlternative": "Run 'docker system prune' to remove stopped containers, unused networks, dangling images and build cache. Add '-a' to remove all unused images and '--volumes' only if you are sure no volume holds needed data.",
+      "action": {
+        "kind": "command",
+        "label": "Prune unused Docker data",
+        "value": "docker system prune"
+      }
+    },
+    {
+      "id": "pd.chocolatey",
+      "match": {
+        "path": "%PROGRAMDATA%\\chocolatey"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Chocolatey package manager",
+      "badge": "app",
+      "owner": "Chocolatey",
+      "summary": "Chocolatey and the packages it installed",
+      "whatItIs": "The Chocolatey package manager: its program, package metadata (lib), shims (bin) and logs.",
+      "whyBig": "Portable packages live entirely in lib; logs grow over time.",
+      "ifDeleted": "Chocolatey and portable packages stop working; programs it installed normally stay but can no longer be managed by it.",
+      "saferAlternative": "Uninstall packages with 'choco uninstall <name>'.",
+      "action": null
+    },
+    {
+      "id": "pd.epic",
+      "match": {
+        "path": "%PROGRAMDATA%\\Epic"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Epic Games machine-wide data",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Epic Games Launcher manifests and shared data",
+      "whatItIs": "Machine-wide data of the Epic Games Launcher, including the manifests that record which games are installed where.",
+      "whyBig": "Small; manifests and launcher data.",
+      "ifDeleted": "The launcher forgets which games are installed and may offer to download them again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.battlenet",
+      "match": {
+        "path": "%PROGRAMDATA%\\Battle.net"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Battle.net agent",
+      "badge": "app",
+      "owner": "Blizzard Entertainment",
+      "summary": "Battle.net Agent, which installs and updates Blizzard games",
+      "whatItIs": "The Battle.net Agent and its data, used to install, update and repair Blizzard games.",
+      "whyBig": "Agent versions and logs, usually a few hundred MB.",
+      "ifDeleted": "Battle.net reinstalls the agent on next start; Blizzard's own troubleshooting deletes this folder.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.blizzard",
+      "match": {
+        "path": "%PROGRAMDATA%\\Blizzard Entertainment"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Blizzard shared data",
+      "badge": "app",
+      "owner": "Blizzard Entertainment",
+      "summary": "Shared data of the Battle.net app and Blizzard games",
+      "whatItIs": "Machine-wide data of the Battle.net app and Blizzard games.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Battle.net may need to repair itself.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.riot",
+      "match": {
+        "path": "%PROGRAMDATA%\\Riot Games"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Riot Games shared data",
+      "badge": "app",
+      "owner": "Riot Games",
+      "summary": "Shared data of the Riot Client and Riot games",
+      "whatItIs": "Machine-wide data of the Riot Client, including install metadata for Riot games.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "The Riot Client may lose track of installed games and need repair.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.unity",
+      "match": {
+        "path": "%PROGRAMDATA%\\Unity"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Unity machine-wide data",
+      "badge": "app",
+      "owner": "Unity Technologies",
+      "summary": "Unity licensing and machine-wide editor data",
+      "whatItIs": "Machine-wide data of Unity: licensing client configuration and shared editor data.",
+      "whyBig": "Small.",
+      "ifDeleted": "Unity may need to be re-activated.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.programfiles",
+      "match": {
+        "path": "%PROGRAMFILES%"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Program Files",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Installed 64-bit programs; remove them with their uninstaller",
+      "whatItIs": "Default install location for 64-bit programs installed for all users, plus Windows components such as Windows Defender and WindowsApps.",
+      "whyBig": "Games, creative suites, SDKs and engines are the usual large parts.",
+      "ifDeleted": "Deleting a program's folder leaves broken shortcuts, registry entries and services behind; the program has to be reinstalled before it can be uninstalled cleanly.",
+      "saferAlternative": "Uninstall programs from Settings > Apps > Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.programfilesx86",
+      "match": {
+        "path": "%PROGRAMFILESX86%"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Program Files (x86)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Installed 32-bit programs (and some launchers); remove them with their uninstaller",
+      "whatItIs": "Default install location for 32-bit programs, and for some 64-bit apps whose installers still choose it (Steam, many launchers and SDKs).",
+      "whyBig": "Steam and its games, Windows SDKs and Visual Studio components are often large.",
+      "ifDeleted": "Deleting a program's folder leaves it half-installed; it has to be reinstalled before it can be removed cleanly.",
+      "saferAlternative": "Uninstall programs from Settings > Apps > Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.common-files",
+      "match": {
+        "path": "%PROGRAMFILES%\\Common Files"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Common Files (shared components)",
+      "badge": "app",
+      "owner": null,
+      "summary": "Components shared by several programs; removed by their uninstallers",
+      "whatItIs": "Libraries and components that programs share, such as Microsoft Shared (Office, VSTO), Adobe, Apple and audio plug-in folders (VST3).",
+      "whyBig": "Office shared components and plug-in folders can be several hundred MB.",
+      "ifDeleted": "Programs that rely on these shared parts stop working.",
+      "saferAlternative": "Uninstall the programs that installed them.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.common-files-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Common Files"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Common Files (x86, shared components)",
+      "badge": "app",
+      "owner": null,
+      "summary": "32-bit components shared by several programs",
+      "whatItIs": "32-bit libraries and components shared by programs, such as Microsoft Shared and vendor runtimes.",
+      "whyBig": "Usually a few hundred MB.",
+      "ifDeleted": "Programs that rely on these shared parts stop working.",
+      "saferAlternative": "Uninstall the programs that installed them.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.windows-defender",
+      "match": {
+        "path": "%PROGRAMFILES%\\Windows Defender"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Microsoft Defender program files",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Microsoft Defender Antivirus program files",
+      "whatItIs": "Program files of Microsoft Defender Antivirus, part of Windows.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-defender-atp",
+      "match": {
+        "path": "%PROGRAMFILES%\\Windows Defender Advanced Threat Protection"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Defender for Endpoint sensor",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Microsoft Defender for Endpoint components",
+      "whatItIs": "Components of Microsoft Defender for Endpoint (the enterprise sensor), part of Windows.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-defender-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Windows Defender"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Microsoft Defender (32-bit parts)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "32-bit parts of Microsoft Defender",
+      "whatItIs": "32-bit components of Microsoft Defender Antivirus, part of Windows.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-mail",
+      "match": {
+        "path": "%PROGRAMFILES%\\Windows Mail"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows Mail components",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Built-in Windows mail components",
+      "whatItIs": "Components that ship with Windows for mail and contacts support.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-mail-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Windows Mail"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows Mail components (32-bit)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Built-in Windows mail components (32-bit)",
+      "whatItIs": "32-bit components that ship with Windows for mail and contacts support.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-media-player",
+      "match": {
+        "path": "%PROGRAMFILES%\\Windows Media Player"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows Media Player (legacy)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Built-in Windows Media Player program files",
+      "whatItIs": "Program files of the legacy Windows Media Player, a Windows feature.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-media-player-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Windows Media Player"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows Media Player (legacy, 32-bit)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Built-in Windows Media Player program files (32-bit)",
+      "whatItIs": "32-bit program files of the legacy Windows Media Player.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-nt",
+      "match": {
+        "path": "%PROGRAMFILES%\\Windows NT"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows NT accessories",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Built-in Windows accessories (WordPad, Paint parts, TAPI)",
+      "whatItIs": "Accessories and components that ship with Windows.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-nt-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Windows NT"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows NT accessories (32-bit)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Built-in Windows accessories (32-bit)",
+      "whatItIs": "32-bit accessories and components that ship with Windows.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-photo-viewer",
+      "match": {
+        "path": "%PROGRAMFILES%\\Windows Photo Viewer"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows Photo Viewer",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Built-in legacy Windows Photo Viewer",
+      "whatItIs": "Program files of the legacy Windows Photo Viewer.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-photo-viewer-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Windows Photo Viewer"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows Photo Viewer (32-bit)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Built-in legacy Windows Photo Viewer (32-bit)",
+      "whatItIs": "32-bit program files of the legacy Windows Photo Viewer.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-sidebar",
+      "match": {
+        "path": "%PROGRAMFILES%\\Windows Sidebar"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows Sidebar (legacy)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Leftover gadget platform folder from older Windows",
+      "whatItIs": "Folder of the old desktop gadgets platform that Windows still ships for compatibility.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windows-sidebar-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Windows Sidebar"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows Sidebar (legacy, 32-bit)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Leftover gadget platform folder from older Windows",
+      "whatItIs": "32-bit folder of the old desktop gadgets platform kept for compatibility.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windowspowershell",
+      "match": {
+        "path": "%PROGRAMFILES%\\WindowsPowerShell"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows PowerShell modules",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Modules for Windows PowerShell (all users)",
+      "whatItIs": "Modules installed for Windows PowerShell for all users, including ones that ship with Windows.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.windowspowershell-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\WindowsPowerShell"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows PowerShell modules (32-bit)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Modules for 32-bit Windows PowerShell",
+      "whatItIs": "Modules for 32-bit Windows PowerShell for all users.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.internet-explorer",
+      "match": {
+        "path": "%PROGRAMFILES%\\Internet Explorer"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Internet Explorer components",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Internet Explorer components kept for IE mode and old apps",
+      "whatItIs": "Components of Internet Explorer that Windows keeps for Edge's IE mode and old apps.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.internet-explorer-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Internet Explorer"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Internet Explorer components (32-bit)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "32-bit Internet Explorer components",
+      "whatItIs": "32-bit components of Internet Explorer kept by Windows.",
+      "whyBig": "Part of Windows; its size changes only with Windows updates.",
+      "ifDeleted": "Built-in Windows features or apps that depend on it stop working, and Windows Update may fail to service it.",
+      "saferAlternative": "Turn off unused optional features in Settings > System > Optional features instead.",
+      "action": null
+    },
+    {
+      "id": "pf.modifiablewindowsapps",
+      "match": {
+        "path": "%PROGRAMFILES%\\ModifiableWindowsApps"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Moddable Store games",
+      "badge": "app",
+      "owner": "Microsoft Store",
+      "summary": "Store and Xbox games installed with a moddable folder",
+      "whatItIs": "Some Microsoft Store and Xbox app games install here so that their files can be modified (mods).",
+      "whyBig": "Each game is tens of GB.",
+      "ifDeleted": "The games stop working.",
+      "saferAlternative": "Uninstall them from the Xbox app or Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.uninstall-information",
+      "match": {
+        "path": "%PROGRAMFILES%\\Uninstall Information"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Uninstall Information (legacy)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Legacy uninstall data of old Windows components",
+      "whatItIs": "Data kept by older Windows component installers so they could be removed later.",
+      "whyBig": "Usually tiny or empty.",
+      "ifDeleted": "Old components may not uninstall; there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.dotnet",
+      "match": {
+        "path": "%PROGRAMFILES%\\dotnet"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": ".NET runtimes and SDKs",
+      "badge": "app",
+      "owner": "Microsoft .NET",
+      "summary": ".NET runtimes and SDKs used by apps and developers; old versions pile up",
+      "whatItIs": "The machine-wide .NET installation: shared runtimes (shared), SDKs (sdk), workloads and templates. Apps built on .NET 5+ run on these runtimes.",
+      "whyBig": "Each SDK is several hundred MB and Visual Studio or Windows Update installs new ones without removing old ones.",
+      "ifDeleted": "Apps that need a removed runtime fail to start, and builds fail without the SDK they target.",
+      "saferAlternative": "Run 'dotnet --list-sdks' to see versions, and remove old ones from Installed apps or with Microsoft's .NET Uninstall Tool.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.dotnet-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\dotnet"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": ".NET runtimes (32-bit)",
+      "badge": "app",
+      "owner": "Microsoft .NET",
+      "summary": "32-bit .NET runtimes used by 32-bit apps",
+      "whatItIs": "The 32-bit .NET installation used by 32-bit apps built on .NET 5+.",
+      "whyBig": "Each runtime is tens of MB; old versions stay.",
+      "ifDeleted": "32-bit .NET apps fail to start.",
+      "saferAlternative": "Remove old runtimes from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.reference-assemblies",
+      "match": {
+        "path": "%PROGRAMFILES%\\Reference Assemblies"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Reference assemblies",
+      "badge": "app",
+      "owner": "Microsoft",
+      "summary": "Reference assemblies used to build .NET Framework apps",
+      "whatItIs": "Reference assemblies that Visual Studio and MSBuild use to compile against specific .NET Framework versions.",
+      "whyBig": "One set per targeting pack, tens to hundreds of MB.",
+      "ifDeleted": "Builds that target those framework versions fail.",
+      "saferAlternative": "Remove targeting packs with the Visual Studio Installer.",
+      "action": null
+    },
+    {
+      "id": "pf.reference-assemblies-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Reference Assemblies"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Reference assemblies (x86)",
+      "badge": "app",
+      "owner": "Microsoft",
+      "summary": "Reference assemblies used to build .NET Framework apps",
+      "whatItIs": "Reference assemblies and .NET Framework targeting packs used by Visual Studio and MSBuild.",
+      "whyBig": "One set per targeting pack, up to several hundred MB in total.",
+      "ifDeleted": "Builds that target those framework versions fail.",
+      "saferAlternative": "Remove targeting packs with the Visual Studio Installer.",
+      "action": null
+    },
+    {
+      "id": "pf.msbuild",
+      "match": {
+        "path": "%PROGRAMFILES%\\MSBuild"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "MSBuild extensions",
+      "badge": "app",
+      "owner": "Microsoft",
+      "summary": "Shared MSBuild targets and extensions",
+      "whatItIs": "Build targets and extensions shared by Visual Studio and SDKs.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Builds that import these targets fail.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.msbuild-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\MSBuild"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "MSBuild extensions (x86)",
+      "badge": "app",
+      "owner": "Microsoft",
+      "summary": "Shared MSBuild targets and extensions",
+      "whatItIs": "Build targets and extensions shared by Visual Studio and SDKs.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Builds that import these targets fail.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.windows-kits",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Windows Kits"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Windows SDKs and kits",
+      "badge": "app",
+      "owner": "Microsoft",
+      "summary": "Windows SDK, WDK and debugging tools; remove old SDK versions",
+      "whatItIs": "Windows Software Development Kits, the Driver Kit, debugging tools and the Windows App Certification Kit, installed by Visual Studio or separately.",
+      "whyBig": "Each SDK version is 1-3 GB, and Visual Studio adds new ones without removing old ones.",
+      "ifDeleted": "Builds that target removed SDK versions fail.",
+      "saferAlternative": "Uninstall old 'Windows Software Development Kit' entries in Installed apps or via the Visual Studio Installer.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.microsoft-sdks",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Microsoft SDKs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Microsoft SDKs",
+      "badge": "app",
+      "owner": "Microsoft",
+      "summary": "SDKs and tools for Windows, .NET, Azure and NuGet fallback packages",
+      "whatItIs": "SDK components installed by Visual Studio: Windows and .NET tools, Azure SDKs and offline NuGet packages.",
+      "whyBig": "Several SDKs and offline package folders add up.",
+      "ifDeleted": "Builds and tools that depend on them fail.",
+      "saferAlternative": "Remove components with the Visual Studio Installer.",
+      "action": null
+    },
+    {
+      "id": "pf.microsoft-net-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Microsoft.NET"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": ".NET Framework SDK tools",
+      "badge": "app",
+      "owner": "Microsoft",
+      "summary": ".NET Framework SDK tools and targeting data",
+      "whatItIs": "Tools and data from .NET Framework SDKs and targeting packs.",
+      "whyBig": "Usually modest.",
+      "ifDeleted": "Development tools that rely on them fail.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.vs",
+      "match": {
+        "path": "%PROGRAMFILES%\\Microsoft Visual Studio"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Visual Studio",
+      "badge": "app",
+      "owner": "Microsoft Visual Studio",
+      "summary": "Visual Studio installations; change or remove them with the Visual Studio Installer",
+      "whatItIs": "Visual Studio IDE installations (one folder per year and edition) with their workloads, compilers and tools.",
+      "whyBig": "A typical installation is 10-40 GB depending on workloads (C++, game development and Android add a lot).",
+      "ifDeleted": "Visual Studio breaks and the installer can no longer update or remove it cleanly.",
+      "saferAlternative": "Open the Visual Studio Installer and remove workloads or whole installations you do not use.",
+      "action": null
+    },
+    {
+      "id": "pf.vs-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Microsoft Visual Studio"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Visual Studio Installer and shared parts",
+      "badge": "app",
+      "owner": "Microsoft Visual Studio",
+      "summary": "Visual Studio Installer and components shared between Visual Studio versions",
+      "whatItIs": "The Visual Studio Installer and shared components (Shared folder) used by all installed Visual Studio versions, plus older installations.",
+      "whyBig": "Shared components and older Visual Studio versions can be several GB.",
+      "ifDeleted": "Visual Studio can no longer be updated, modified or uninstalled.",
+      "saferAlternative": "Use the Visual Studio Installer to remove what you do not need.",
+      "action": null
+    },
+    {
+      "id": "pf.edge-webview",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Microsoft\\EdgeWebView"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Microsoft Edge WebView2 Runtime",
+      "badge": "app",
+      "owner": "Microsoft",
+      "summary": "Web runtime used by many apps (Teams, Office, widgets); do not delete",
+      "whatItIs": "The WebView2 Runtime that apps use to show web content: new Teams, Outlook, Office features, Windows widgets and many third-party apps.",
+      "whyBig": "Each version is several hundred MB, and an update keeps the previous version until it is no longer in use.",
+      "ifDeleted": "Apps that rely on WebView2 show blank windows or fail to start.",
+      "saferAlternative": "Leave it; it updates itself.",
+      "action": null
+    },
+    {
+      "id": "pf.edge",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Microsoft\\Edge"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Microsoft Edge program files",
+      "badge": "app",
+      "owner": "Microsoft Edge",
+      "summary": "Microsoft Edge browser program files",
+      "whatItIs": "Program files of the Microsoft Edge browser.",
+      "whyBig": "Each version is several hundred MB; the previous version stays until the update completes.",
+      "ifDeleted": "Edge stops working, and Windows features and links that open Edge fail.",
+      "saferAlternative": "Leave it; Edge is part of Windows and repairs itself through updates.",
+      "action": null
+    },
+    {
+      "id": "pf.office",
+      "match": {
+        "path": "%PROGRAMFILES%\\Microsoft Office"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Microsoft Office",
+      "badge": "app",
+      "owner": "Microsoft Office",
+      "summary": "Microsoft Office / Microsoft 365 apps; repair or remove via Installed apps",
+      "whatItIs": "Microsoft Office or Microsoft 365 apps. Click-to-Run installs keep the apps in the root subfolder.",
+      "whyBig": "A full Microsoft 365 install is 3-5 GB, plus extra languages and Visio or Project.",
+      "ifDeleted": "Office breaks and can no longer be repaired or updated; it has to be removed with Microsoft's support tool and reinstalled.",
+      "saferAlternative": "Remove Office or change languages from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.office15",
+      "match": {
+        "path": "%PROGRAMFILES%\\Microsoft Office 15"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Office Click-to-Run client",
+      "badge": "app",
+      "owner": "Microsoft Office",
+      "summary": "Office Click-to-Run integration files",
+      "whatItIs": "Integration components of Office Click-to-Run, used to install, update and stream Office apps.",
+      "whyBig": "A few hundred MB.",
+      "ifDeleted": "Office updates and repairs fail.",
+      "saferAlternative": "Remove Office from Installed apps if you no longer use it.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.nvidia",
+      "match": {
+        "path": "%PROGRAMFILES%\\NVIDIA Corporation"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "NVIDIA software",
+      "badge": "app",
+      "owner": "NVIDIA",
+      "summary": "NVIDIA driver components, control panel and the NVIDIA app",
+      "whatItIs": "Program files of NVIDIA driver components and software: control panel, NVIDIA app or GeForce Experience, PhysX, audio and installer.",
+      "whyBig": "Several hundred MB to a few GB, depending on installed components.",
+      "ifDeleted": "Graphics settings, the NVIDIA app and parts of the driver stop working.",
+      "saferAlternative": "Remove components from Installed apps or reinstall the driver with a clean installation.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.nvidia-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\NVIDIA Corporation"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "NVIDIA software (32-bit)",
+      "badge": "app",
+      "owner": "NVIDIA",
+      "summary": "32-bit NVIDIA components such as PhysX",
+      "whatItIs": "32-bit components of NVIDIA software, for example the PhysX runtime.",
+      "whyBig": "Usually a few hundred MB.",
+      "ifDeleted": "Games that use these components may fail.",
+      "saferAlternative": null,
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.amd",
+      "match": {
+        "path": "%PROGRAMFILES%\\AMD"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "AMD software",
+      "badge": "app",
+      "owner": "AMD",
+      "summary": "AMD Software (Adrenalin), chipset utilities and Ryzen Master",
+      "whatItIs": "Program files of AMD software: the Adrenalin graphics app, chipset tools and Ryzen Master.",
+      "whyBig": "Usually 1-2 GB.",
+      "ifDeleted": "AMD Software and its settings stop working; the driver may lose features.",
+      "saferAlternative": null,
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.docker",
+      "match": {
+        "path": "%PROGRAMFILES%\\Docker"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Docker Desktop program files",
+      "badge": "app",
+      "owner": "Docker",
+      "summary": "Docker Desktop program files; your images live elsewhere",
+      "whatItIs": "Program files of Docker Desktop. Images and containers are stored in its virtual disk (see AppData\\Local\\Docker).",
+      "whyBig": "Docker Desktop is a few GB.",
+      "ifDeleted": "Docker Desktop stops working.",
+      "saferAlternative": "Uninstall from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.oculus",
+      "match": {
+        "path": "%PROGRAMFILES%\\Oculus"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Meta Quest Link (Oculus) app",
+      "badge": "app",
+      "owner": "Meta",
+      "summary": "Meta Quest Link / Oculus PC app and its game library",
+      "whatItIs": "The Meta Quest Link (formerly Oculus) PC app; by default it also stores downloaded VR games under Software.",
+      "whyBig": "VR games are several GB each.",
+      "ifDeleted": "The app and its VR games stop working.",
+      "saferAlternative": "Uninstall games from the app's library and the app from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.oculus-software",
+      "match": {
+        "path": "%PROGRAMFILES%\\Oculus\\Software"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Meta Quest Link game library",
+      "badge": "app",
+      "owner": "Meta",
+      "summary": "VR games downloaded through the Meta Quest Link (Oculus) app",
+      "whatItIs": "Default library folder of the Meta Quest Link app, with downloaded VR games.",
+      "whyBig": "VR games are several GB each.",
+      "ifDeleted": "The games stop working.",
+      "saferAlternative": "Uninstall games from the Meta Quest Link app's library.",
+      "action": null
+    },
+    {
+      "id": "pf.unity-hub-editors",
+      "match": {
+        "path": "%PROGRAMFILES%\\Unity\\Hub\\Editor"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Unity editors (installed by Unity Hub)",
+      "badge": "app",
+      "owner": "Unity Technologies",
+      "summary": "Unity editor versions installed by Unity Hub; remove old ones from the Hub",
+      "whatItIs": "Every Unity editor version installed through Unity Hub, with its platform build support modules.",
+      "whyBig": "Each editor is 5-15 GB with build support (Android, iOS, WebGL), and installing a new version keeps the old ones.",
+      "ifDeleted": "Projects that use a removed version must be opened with another version (which can require upgrading them).",
+      "saferAlternative": "In Unity Hub > Installs, uninstall versions no projects use any more.",
+      "action": null
+    },
+    {
+      "id": "pf.unity",
+      "match": {
+        "path": "%PROGRAMFILES%\\Unity"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Unity",
+      "badge": "app",
+      "owner": "Unity Technologies",
+      "summary": "Unity editors and Unity Hub content",
+      "whatItIs": "Unity editors installed directly or through Unity Hub (Hub\\Editor).",
+      "whyBig": "Each editor version is several GB.",
+      "ifDeleted": "Unity editors stop working.",
+      "saferAlternative": "Manage installs in Unity Hub.",
+      "action": null
+    },
+    {
+      "id": "pf.unity-hub",
+      "match": {
+        "path": "%PROGRAMFILES%\\Unity Hub"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Unity Hub",
+      "badge": "app",
+      "owner": "Unity Technologies",
+      "summary": "Unity Hub program files",
+      "whatItIs": "Program files of Unity Hub, the launcher that installs and manages Unity editors.",
+      "whyBig": "A few hundred MB.",
+      "ifDeleted": "Unity Hub stops working; installed editors stay.",
+      "saferAlternative": null,
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.blender",
+      "match": {
+        "path": "%PROGRAMFILES%\\Blender Foundation"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Blender",
+      "badge": "app",
+      "owner": "Blender Foundation",
+      "summary": "Blender installations; each version installs into its own folder",
+      "whatItIs": "Blender program files. The installer creates a separate folder per version, so older versions remain unless uninstalled.",
+      "whyBig": "Each version is about 1 GB.",
+      "ifDeleted": "Blender stops working.",
+      "saferAlternative": "Uninstall old Blender versions from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.epic",
+      "match": {
+        "path": "%PROGRAMFILES%\\Epic Games"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Epic Games",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Epic Games Launcher, Unreal Engine versions and Epic games",
+      "whatItIs": "Default location of the Epic Games Launcher, Unreal Engine installs (UE_x.y) and games from the Epic Games Store.",
+      "whyBig": "Unreal Engine versions are 30-60 GB each, and games are tens of GB.",
+      "ifDeleted": "Games and engines stop working and the launcher may try to download them again.",
+      "saferAlternative": "Uninstall games and engine versions from the Epic Games Launcher.",
+      "action": null
+    },
+    {
+      "id": "pf.epic-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Epic Games"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Epic Games (x86)",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Epic Games Launcher (older installs) and Epic games",
+      "whatItIs": "Older Epic Games Launcher installations put the launcher here.",
+      "whyBig": "The launcher and any games installed alongside it.",
+      "ifDeleted": "The launcher or games stop working.",
+      "saferAlternative": "Uninstall through the Epic Games Launcher or Installed apps.",
+      "action": null
+    },
+    {
+      "id": "pf.epic-ue",
+      "match": {
+        "path": "%PROGRAMFILES%\\Epic Games\\UE_*"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Unreal Engine (launcher install)",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "An Unreal Engine version installed by the Epic launcher; remove it there",
+      "whatItIs": "One Unreal Engine version installed by the Epic Games Launcher, with editor binaries, source headers, content and platform support.",
+      "whyBig": "30-60 GB per version, more with debug symbols and extra platforms.",
+      "ifDeleted": "Projects that use this version can no longer be opened with it.",
+      "saferAlternative": "In the Epic Games Launcher > Unreal Engine > Library, remove versions you no longer use, or deselect optional parts (Options) such as debug symbols.",
+      "action": null
+    },
+    {
+      "id": "pf.epic-vaultcache",
+      "match": {
+        "path": "%PROGRAMFILES%\\Epic Games\\Launcher\\VaultCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Epic launcher asset cache (VaultCache)",
+      "badge": "safe",
+      "owner": "Epic Games",
+      "summary": "Downloaded Fab/Marketplace assets; safe to clear, downloaded again when needed",
+      "whatItIs": "Local cache of assets you downloaded from Fab or the Unreal Marketplace, kept so they can be added to projects without downloading again.",
+      "whyBig": "Each asset pack is hundreds of MB to tens of GB and stays after it has been added to a project.",
+      "ifDeleted": "Projects keep the assets already added to them. Adding an asset to another project needs a new download.",
+      "saferAlternative": "You can also change the vault cache location in the launcher's settings.",
+      "action": null
+    },
+    {
+      "id": "pf.steam",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Steam"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Steam",
+      "badge": "app",
+      "owner": "Valve Steam",
+      "summary": "Steam client and its default game library (steamapps)",
+      "whatItIs": "The Steam client. Its default library (steamapps) holds installed games, shader caches and Workshop content.",
+      "whyBig": "Games in steamapps\\common are usually the bulk, often hundreds of GB.",
+      "ifDeleted": "Steam and every game in its default library stop working.",
+      "saferAlternative": "Uninstall games from Steam, or move them with Steam > Settings > Storage.",
+      "action": null
+    },
+    {
+      "id": "pf.steam-appcache",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Steam\\appcache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Steam app cache",
+      "badge": "safe",
+      "owner": "Valve Steam",
+      "summary": "Steam's cache of app information and library data; safe to clear",
+      "whatItIs": "Cached store, library and app information that Steam downloads. Clearing it is a standard Steam troubleshooting step.",
+      "whyBig": "Library artwork (librarycache) and HTTP cache grow over time.",
+      "ifDeleted": "Nothing is lost; Steam rebuilds it on next start. Quit Steam first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.steam-depotcache",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Steam\\depotcache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Steam depot manifests",
+      "badge": "safe",
+      "owner": "Valve Steam",
+      "summary": "Download manifests of Steam games; safe to clear",
+      "whatItIs": "Manifests that describe the files of each game version Steam downloaded.",
+      "whyBig": "Usually small, sometimes hundreds of MB after many updates.",
+      "ifDeleted": "Nothing breaks; Steam downloads manifests again when updating.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.steam-logs",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Steam\\logs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Steam logs",
+      "badge": "safe",
+      "owner": "Valve Steam",
+      "summary": "Steam client logs; safe to delete",
+      "whatItIs": "Log files of the Steam client.",
+      "whyBig": "Logs accumulate over time.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.steam-dumps",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Steam\\dumps"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Steam crash dumps",
+      "badge": "safe",
+      "owner": "Valve Steam",
+      "summary": "Crash dumps of Steam; safe to delete",
+      "whatItIs": "Crash dumps of the Steam client and its helper processes.",
+      "whyBig": "Repeated crashes add dumps.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.steam-userdata",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Steam\\userdata"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Steam user data",
+      "badge": "check",
+      "owner": "Valve Steam",
+      "summary": "Your Steam settings, local cloud saves and screenshots",
+      "whatItIs": "Per-account Steam data: settings, controller configurations, local copies of Steam Cloud saves and screenshots (760\\remote).",
+      "whyBig": "Screenshots and games that save locally through Steam can add GBs.",
+      "ifDeleted": "Settings and screenshots are lost; saves that are not in Steam Cloud are lost.",
+      "saferAlternative": "Manage screenshots from Steam's screenshot manager; keep the folder otherwise.",
+      "action": null
+    },
+    {
+      "id": "steam.library",
+      "match": {
+        "name": "SteamLibrary"
+      },
+      "kind": "folder",
+      "inherit": false,
+      "priority": 50,
+      "title": "Steam library folder",
+      "badge": "app",
+      "owner": "Valve Steam",
+      "summary": "An additional Steam library with installed games",
+      "whatItIs": "A Steam library folder on this drive, created from Steam > Settings > Storage.",
+      "whyBig": "Games installed to this library.",
+      "ifDeleted": "The games in it stop working and Steam asks to download them again.",
+      "saferAlternative": "Uninstall or move games from Steam > Settings > Storage.",
+      "action": null
+    },
+    {
+      "id": "steam.steamapps",
+      "match": {
+        "name": "steamapps"
+      },
+      "kind": "folder",
+      "inherit": false,
+      "priority": 60,
+      "title": "Steam apps folder",
+      "badge": "app",
+      "owner": "Valve Steam",
+      "summary": "Steam games, Workshop items, shader caches and downloads",
+      "whatItIs": "The content folder of a Steam library: installed games (common), Workshop items, shader caches, partial downloads and the app manifests that tell Steam what is installed.",
+      "whyBig": "Installed games are the bulk; shader caches and Workshop content add more.",
+      "ifDeleted": "Steam no longer sees the games in this library and offers to download them again.",
+      "saferAlternative": "Uninstall games from Steam, or move them with Steam > Settings > Storage.",
+      "action": null
+    },
+    {
+      "id": "steam.common",
+      "match": {
+        "name": "common",
+        "parentName": "steamapps"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Installed Steam games",
+      "badge": "app",
+      "owner": "Valve Steam",
+      "summary": "Installed Steam games; uninstall them from Steam",
+      "whatItIs": "One folder per installed Steam game.",
+      "whyBig": "Modern games are 20-150 GB each.",
+      "ifDeleted": "Steam marks the games as broken and downloads them again; saves are usually in the cloud, Documents or AppData.",
+      "saferAlternative": "Uninstall games from your Steam library (Manage > Uninstall).",
+      "action": null
+    },
+    {
+      "id": "steam.shadercache",
+      "match": {
+        "name": "shadercache",
+        "parentName": "steamapps"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 70,
+      "title": "Steam shader pre-caching",
+      "badge": "safe",
+      "owner": "Valve Steam",
+      "summary": "Pre-compiled shaders for Steam games; safe to clear but games may stutter",
+      "whatItIs": "Shaders that Steam downloads or compiles ahead of time for your GPU (Shader Pre-Caching), plus Vulkan and OpenGL pipeline caches.",
+      "whyBig": "One folder per game; Vulkan and Proton games can have caches of several GB.",
+      "ifDeleted": "Nothing breaks; Steam downloads or recompiles shaders, and games may stutter or load longer until the cache is rebuilt.",
+      "saferAlternative": "Turn off Shader Pre-Caching in Steam > Settings > Downloads if you do not want it.",
+      "action": null
+    },
+    {
+      "id": "steam.downloading",
+      "match": {
+        "name": "downloading",
+        "parentName": "steamapps"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 70,
+      "title": "Steam partial downloads",
+      "badge": "safe",
+      "owner": "Valve Steam",
+      "summary": "Partially downloaded games and updates; deleting restarts those downloads",
+      "whatItIs": "Steam's staging area for game downloads and updates that are in progress or paused.",
+      "whyBig": "A paused large update can leave tens of GB here.",
+      "ifDeleted": "Downloads in progress start over. Quit Steam or pause downloads first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "steam.temp",
+      "match": {
+        "name": "temp",
+        "parentName": "steamapps"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 70,
+      "title": "Steam temporary files",
+      "badge": "safe",
+      "owner": "Valve Steam",
+      "summary": "Temporary files of Steam updates; safe to clear",
+      "whatItIs": "Temporary files Steam uses while updating games.",
+      "whyBig": "Interrupted updates leave files behind.",
+      "ifDeleted": "Nothing breaks; quit Steam first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "steam.workshop",
+      "match": {
+        "name": "workshop",
+        "parentName": "steamapps"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 70,
+      "title": "Steam Workshop content",
+      "badge": "app",
+      "owner": "Valve Steam",
+      "summary": "Mods and items you subscribed to in the Steam Workshop",
+      "whatItIs": "Downloaded Workshop items (mods, maps, skins) for your games.",
+      "whyBig": "Popular mod collections can be many GB, and items of uninstalled games may remain.",
+      "ifDeleted": "Subscribed items are downloaded again while you stay subscribed.",
+      "saferAlternative": "Unsubscribe from Workshop items you do not use.",
+      "action": null
+    },
+    {
+      "id": "steam.compatdata",
+      "match": {
+        "name": "compatdata",
+        "parentName": "steamapps"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 70,
+      "title": "Proton prefixes (Steam on Linux)",
+      "badge": "check",
+      "owner": "Valve Steam",
+      "summary": "Windows environments for Proton games; often contain game saves",
+      "whatItIs": "Per-game Wine/Proton prefixes that Steam creates to run Windows games on Linux. Each one is a small Windows profile.",
+      "whyBig": "Each prefix is a few hundred MB, and prefixes of uninstalled games remain.",
+      "ifDeleted": "Games recreate their prefix, but saves and settings stored inside it are lost unless they are in Steam Cloud.",
+      "saferAlternative": "Delete prefixes only for games you uninstalled and whose saves are backed up.",
+      "action": null
+    },
+    {
+      "id": "steam.appmanifest",
+      "match": {
+        "name": "appmanifest_*.acf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 60,
+      "title": "Steam app manifest",
+      "badge": "app",
+      "owner": "Valve Steam",
+      "summary": "Tells Steam which game is installed in this library",
+      "whatItIs": "A small text file Steam keeps for each installed game in a library.",
+      "whyBig": "A few KB.",
+      "ifDeleted": "Steam no longer sees the game as installed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.battlenet",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Battle.net"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Battle.net app",
+      "badge": "app",
+      "owner": "Blizzard Entertainment",
+      "summary": "Battle.net launcher program files",
+      "whatItIs": "Program files of the Battle.net launcher.",
+      "whyBig": "A few hundred MB.",
+      "ifDeleted": "Battle.net stops working; installed games stay but cannot be launched or updated from it.",
+      "saferAlternative": null,
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.ubisoft",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Ubisoft\\Ubisoft Game Launcher"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Ubisoft Connect",
+      "badge": "app",
+      "owner": "Ubisoft",
+      "summary": "Ubisoft Connect launcher; by default also holds games and local save copies",
+      "whatItIs": "The Ubisoft Connect launcher. By default games install into its games folder, and local copies of saves are kept in savegames.",
+      "whyBig": "Installed games are tens of GB each.",
+      "ifDeleted": "Ubisoft Connect and its games stop working; local saves not synced to the cloud are lost.",
+      "saferAlternative": "Uninstall games from Ubisoft Connect.",
+      "action": null
+    },
+    {
+      "id": "pf.ubisoft-savegames",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Ubisoft\\Ubisoft Game Launcher\\savegames"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Ubisoft Connect saves",
+      "badge": "user",
+      "owner": "Ubisoft",
+      "summary": "Local copies of your Ubisoft game saves",
+      "whatItIs": "Save games of Ubisoft titles, synced with Ubisoft's cloud when cloud saves are on.",
+      "whyBig": "Saves are usually small.",
+      "ifDeleted": "Saves that are not in the cloud are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.ea",
+      "match": {
+        "path": "%PROGRAMFILES%\\Electronic Arts"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "EA app and games",
+      "badge": "app",
+      "owner": "Electronic Arts",
+      "summary": "EA app (formerly Origin) and games installed with it",
+      "whatItIs": "The EA app and, depending on settings, games installed through it.",
+      "whyBig": "Games are tens of GB each.",
+      "ifDeleted": "The EA app and its games stop working.",
+      "saferAlternative": "Uninstall games from the EA app.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.ea-games",
+      "match": {
+        "path": "%PROGRAMFILES%\\EA Games"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "EA games",
+      "badge": "app",
+      "owner": "Electronic Arts",
+      "summary": "Games installed by the EA app",
+      "whatItIs": "Default install folder for games from the EA app.",
+      "whyBig": "Games are tens of GB each.",
+      "ifDeleted": "The games stop working and the EA app offers to download them again.",
+      "saferAlternative": "Uninstall games from the EA app.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.riot-vanguard",
+      "match": {
+        "path": "%PROGRAMFILES%\\Riot Vanguard"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Riot Vanguard anti-cheat",
+      "badge": "app",
+      "owner": "Riot Games",
+      "summary": "Kernel-level anti-cheat for Riot games; uninstall it from Installed apps",
+      "whatItIs": "Riot Vanguard, the kernel-level anti-cheat required by VALORANT and League of Legends. It loads a driver at boot.",
+      "whyBig": "Small.",
+      "ifDeleted": "Riot games refuse to start, and a partially deleted boot driver can cause errors at start-up.",
+      "saferAlternative": "Uninstall 'Riot Vanguard' from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.android-studio",
+      "match": {
+        "path": "%PROGRAMFILES%\\Android\\Android Studio"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Android Studio",
+      "badge": "app",
+      "owner": "Google",
+      "summary": "Android Studio IDE program files",
+      "whatItIs": "Program files of Android Studio. The Android SDK and emulator images are stored separately in AppData\\Local\\Android\\Sdk.",
+      "whyBig": "The IDE is 2-3 GB.",
+      "ifDeleted": "Android Studio stops working.",
+      "saferAlternative": "Uninstall from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "pf.java",
+      "match": {
+        "path": "%PROGRAMFILES%\\Java"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Java runtimes and JDKs",
+      "badge": "app",
+      "owner": "Oracle",
+      "summary": "Java runtimes and JDKs; old versions often remain",
+      "whatItIs": "Java runtime environments and development kits. Some updaters install a new version beside the old one.",
+      "whyBig": "Each JDK is 300 MB or more.",
+      "ifDeleted": "Programs that need a removed Java version stop working.",
+      "saferAlternative": "Remove old Java versions from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    }
+  ]
+}

@@ -1,0 +1,654 @@
+{
+  "rules": [
+    {
+      "id": "mac.caches",
+      "match": {
+        "path": "~/Library/Caches"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Your caches (~/Library/Caches)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Caches of your apps; safe to clear, apps rebuild them",
+      "whatItIs": "Per-user caches of macOS and apps: browsers, package managers (Homebrew, pip), Xcode tools, media apps and more.",
+      "whyBig": "Apps rarely limit their caches; browsers, Homebrew and developer tools often make it several GB.",
+      "ifDeleted": "Nothing important is lost; apps rebuild their caches and may be slower at first. Quit apps first.",
+      "saferAlternative": "Delete the largest subfolders while the owning apps are closed.",
+      "action": null
+    },
+    {
+      "id": "mac.homebrew-cache",
+      "match": {
+        "path": "~/Library/Caches/Homebrew"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Homebrew download cache",
+      "badge": "safe",
+      "owner": "Homebrew",
+      "summary": "Downloaded Homebrew packages; clear with brew cleanup",
+      "whatItIs": "Bottles and source archives Homebrew downloaded.",
+      "whyBig": "Old versions stay until 'brew cleanup' runs.",
+      "ifDeleted": "Nothing breaks; packages are downloaded again when needed.",
+      "saferAlternative": "Run 'brew cleanup --prune=all'.",
+      "action": {
+        "kind": "command",
+        "label": "Clean Homebrew cache",
+        "value": "brew cleanup --prune=all"
+      }
+    },
+    {
+      "id": "mac.logs",
+      "match": {
+        "path": "~/Library/Logs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Your logs",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Logs and crash reports of your apps; safe to delete",
+      "whatItIs": "Log files and diagnostic reports of apps you run.",
+      "whyBig": "Chatty apps and crash reports accumulate.",
+      "ifDeleted": "Nothing breaks; you lose troubleshooting history.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.derived-data",
+      "match": {
+        "path": "~/Library/Developer/Xcode/DerivedData"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Xcode DerivedData",
+      "badge": "safe",
+      "owner": "Apple Xcode",
+      "summary": "Xcode build products and indexes; rebuilt on the next build",
+      "whatItIs": "Build intermediates, products and code indexes of every project you built in Xcode.",
+      "whyBig": "Each project and scheme adds builds and indexes; tens of GB is common.",
+      "ifDeleted": "Nothing is lost; the next build and indexing take longer. Quit Xcode first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.xcode-archives",
+      "match": {
+        "path": "~/Library/Developer/Xcode/Archives"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Xcode archives",
+      "badge": "check",
+      "owner": "Apple Xcode",
+      "summary": "Archived app builds you distributed; needed to symbolicate their crash reports",
+      "whatItIs": "Archives created by Product > Archive, including the app and its debug symbols (dSYMs).",
+      "whyBig": "Every archive keeps a full app build with symbols.",
+      "ifDeleted": "You can no longer re-export those builds or symbolicate crash reports from them unless the symbols are stored elsewhere.",
+      "saferAlternative": "Delete archives of versions that are no longer in use, from Xcode's Organizer.",
+      "action": null
+    },
+    {
+      "id": "mac.ios-device-support",
+      "match": {
+        "path": "~/Library/Developer/Xcode/iOS DeviceSupport"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "iOS device support files",
+      "badge": "safe",
+      "owner": "Apple Xcode",
+      "summary": "Debug symbols copied from connected iPhones; recreated when a device connects",
+      "whatItIs": "Symbols Xcode copies from each iOS version of devices you connected for debugging.",
+      "whyBig": "Several GB per iOS version, and old versions stay.",
+      "ifDeleted": "Nothing is lost; Xcode copies the symbols again (slowly) the next time that device connects.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.watchos-device-support",
+      "match": {
+        "path": "~/Library/Developer/Xcode/watchOS DeviceSupport"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "watchOS device support files",
+      "badge": "safe",
+      "owner": "Apple Xcode",
+      "summary": "Debug symbols copied from Apple Watches; recreated when needed",
+      "whatItIs": "Symbols Xcode copies from each watchOS version you debugged on.",
+      "whyBig": "Several GB per version.",
+      "ifDeleted": "Nothing is lost; Xcode copies them again when needed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.coresimulator-devices",
+      "match": {
+        "path": "~/Library/Developer/CoreSimulator/Devices"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "iOS Simulator devices",
+      "badge": "check",
+      "owner": "Apple Xcode",
+      "summary": "Simulator devices and the apps and data inside them",
+      "whatItIs": "Each folder is one simulator device with its installed apps and data.",
+      "whyBig": "Every simulator you booted keeps its data; devices of removed runtimes remain.",
+      "ifDeleted": "Simulators and their app data are gone; Xcode recreates default devices.",
+      "saferAlternative": "Run 'xcrun simctl delete unavailable' to remove devices whose runtime is gone.",
+      "action": {
+        "kind": "command",
+        "label": "Delete unavailable simulators",
+        "value": "xcrun simctl delete unavailable"
+      }
+    },
+    {
+      "id": "mac.coresimulator-caches",
+      "match": {
+        "path": "~/Library/Developer/CoreSimulator/Caches"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "iOS Simulator caches",
+      "badge": "safe",
+      "owner": "Apple Xcode",
+      "summary": "Caches of the iOS Simulator; safe to clear",
+      "whatItIs": "Dyld and other caches the Simulator builds for each runtime.",
+      "whyBig": "Several GB per runtime.",
+      "ifDeleted": "Nothing is lost; the Simulator rebuilds them (first boot is slower).",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.simulator-runtimes",
+      "match": {
+        "path": "/Library/Developer/CoreSimulator"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Simulator runtimes",
+      "badge": "check",
+      "owner": "Apple Xcode",
+      "summary": "Installed iOS/watchOS/tvOS/visionOS simulator runtimes",
+      "whatItIs": "System-wide simulator runtimes that Xcode downloads (stored as disk images and mounted when used).",
+      "whyBig": "Each runtime is 5-10 GB, and old ones stay after Xcode updates.",
+      "ifDeleted": "Simulators using a removed runtime no longer start until it is downloaded again.",
+      "saferAlternative": "List runtimes with 'xcrun simctl runtime list' and delete unused ones with 'xcrun simctl runtime delete <id>', or from Xcode > Settings > Platforms.",
+      "action": {
+        "kind": "command",
+        "label": "List simulator runtimes",
+        "value": "xcrun simctl runtime list"
+      }
+    },
+    {
+      "id": "mac.containers",
+      "match": {
+        "path": "~/Library/Containers"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": false,
+      "priority": 70,
+      "title": "App sandbox containers",
+      "badge": "check",
+      "owner": "macOS",
+      "summary": "Data of sandboxed apps (including Apple apps); deleting resets the app",
+      "whatItIs": "Every sandboxed app (Mac App Store apps and many Apple apps) keeps its private data, settings and caches in its own container here.",
+      "whyBig": "Apps like Docker Desktop, messengers and editors store large data inside their containers.",
+      "ifDeleted": "The app loses its data and settings; for Apple apps this can include local mail, notes or messages data.",
+      "saferAlternative": "Clear data from inside each app, or remove the app and its container together.",
+      "action": null
+    },
+    {
+      "id": "mac.group-containers",
+      "match": {
+        "path": "~/Library/Group Containers"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": false,
+      "priority": 70,
+      "title": "Shared app containers",
+      "badge": "check",
+      "owner": "macOS",
+      "summary": "Data shared between apps from the same developer (Office, Messages, iCloud)",
+      "whatItIs": "Containers that app groups share: Microsoft Office, Apple apps and app extensions keep shared data here.",
+      "whyBig": "Office caches, shared databases and media.",
+      "ifDeleted": "The apps lose shared data and settings.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.application-support",
+      "match": {
+        "path": "~/Library/Application Support"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": false,
+      "priority": 70,
+      "title": "Application Support",
+      "badge": "check",
+      "owner": "macOS",
+      "summary": "App data for your account: databases, libraries, settings, sometimes downloads",
+      "whatItIs": "Where apps keep their data: databases, game data, plug-ins, profiles, iPhone backups (MobileSync) and more.",
+      "whyBig": "Browser profiles, iPhone backups, game launchers and creative apps.",
+      "ifDeleted": "Apps lose their data and settings.",
+      "saferAlternative": "Check each app's folder.",
+      "action": null
+    },
+    {
+      "id": "mac.iphone-backups",
+      "match": {
+        "path": "~/Library/Application Support/MobileSync/Backup"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "iPhone and iPad backups",
+      "badge": "user",
+      "owner": "Apple",
+      "summary": "Local backups of your iPhone or iPad; manage them in Finder",
+      "whatItIs": "Full local backups of iOS and iPadOS devices made with Finder (or iTunes on older macOS). Each folder is one device backup.",
+      "whyBig": "Each backup is roughly the size of the device's data, often tens of GB, and old devices' backups remain.",
+      "ifDeleted": "The backups are gone; if a device is lost or reset you cannot restore from them.",
+      "saferAlternative": "In Finder, select the device > Manage Backups to delete old ones.",
+      "action": null
+    },
+    {
+      "id": "mac.mobile-documents",
+      "match": {
+        "path": "~/Library/Mobile Documents"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "iCloud Drive",
+      "badge": "user",
+      "owner": "Apple",
+      "summary": "iCloud Drive files; evicted files show their size but use little disk",
+      "whatItIs": "The local copy of iCloud Drive and app documents synced with iCloud.",
+      "whyBig": "With Optimize Mac Storage, files can be evicted to the cloud, so sizes here can differ from real disk use.",
+      "ifDeleted": "Deleting files here deletes them from iCloud and other devices as well.",
+      "saferAlternative": "Turn on Optimize Mac Storage in System Settings > Apple Account > iCloud > iCloud Drive.",
+      "action": null
+    },
+    {
+      "id": "mac.messages-attachments",
+      "match": {
+        "path": "~/Library/Messages/Attachments"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Messages attachments",
+      "badge": "user",
+      "owner": "Apple",
+      "summary": "Photos and files received in Messages",
+      "whatItIs": "Attachments of conversations in the Messages app.",
+      "whyBig": "Photos and videos in chats add up over years.",
+      "ifDeleted": "The attachments disappear from your conversations unless stored in iCloud.",
+      "saferAlternative": "Delete large attachments from System Settings > General > Storage > Messages.",
+      "action": null
+    },
+    {
+      "id": "mac.mail",
+      "match": {
+        "path": "~/Library/Mail"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Mail data",
+      "badge": "check",
+      "owner": "Apple",
+      "summary": "Local mail database and downloaded messages of Apple Mail",
+      "whatItIs": "Apple Mail's local store of messages and attachments.",
+      "whyBig": "Mailboxes with many attachments grow large.",
+      "ifDeleted": "Local copies are lost; IMAP mail downloads again, but local-only mailboxes are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.photos-library",
+      "match": {
+        "name": "*.photoslibrary"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Photos library",
+      "badge": "user",
+      "owner": "Apple Photos",
+      "summary": "Your Photos library; never edit or delete files inside it by hand",
+      "whatItIs": "A Photos library package with originals, edits, thumbnails and the database.",
+      "whyBig": "Originals plus derivatives; with Optimize Mac Storage some originals are only in iCloud.",
+      "ifDeleted": "Deleting files inside corrupts the library; deleting the whole library loses photos not stored in iCloud.",
+      "saferAlternative": "Delete photos inside the Photos app, and turn on Optimize Mac Storage for iCloud Photos.",
+      "action": null
+    },
+    {
+      "id": "mac.trash",
+      "match": {
+        "path": "~/.Trash"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Trash",
+      "badge": "check",
+      "owner": "macOS",
+      "summary": "Files you moved to the Trash; empty it after checking",
+      "whatItIs": "Files you deleted in Finder, kept until the Trash is emptied.",
+      "whyBig": "Deleted files keep their full size until emptied.",
+      "ifDeleted": "The files can no longer be restored.",
+      "saferAlternative": "Open the Trash, restore what you need and choose Empty.",
+      "action": null
+    },
+    {
+      "id": "mac.docker-raw",
+      "match": {
+        "name": "Docker.raw"
+      },
+      "kind": "file",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Docker Desktop disk image",
+      "badge": "shrink",
+      "owner": "Docker",
+      "summary": "Docker Desktop's disk with all images and containers; prune, do not delete",
+      "whatItIs": "The sparse disk image in which Docker Desktop stores all images, containers, volumes and build cache.",
+      "whyBig": "It is a sparse file: Finder may show its maximum size while the real disk use is lower. It grows with pulled images, builds and volumes.",
+      "ifDeleted": "Every Docker image, container and volume is lost.",
+      "saferAlternative": "Run 'docker system prune', or lower the disk limit in Docker Desktop > Settings > Resources.",
+      "action": {
+        "kind": "command",
+        "label": "Prune unused Docker data",
+        "value": "docker system prune"
+      }
+    },
+    {
+      "id": "mac.system",
+      "match": {
+        "path": "/System"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "macOS system (/System)",
+      "badge": "critical",
+      "owner": "macOS",
+      "summary": "macOS itself, on a sealed read-only volume",
+      "whatItIs": "The macOS operating system on the signed, read-only system volume.",
+      "whyBig": "Its size changes only with macOS updates.",
+      "ifDeleted": "It cannot be modified; System Integrity Protection blocks changes.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.library",
+      "match": {
+        "path": "/Library"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": false,
+      "priority": 70,
+      "title": "System-wide Library",
+      "badge": "check",
+      "owner": "macOS",
+      "summary": "System-wide app data, plug-ins, launch daemons and fonts",
+      "whatItIs": "Data shared by all users: app support files, audio plug-ins, fonts, launch daemons and agents, and system-wide caches.",
+      "whyBig": "Audio libraries, simulator runtimes and app support data.",
+      "ifDeleted": "Apps and system services that depend on these files break.",
+      "saferAlternative": "Remove apps with their own uninstallers.",
+      "action": null
+    },
+    {
+      "id": "mac.library-caches",
+      "match": {
+        "path": "/Library/Caches"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "System-wide caches",
+      "badge": "safe",
+      "owner": "macOS",
+      "summary": "Caches shared by all users; rebuilt automatically",
+      "whatItIs": "Caches of system services and apps shared between users.",
+      "whyBig": "Grows with updates and installed apps.",
+      "ifDeleted": "Nothing important is lost; caches are rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.applications",
+      "match": {
+        "path": "/Applications"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "Applications",
+      "badge": "app",
+      "owner": "macOS",
+      "summary": "Installed apps; move unused ones to the Trash or use their uninstaller",
+      "whatItIs": "Apps installed for all users. Each .app bundle contains the whole app.",
+      "whyBig": "Xcode (10+ GB), creative suites and games are the usual large apps.",
+      "ifDeleted": "The app is removed; its data stays in ~/Library until removed separately.",
+      "saferAlternative": "Drag the app to the Trash or run its own uninstaller; App Store apps can be deleted from Launchpad.",
+      "action": null
+    },
+    {
+      "id": "mac.command-line-tools",
+      "match": {
+        "path": "/Library/Developer/CommandLineTools"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Xcode Command Line Tools",
+      "badge": "app",
+      "owner": "Apple",
+      "summary": "Compilers and developer tools (git, clang) without full Xcode",
+      "whatItIs": "Apple's command line developer tools: clang, git, make and SDKs.",
+      "whyBig": "A few GB.",
+      "ifDeleted": "git, compilers and Homebrew builds stop working until reinstalled with 'xcode-select --install'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "mac.vm",
+      "match": {
+        "path": "/private/var/vm"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Swap and sleep image",
+      "badge": "critical",
+      "owner": "macOS",
+      "summary": "macOS swap files and the hibernation sleepimage; managed by the system",
+      "whatItIs": "Swap files used as virtual memory and the sleepimage that stores memory for hibernation.",
+      "whyBig": "Swap grows with memory pressure; the sleepimage is sized from RAM.",
+      "ifDeleted": "The files are in use and protected; deleting them can crash apps or break sleep.",
+      "saferAlternative": "Reboot to reset swap. The sleepimage depends on the hibernation mode set with pmset.",
+      "action": null
+    },
+    {
+      "id": "mac.var-folders",
+      "match": {
+        "path": "/private/var/folders"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Per-user temporary and cache folders",
+      "badge": "critical",
+      "owner": "macOS",
+      "summary": "Temporary files and caches of running apps; reboot to let macOS clean it",
+      "whatItIs": "macOS's per-user temporary (T) and cache (C) folders, used by every running app and system service.",
+      "whyBig": "Apps that leave temporary files behind and system caches.",
+      "ifDeleted": "Deleting it while you are logged in can break running apps and system services.",
+      "saferAlternative": "Restart the Mac; macOS cleans temporary files during boot.",
+      "action": null
+    },
+    {
+      "id": "mac.tm-local-snapshots",
+      "match": {
+        "path": "/Volumes/com.apple.TimeMachine.localsnapshots"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Time Machine local snapshots",
+      "badge": "shrink",
+      "owner": "Apple Time Machine",
+      "summary": "Local Time Machine snapshots; macOS removes them when space is needed",
+      "whatItIs": "Snapshots of your startup disk that Time Machine keeps locally between backups.",
+      "whyBig": "They hold changes since recent backups; macOS deletes them automatically when free space runs low, so they count as 'purgeable'.",
+      "ifDeleted": "They cannot be deleted as files.",
+      "saferAlternative": "List them with 'tmutil listlocalsnapshots /' and delete one with 'sudo tmutil deletelocalsnapshots <date>'.",
+      "action": {
+        "kind": "command",
+        "label": "List local snapshots",
+        "value": "tmutil listlocalsnapshots /"
+      }
+    },
+    {
+      "id": "mac.homebrew",
+      "match": {
+        "path": "/opt/homebrew"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Homebrew (Apple silicon)",
+      "badge": "app",
+      "owner": "Homebrew",
+      "summary": "Homebrew and the packages it installed",
+      "whatItIs": "Homebrew's prefix on Apple silicon Macs: installed packages (Cellar, Caskroom) and their links.",
+      "whyBig": "Old package versions stay until 'brew cleanup'.",
+      "ifDeleted": "Everything installed with Homebrew stops working.",
+      "saferAlternative": "Run 'brew cleanup' and uninstall unused packages with 'brew uninstall'.",
+      "action": null
+    },
+    {
+      "id": "mac.pnpm-store",
+      "match": {
+        "path": "~/Library/pnpm/store"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "pnpm store",
+      "badge": "safe",
+      "owner": "pnpm",
+      "summary": "pnpm's shared package store; hard links make its size look doubled",
+      "whatItIs": "pnpm keeps one copy of every package version here and hard-links it into projects.",
+      "whyBig": "Every package version used by any project; hard-linked files are also counted in each node_modules.",
+      "ifDeleted": "Existing projects keep working; the next install downloads again.",
+      "saferAlternative": "Run 'pnpm store prune'.",
+      "action": null
+    }
+  ]
+}
