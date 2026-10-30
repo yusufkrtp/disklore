@@ -12,12 +12,14 @@ using DiskLore.App.Services;
 using DiskLore.App.Themes;
 using DiskLore.App.Views;
 using DiskLore.Core.Ai;
+using DiskLore.Core.Ai.Providers;
 using DiskLore.Core.Explanations;
 using DiskLore.Core.Model;
 using DiskLore.Core.Platform;
 using DiskLore.Core.Programs;
 using DiskLore.Core.Rules;
 using DiskLore.Core.Scanning;
+using DiskLore.Core.Security;
 using DiskLore.Core.Snapshots;
 
 namespace DiskLore.App.ViewModels;
@@ -55,6 +57,13 @@ public partial class MainViewModel : ObservableObject, IAppContext
         var dir = Platform.AppDataDirectory;
         _settingsPath = Path.Combine(dir, "settings.json");
         Settings = SettingsStore.Load(_settingsPath);
+        Secrets = SecretStore.Create(dir);
+        if (string.IsNullOrWhiteSpace(Settings.AiProviderId))
+        {
+            // First launch: use the first AI CLI that is installed, otherwise leave the explainer off.
+            Settings.AiProviderId = AiProviders.DetectDefault() ?? "none";
+            Settings.Save(_settingsPath);
+        }
         ThemeManager.Apply(Settings.ThemeId);
         Snapshots = new SnapshotStore(Path.Combine(dir, "snapshots"));
         _aiCache = new AiCache(Path.Combine(dir, "ai-cache.json"));
@@ -79,6 +88,7 @@ public partial class MainViewModel : ObservableObject, IAppContext
     // ---- services ----------------------------------------------------------------------------
 
     public SettingsStore Settings { get; }
+    public ISecretStore Secrets { get; }
     public IPlatformServices Platform { get; internal set; }
     public SnapshotStore Snapshots { get; }
     public ExplanationService Explanations => _explanations;
@@ -152,13 +162,24 @@ public partial class MainViewModel : ObservableObject, IAppContext
 
     [ObservableProperty] private string _aiStatus = "";
     [ObservableProperty] private bool _aiAvailable;
+    [ObservableProperty] private string _aiProviderName = "AI";
 
+    // Rebuilds the provider and coordinator from the current settings; called whenever the provider, its model,
+    // its base URL or its key changes, so no restart is needed.
     public void RebuildAi()
     {
+        _coordinator = null;
+        AiProviderName = "AI";
         try
         {
-            var explainer = new ClaudeCliExplainer(_aiCache, Settings.AiModel);
-            _coordinator = new AiCoordinator(explainer, _explanations);
+            var id = Settings.AiProviderId;
+            if (!string.IsNullOrWhiteSpace(id) && AiProviders.All.Any(p => p.Id == id))
+            {
+                var provider = AiProviders.Create(id, Settings.GetProviderSettings(id), Secrets);
+                var explainer = new AiExplainer(_aiCache, provider);
+                _coordinator = new AiCoordinator(explainer, _explanations);
+                AiProviderName = AiProviders.ShortName(provider.Info);
+            }
         }
         catch (Exception) { _coordinator = null; }
 #if DEBUG
@@ -181,26 +202,34 @@ public partial class MainViewModel : ObservableObject, IAppContext
     public bool IsAsking(ScanNode node) => _asking.Contains(node);
     public event EventHandler? AskingChanged;
 
-    public async Task AskClaudeAsync(ScanNode node)
+    public async Task AskAiAsync(ScanNode node)
     {
         var coordinator = _coordinator;
-        if (coordinator == null || !_asking.Add(node)) return;
+        if (coordinator == null || !AiAvailable)
+        {
+            // No usable provider yet: send the user to the place where one is connected.
+            await OpenSettingsAsync();
+            return;
+        }
+        if (!_asking.Add(node)) return;
         AskingChanged?.Invoke(this, EventArgs.Empty);
-        AiStatus = $"Claude is explaining {node.Name}…";
+        var name = coordinator.ProviderName;
+        AiStatus = $"{name} is explaining {node.Name}…";
         var finished = false;
         try
         {
             var status = new Progress<string>(s => { if (!finished && !string.IsNullOrWhiteSpace(s)) AiStatus = s; });
             var answered = await Task.Run(() => coordinator.ExplainAsync(new[] { node }, status, CancellationToken.None));
             finished = true;
-            AiStatus = answered > 0 ? $"Claude explained {node.Name}" : "Claude had no answer for this one";
+            AiStatus = answered > 0 ? $"{name} explained {node.Name}"
+                : coordinator.LastError is { Length: > 0 } err ? UnavailableText(err, name) : $"{name} had no answer for this one";
             Tree.RefreshExplanation(node);
             if (ReferenceEquals(node, _selected)) Detail.Refresh();
         }
         catch (Exception ex)
         {
             finished = true;
-            AiStatus = UnavailableText(ex);
+            AiStatus = UnavailableText(ex, name);
         }
         finally
         {
@@ -209,16 +238,22 @@ public partial class MainViewModel : ObservableObject, IAppContext
         }
     }
 
-    internal static string UnavailableText(Exception ex)
+    internal static string UnavailableText(Exception ex, string provider)
     {
         var reason = ex.Message.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? "";
         if (reason.Length == 0) reason = ex.GetType().Name;
-        if (reason.Length > 80) reason = reason[..79] + "…";
-        return "Claude unavailable: " + reason;
+        return UnavailableText(reason, provider);
     }
 
-    internal static string ExplainedText(int count)
-        => count == 1 ? "Claude explained 1 item" : $"Claude explained {count:N0} items";
+    internal static string UnavailableText(string reason, string provider)
+    {
+        reason = reason.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? reason;
+        if (reason.Length > 80) reason = reason[..79] + "…";
+        return $"{provider} unavailable: {reason}";
+    }
+
+    internal static string ExplainedText(int count, string provider)
+        => count == 1 ? $"{provider} explained 1 item" : $"{provider} explained {count:N0} items";
 
     private async Task RunAutoAiAsync(ScanResult result)
     {
@@ -226,6 +261,7 @@ public partial class MainViewModel : ObservableObject, IAppContext
         var cts = _aiCts = new CancellationTokenSource();
         var coordinator = _coordinator;
         if (!Settings.AiAuto || coordinator == null) return;
+        var name = coordinator.ProviderName;
 #if DEBUG
         if (DebugShots.NoAutoAi) return;
 #endif
@@ -242,7 +278,7 @@ public partial class MainViewModel : ObservableObject, IAppContext
             if (candidates.Count == 0 || cts.IsCancellationRequested) return;
 
             var label = candidates.Count == 1 ? "1 folder" : $"{candidates.Count} folders";
-            AiStatus = $"Claude is explaining {label}…";
+            AiStatus = $"{name} is explaining {label}…";
             var status = new Progress<string>(s =>
             {
                 if (!finished && !string.IsNullOrWhiteSpace(s) && !cts.IsCancellationRequested) AiStatus = s;
@@ -250,7 +286,7 @@ public partial class MainViewModel : ObservableObject, IAppContext
             var answered = await Task.Run(() => coordinator.ExplainAsync(candidates, status, cts.Token));
             finished = true;
             if (cts.IsCancellationRequested) return;
-            AiStatus = answered > 0 ? ExplainedText(answered) : "Claude unavailable: no usable answer";
+            AiStatus = answered > 0 ? ExplainedText(answered, name) : UnavailableText(coordinator.LastError ?? "no usable answer", name);
             Tree.RefreshAllExplanations();
             Detail.Refresh();
         }
@@ -258,12 +294,12 @@ public partial class MainViewModel : ObservableObject, IAppContext
         {
             finished = true;
             // A newer scan resets the status itself; only a cancel of the current run lands here.
-            if (ReferenceEquals(_aiCts, cts)) AiStatus = "Claude cancelled";
+            if (ReferenceEquals(_aiCts, cts)) AiStatus = $"{name} cancelled";
         }
         catch (Exception ex)
         {
             finished = true;
-            if (!cts.IsCancellationRequested) AiStatus = UnavailableText(ex);
+            if (!cts.IsCancellationRequested) AiStatus = UnavailableText(ex, name);
         }
     }
 

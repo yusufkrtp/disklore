@@ -25,6 +25,17 @@ public class AiResponseParserTests
     }
 
     [Fact]
+    public void Accepts_an_items_object_as_well_as_a_bare_array()
+    {
+        var r = AiResponseParser.Parse("{\"items\": [" + One + "]}");
+        Assert.Equal(Badge.Safe, Assert.Single(r).Value.Badge);
+
+        var fenced = AiResponseParser.Parse("Here:" + Environment.NewLine + "```json" + Environment.NewLine
+            + "{ \"items\": [" + One + "] }" + Environment.NewLine + "```");
+        Assert.Single(fenced);
+    }
+
+    [Fact]
     public void Tolerates_leading_prose_and_plain_text()
     {
         var r = AiResponseParser.Parse("Sure, here you go:\n[" + One + "]\nHope it helps.");

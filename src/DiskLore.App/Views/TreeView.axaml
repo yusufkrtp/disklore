@@ -58,7 +58,7 @@
                 <MenuItem Name="MiOpen" Header="Open in file manager" Click="OnMenuOpen" />
                 <MenuItem Name="MiCopy" Header="Copy path" Click="OnMenuCopy" />
                 <Separator />
-                <MenuItem Name="MiAsk" Header="Ask Claude" Click="OnMenuAsk" />
+                <MenuItem Name="MiAsk" Header="Ask AI" Click="OnMenuAsk" />
                 <MenuItem Name="MiLock" Header="Check in use" Click="OnMenuLock" />
                 <MenuItem Name="MiTreemap" Header="Show in Treemap" Click="OnMenuTreemap" />
                 <Separator />

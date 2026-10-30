@@ -25,7 +25,8 @@ it. It runs on Windows, Linux and macOS; Windows is the primary platform.
   count, largest file, oldest and newest modification time.
 - Installed-program detection, and leftover detection for programs that are no
   longer installed (Windows).
-- Optional explanations from Claude for unknown big folders.
+- Optional AI explanations for unknown big folders, with the AI subscription,
+  API key or local model you already have.
 - Treemap, largest files, file type breakdown, and scan-to-scan "what grew" diffs.
 - Recycle Bin / Trash and permanent delete, with an in-use check and an extra
   confirmation for critical items. Junctions and symlinks are never followed.
@@ -55,7 +56,7 @@ DiskLore asks these sources in order and uses the first answer:
 3. **Leftover heuristic.** On Windows, a top-level folder in AppData, ProgramData
    or Program Files that matches no installed program is tagged LEFTOVER with a
    low confidence.
-4. **Claude (optional).** For unknown big folders only; see below.
+4. **AI (optional).** For unknown big folders only; see below.
 
 Items inside a folder with an inheriting rule are marked as part of that folder.
 Explanations that come from AI carry an "AI" tag and a confidence value, so they
@@ -85,21 +86,40 @@ Information`), so those show as unreadable and their size is missing from the
 totals. To scan a whole system drive, restart DiskLore as administrator from the
 app (Windows) or start it with `sudo` (Linux and macOS).
 
-## Claude explainer
+## AI explanations (optional)
 
-This is optional. It needs the [Claude Code](https://claude.com/claude-code) CLI
-installed and logged in. DiskLore calls `claude -p` on your machine, so the
-request goes through your own account and DiskLore has no API key of its own.
+Unknown big folders can be explained by an AI. You pick the provider in
+Settings > AI explanations; DiskLore ships with no key and no account of its
+own. Connect whichever of these you already have:
 
+| Kind | Provider | How to connect |
+|---|---|---|
+| Subscription | Claude Code (Claude Pro/Max) | Install [Claude Code](https://docs.anthropic.com/en/docs/claude-code), run `claude` once in a terminal and sign in. |
+| Subscription | Codex CLI (ChatGPT Plus/Pro) | Install [Codex](https://github.com/openai/codex), run `codex` once and sign in. It runs read-only and ignores your Codex config for these calls. |
+| Subscription | Gemini CLI (Google account) | Install [Gemini CLI](https://github.com/google-gemini/gemini-cli), run `gemini` once and sign in. Not yet tested against a real install. |
+| API key | Anthropic, OpenAI, Google Gemini, OpenRouter | Paste your key in Settings (get one from the provider's console), then pick a model with "Load models". |
+| API key | Custom (OpenAI-compatible) | Enter the base URL of any server that speaks the OpenAI chat protocol; the key is optional. |
+| Local | Ollama, LM Studio | Start the app, load a model, then choose it in Settings. Nothing leaves your computer. |
+
+"Test connection" in Settings sends one tiny request and shows the answer or the
+exact problem (not signed in, key rejected, model not found, rate limited,
+Ollama not running). The first time DiskLore starts it picks the first of Claude
+Code, Codex CLI and Gemini CLI that is installed; if none is, the feature stays
+off until you choose a provider.
+
+- API keys are kept in your system's secret store (Windows DPAPI, macOS
+  Keychain, or libsecret on Linux). Without a keyring on Linux they go in a file
+  readable only by you, and Settings says so. They are never written to
+  `settings.json` or to logs.
 - By default it looks at unknown items of 1 GB or more, in batches of up to 5,
-  with at most 8 calls per scan. The "Ask Claude" button asks about any single row.
+  with at most 8 calls per scan. The "Ask AI" button asks about any single row;
+  if no provider is ready it opens Settings.
 - What is sent: the path (with your user profile replaced by `%USERPROFILE%` or
   `~`), the size and file count, the names and sizes of the top children, the top
   file extensions, up to 30 file and folder names, and the installed-program
   match and parent explanation if there are any. File contents are never sent.
 - Answers are cached in `ai-cache.json`, so the same folder is not asked twice.
-- To turn it off, set the AI mode to off in Settings. If the `claude` command is
-  not on your PATH, the feature is unavailable and everything else works as usual.
+- To turn it off, choose "Off" in Settings. Everything else works without it.
 
 Details: [docs/privacy.md](docs/privacy.md).
 
@@ -109,7 +129,7 @@ Details: [docs/privacy.md](docs/privacy.md).
 |---|---|---|---|
 | Scanning | Yes | Yes | Yes |
 | Knowledge-base rules | Yes | Yes | Yes |
-| Claude explainer | Yes | Yes | Yes |
+| AI explanations (CLI, API key or local model) | Yes | Yes | Yes |
 | Treemap, largest files, file types, diffs | Yes | Yes | Yes |
 | Recycle Bin / Trash | Recycle Bin | Trash | Trash |
 | Permanent delete | Yes | Yes | Yes |

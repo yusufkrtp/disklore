@@ -64,8 +64,8 @@ public sealed partial class DetailViewModel : ObservableObject
 
     public bool HasSelection => _node != null;
     public string UnknownHint => IsFile
-        ? "No built-in rule matches it. Claude can take a look at the name and size and write an explanation."
-        : "No built-in rule matches it. The facts below still show what is inside; Claude can take a look and write an explanation.";
+        ? $"No built-in rule matches it. {AiName} can take a look at the name and size and write an explanation."
+        : $"No built-in rule matches it. The facts below still show what is inside; {AiName} can take a look and write an explanation.";
     public bool IsUnknownEmpty => _node != null && _e is { Badge: Badge.Unknown, Source: ExplanationSource.None } && !_node.AccessDenied && !_node.IsReparsePoint;
     public bool ShowDetails => _node != null && !IsUnknownEmpty;
     public ScanNode? Node => _node;
@@ -246,10 +246,15 @@ public sealed partial class DetailViewModel : ObservableObject
 
     // ---- buttons -----------------------------------------------------------------------------
 
-    public bool CanAsk => _node != null && _main.AiAvailable && !_node.IsReparsePoint;
+    public bool CanAsk => _node != null && !_node.IsReparsePoint;
+    // Names the provider once one is ready; otherwise a neutral phrase.
+    private string AiName => _main.AiAvailable ? _main.AiProviderName : "an AI model";
+    public string AskTooltip => _main.AiAvailable
+        ? $"Ask {_main.AiProviderName} to explain this item"
+        : "Choose an AI provider in Settings";
     public bool IsAsking => _node != null && _main.IsAsking(_node);
     public bool CanAskNow => CanAsk && !IsAsking;
-    public string AskLabel => _e?.Source == ExplanationSource.AI ? "Re-ask Claude" : "Ask Claude";
+    public string AskLabel => _e?.Source == ExplanationSource.AI ? "Re-ask AI" : "Ask AI";
     public bool SupportsLock => _main.Platform.SupportsLockDetection;
     public bool IsCheckingLock => _isCheckingLock;
     public bool CanCheckLock => SupportsLock && !_isCheckingLock && _node != null;
@@ -269,10 +274,10 @@ public sealed partial class DetailViewModel : ObservableObject
     private Task CopyPath() => UiHelpers.CopyTextAsync(FullPath);
 
     [RelayCommand]
-    private async Task AskClaude()
+    private async Task AskAi()
     {
         if (_node == null) return;
-        await _main.AskClaudeAsync(_node);
+        await _main.AskAiAsync(_node);
     }
 
     [RelayCommand]

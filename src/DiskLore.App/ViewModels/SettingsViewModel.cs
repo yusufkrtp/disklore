@@ -14,12 +14,11 @@ public sealed partial class SettingsViewModel : ObservableObject
         _main = main;
         Themes = ThemeManager.Options();
         _theme = Themes.FirstOrDefault(t => string.Equals(t.Id, main.Settings.ThemeId, StringComparison.OrdinalIgnoreCase)) ?? Themes[0];
-        AiAvailable = main.AiAvailable;
+        BuildChoices();
+        RebuildProvider();
     }
 
     public IReadOnlyList<ThemeOption> Themes { get; }
-    public IReadOnlyList<string> Models { get; } = new[] { "sonnet", "haiku", "opus" };
-
     public ThemeOption? SelectedTheme
     {
         get => _theme;
@@ -52,18 +51,6 @@ public sealed partial class SettingsViewModel : ObservableObject
         }
     }
 
-    public string Model
-    {
-        get => _main.Settings.AiModel;
-        set
-        {
-            if (string.IsNullOrWhiteSpace(value)) return;
-            _main.Settings.AiModel = value;
-            _main.SaveSettings();
-            OnPropertyChanged();
-        }
-    }
-
     public decimal? MaxCalls
     {
         get => _main.Settings.AiMaxCallsPerScan;
@@ -75,11 +62,6 @@ public sealed partial class SettingsViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
-
-    public bool AiAvailable { get; }
-    public string AiAvailabilityText => AiAvailable
-        ? "Claude CLI found. Unknown folders can be explained."
-        : "Claude CLI not found on PATH. Install Claude Code to get AI explanations.";
 
     [ObservableProperty] private string _cacheText = "";
 
