@@ -1,6 +1,6 @@
 # DiskLore
 
-[![CI](https://github.com/OWNER/disklore/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/disklore/actions/workflows/ci.yml)
+[![CI](https://github.com/yusufkrtp/disklore/actions/workflows/ci.yml/badge.svg)](https://github.com/yusufkrtp/disklore/actions/workflows/ci.yml)
 
 Why is this folder 50 GB, and can I delete it? Disk usage tools show you the
 sizes and leave the guessing to you. DiskLore is a desktop disk usage explorer
@@ -67,7 +67,7 @@ the system root files is never marked SAFE (it is downgraded to CHECK).
 ## Download
 
 Get the latest build from the
-[GitHub Releases](https://github.com/OWNER/disklore/releases) page. You can
+[GitHub Releases](https://github.com/yusufkrtp/disklore/releases) page. You can
 verify the download against `SHA256SUMS.txt`.
 
 | Platform | File | Notes |

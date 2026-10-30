@@ -100,7 +100,7 @@ public class ProviderTests
         var p = Make("openrouter-api", handler, model: "vendor/model", key: SecretKey);
         await p.CompleteAsync("s", "u", CancellationToken.None);
         Assert.Equal("https://openrouter.ai/api/v1/chat/completions", handler.Request!.RequestUri!.ToString());
-        Assert.Equal("https://github.com/OWNER/disklore", handler.Request.Headers.GetValues("HTTP-Referer").Single());
+        Assert.Equal("https://github.com/yusufkrtp/disklore", handler.Request.Headers.GetValues("HTTP-Referer").Single());
         Assert.Equal("DiskLore", handler.Request.Headers.GetValues("X-Title").Single());
     }
 

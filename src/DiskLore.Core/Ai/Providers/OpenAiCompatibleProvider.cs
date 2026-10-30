@@ -9,7 +9,7 @@ namespace DiskLore.Core.Ai.Providers;
 // and any custom server that speaks the same protocol.
 public sealed class OpenAiCompatibleProvider : HttpProviderBase
 {
-    internal const string OpenRouterReferer = "https://github.com/OWNER/disklore";
+    internal const string OpenRouterReferer = "https://github.com/yusufkrtp/disklore";
     internal const string OpenRouterTitle = "DiskLore";
 
     public OpenAiCompatibleProvider(AiProviderInfo info, AiProviderSettings settings, ISecretStore secrets, HttpMessageHandler? handler = null)
