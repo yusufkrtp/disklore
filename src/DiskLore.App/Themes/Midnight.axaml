@@ -1,0 +1,29 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Color x:Key="SystemAccentColor">#22D3EE</Color>
+
+  <SolidColorBrush x:Key="App.Background" Color="#0B1220" />
+  <SolidColorBrush x:Key="App.Surface" Color="#101A2E" />
+  <SolidColorBrush x:Key="App.SurfaceAlt" Color="#172544" />
+  <SolidColorBrush x:Key="App.Border" Color="#23335A" />
+  <SolidColorBrush x:Key="App.Text" Color="#DDE8F7" />
+  <SolidColorBrush x:Key="App.TextMuted" Color="#8FA3C2" />
+  <SolidColorBrush x:Key="App.Accent" Color="#22D3EE" />
+  <SolidColorBrush x:Key="App.AccentText" Color="#04222A" />
+  <SolidColorBrush x:Key="App.Bar" Color="#22B8D6" />
+  <SolidColorBrush x:Key="App.BarTrack" Color="#1B2A47" />
+  <SolidColorBrush x:Key="App.Hover" Color="#132039" />
+  <SolidColorBrush x:Key="App.Selection" Color="#12394D" />
+  <SolidColorBrush x:Key="App.Danger" Color="#FF7A85" />
+  <SolidColorBrush x:Key="App.Warning" Color="#F2B24C" />
+
+  <SolidColorBrush x:Key="Badge.Text" Color="#07101C" />
+  <SolidColorBrush x:Key="Badge.Critical" Color="#FF8A8A" />
+  <SolidColorBrush x:Key="Badge.Shrink" Color="#F5C25A" />
+  <SolidColorBrush x:Key="Badge.App" Color="#7AA7FF" />
+  <SolidColorBrush x:Key="Badge.Check" Color="#B79CFF" />
+  <SolidColorBrush x:Key="Badge.Safe" Color="#5EE59A" />
+  <SolidColorBrush x:Key="Badge.Leftover" Color="#FFA06B" />
+  <SolidColorBrush x:Key="Badge.User" Color="#5FE3D2" />
+  <SolidColorBrush x:Key="Badge.Unknown" Color="#9DABC4" />
+</ResourceDictionary>

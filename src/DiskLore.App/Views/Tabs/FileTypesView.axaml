@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiskLore.App.ViewModels.Tabs"
+             x:Class="DiskLore.App.Views.Tabs.FileTypesView"
+             x:DataType="vm:FileTypesViewModel">
+  <Grid RowDefinitions="Auto,Auto,*">
+    <TextBlock Grid.Row="0" Text="{Binding Header}" Foreground="{DynamicResource App.Text}"
+               FontSize="15" FontWeight="SemiBold" Margin="12,10,12,6" TextTrimming="CharacterEllipsis" />
+    <Border Grid.Row="1" Background="{DynamicResource App.Surface}"
+            BorderBrush="{DynamicResource App.Border}" BorderThickness="0,1" Padding="12,6">
+      <Grid ColumnDefinitions="90,150,90,*,64" TextElement.FontSize="11"
+            TextElement.Foreground="{DynamicResource App.TextMuted}">
+        <TextBlock Grid.Column="0" Text="Extension" />
+        <TextBlock Grid.Column="1" Text="Kind" />
+        <TextBlock Grid.Column="2" Text="Size" HorizontalAlignment="Right" Margin="0,0,12,0" />
+        <TextBlock Grid.Column="3" Text="Share of the largest type" />
+        <TextBlock Grid.Column="4" Text="% of folder" HorizontalAlignment="Right" />
+      </Grid>
+    </Border>
+
+    <ListBox Grid.Row="2" ItemsSource="{Binding Rows}" Background="Transparent">
+      <ListBox.Styles>
+        <Style Selector="ListBoxItem">
+          <Setter Property="Padding" Value="12,5" />
+          <Setter Property="MinHeight" Value="0" />
+        </Style>
+      </ListBox.Styles>
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="vm:FileTypeRow">
+          <Grid ColumnDefinitions="90,150,90,*,64">
+            <TextBlock Grid.Column="0" Text="{Binding Extension}" Foreground="{DynamicResource App.Text}"
+                       FontWeight="SemiBold" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{Binding Label}" Foreground="{DynamicResource App.TextMuted}"
+                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+            <TextBlock Grid.Column="2" Text="{Binding SizeText}" Foreground="{DynamicResource App.Text}"
+                       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0" />
+            <ProgressBar Grid.Column="3" Minimum="0" Maximum="1" Value="{Binding Fraction}" Height="8" MinHeight="8"
+                         ShowProgressText="False" CornerRadius="4" VerticalAlignment="Center" Margin="0,0,12,0"
+                         Foreground="{DynamicResource App.Bar}" Background="{DynamicResource App.BarTrack}" />
+            <TextBlock Grid.Column="4" Text="{Binding PercentText}" Foreground="{DynamicResource App.TextMuted}"
+                       HorizontalAlignment="Right" VerticalAlignment="Center" />
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <TextBlock Grid.Row="2" Text="{Binding Status}" IsVisible="{Binding !HasRows}"
+               Foreground="{DynamicResource App.TextMuted}" HorizontalAlignment="Center" VerticalAlignment="Center"
+               TextWrapping="Wrap" MaxWidth="480" />
+  </Grid>
+</UserControl>

@@ -1,0 +1,197 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DiskLore.App.ViewModels"
+             xmlns:v="using:DiskLore.App.Views"
+             xmlns:ctl="using:DiskLore.App.Controls"
+             x:Class="DiskLore.App.Views.DetailPanel"
+             x:DataType="vm:DetailViewModel">
+  <UserControl.Styles>
+    <Style Selector="TextBlock.stat-label">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Foreground" Value="{DynamicResource App.TextMuted}" />
+    </Style>
+    <Style Selector="TextBlock.stat-value">
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid>
+    <!-- Nothing selected -->
+    <TextBlock Text="Select a file or folder to see what it is." Classes="muted" HorizontalAlignment="Center"
+               VerticalAlignment="Center" IsVisible="{Binding !HasSelection}" />
+
+    <ScrollViewer IsVisible="{Binding HasSelection}" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Margin="22,20,22,28" MaxWidth="560" HorizontalAlignment="Stretch">
+
+        <!-- Title block -->
+        <TextBlock Text="{Binding Title}" Classes="title" />
+        <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+          <ctl:BadgePill Badge="{Binding Badge}" />
+          <Border IsVisible="{Binding HasSourceTag}" Padding="8,2" CornerRadius="9" VerticalAlignment="Center"
+                  BorderBrush="{DynamicResource App.Border}" BorderThickness="1">
+            <TextBlock Text="{Binding SourceTag}" Classes="muted small" />
+          </Border>
+        </StackPanel>
+        <TextBlock IsVisible="{Binding HasOwner}" Margin="0,8,0,0" Classes="muted">
+          <Run Text="Owner: " /><Run Text="{Binding Owner}" Foreground="{DynamicResource App.Text}" />
+        </TextBlock>
+
+        <!-- Path -->
+        <Grid ColumnDefinitions="*,Auto" Margin="0,12,0,0">
+          <SelectableTextBlock Text="{Binding FullPath}" Classes="small" TextWrapping="Wrap"
+                               VerticalAlignment="Center" />
+          <Button Grid.Column="1" Classes="ghost" Content="Copy" Command="{Binding CopyPathCommand}" Margin="8,0,0,0"
+                  VerticalAlignment="Top" MinHeight="24" FontSize="12" />
+        </Grid>
+
+        <!-- Numbers -->
+        <Border Classes="card" Margin="0,14,0,0" Padding="14,10" Background="{DynamicResource App.Background}">
+          <Grid ColumnDefinitions="*,*,*,*">
+            <StackPanel Grid.Column="0">
+              <TextBlock Text="Size" Classes="stat-label" />
+              <TextBlock Text="{Binding SizeText}" Classes="stat-value" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" IsVisible="{Binding IsDirectory}">
+              <TextBlock Text="Files" Classes="stat-label" />
+              <TextBlock Text="{Binding FilesText}" Classes="stat-value" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" IsVisible="{Binding IsDirectory}">
+              <TextBlock Text="Folders" Classes="stat-label" />
+              <TextBlock Text="{Binding FoldersText}" Classes="stat-value" />
+            </StackPanel>
+            <StackPanel Grid.Column="3">
+              <TextBlock Text="Last changed" Classes="stat-label" />
+              <TextBlock Text="{Binding LastChangedText}" Classes="stat-value" FontSize="12" TextWrapping="Wrap" />
+            </StackPanel>
+          </Grid>
+        </Border>
+
+        <!-- Note for unreadable / links -->
+        <Border IsVisible="{Binding HasNote}" Classes="card" Padding="12,10" Margin="0,12,0,0"
+                BorderBrush="{DynamicResource App.Warning}">
+          <TextBlock Text="{Binding NoteText}" Classes="body" />
+        </Border>
+
+        <!-- Buttons -->
+        <WrapPanel Margin="0,14,0,0" ItemSpacing="6" LineSpacing="6">
+          <Button Content="Open in file manager" Command="{Binding RevealCommand}" />
+          <Button Command="{Binding AskClaudeCommand}" IsVisible="{Binding CanAsk}" IsEnabled="{Binding CanAskNow}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <ProgressBar IsIndeterminate="True" Width="40" Height="3" MinHeight="0" IsVisible="{Binding IsAsking}"
+                           Classes="mini" VerticalAlignment="Center" />
+              <TextBlock Text="{Binding AskLabel}" />
+            </StackPanel>
+          </Button>
+          <Button Content="Check in use" Command="{Binding CheckInUseCommand}" IsVisible="{Binding SupportsLock}"
+                  IsEnabled="{Binding CanCheckLock}" />
+        </WrapPanel>
+
+        <!-- Lock result -->
+        <StackPanel IsVisible="{Binding IsCheckingLock}" Margin="0,10,0,0" Spacing="4">
+          <TextBlock Text="Checking which programs use these files…" Classes="muted" />
+          <ProgressBar Classes="mini" IsIndeterminate="True" />
+        </StackPanel>
+        <StackPanel IsVisible="{Binding HasLockResult}" Margin="0,10,0,0" Spacing="3">
+          <TextBlock Text="{Binding LockResult}" FontWeight="SemiBold" TextWrapping="Wrap" />
+          <ItemsControl ItemsSource="{Binding LockProcesses}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="x:String">
+                <TextBlock Text="{Binding}" Classes="muted" Margin="10,0,0,0" TextWrapping="Wrap" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+
+        <!-- Unknown empty state -->
+        <Border IsVisible="{Binding IsUnknownEmpty}" Classes="card" Padding="16" Margin="0,18,0,0">
+          <StackPanel Spacing="8">
+            <TextBlock Text="DiskLore doesn't know this one yet." FontWeight="SemiBold" FontSize="15" />
+            <TextBlock Classes="muted body"
+                       Text="No built-in rule matches it. The facts below still show what is inside; Claude can take a look and write an explanation." />
+            <Button Content="Ask Claude" Classes="primary" Command="{Binding AskClaudeCommand}" HorizontalAlignment="Left"
+                    IsVisible="{Binding CanAsk}" IsEnabled="{Binding CanAskNow}" Margin="0,4,0,0" />
+          </StackPanel>
+        </Border>
+
+        <!-- What it is -->
+        <StackPanel IsVisible="{Binding HasWhatItIs}">
+          <TextBlock Text="What it is" Classes="heading" />
+          <SelectableTextBlock Text="{Binding WhatItIs}" TextWrapping="Wrap" LineHeight="19" />
+        </StackPanel>
+
+        <!-- Why it's this big -->
+        <StackPanel IsVisible="{Binding ShowDetails}">
+          <TextBlock Text="Why it's this big" Classes="heading" IsVisible="{Binding IsDirectory}" />
+          <SelectableTextBlock Text="{Binding WhyBig}" IsVisible="{Binding HasWhyBig}" TextWrapping="Wrap" LineHeight="19"
+                               Margin="0,0,0,8" />
+        </StackPanel>
+        <StackPanel IsVisible="{Binding IsDirectory}">
+          <TextBlock Text="Why it's this big" Classes="heading" IsVisible="{Binding IsUnknownEmpty}" />
+          <TextBlock Text="Looking inside…" Classes="muted" IsVisible="{Binding FactsLoading}" />
+          <StackPanel IsVisible="{Binding HasFacts}" Spacing="10">
+            <TextBlock Text="{Binding FactsLine}" Classes="muted" TextWrapping="Wrap" />
+
+            <StackPanel IsVisible="{Binding HasTopChildren}" Spacing="5">
+              <TextBlock Text="Biggest items inside" FontWeight="SemiBold" Classes="small" />
+              <ItemsControl ItemsSource="{Binding TopChildren}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:FactBar">
+                    <Grid ColumnDefinitions="*,70" RowDefinitions="Auto,Auto" Margin="0,0,0,6">
+                      <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                      <TextBlock Grid.Column="1" Text="{Binding SizeText}" HorizontalAlignment="Right" Classes="muted" />
+                      <ProgressBar Grid.Row="1" Grid.ColumnSpan="2" Classes="mini" Value="{Binding Fraction}" Margin="0,3,0,0" />
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+
+            <StackPanel IsVisible="{Binding HasTopExtensions}" Spacing="5">
+              <TextBlock Text="By file type" FontWeight="SemiBold" Classes="small" />
+              <ItemsControl ItemsSource="{Binding TopExtensions}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:FactBar">
+                    <Grid ColumnDefinitions="*,70" RowDefinitions="Auto,Auto" Margin="0,0,0,6">
+                      <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                      <TextBlock Grid.Column="1" Text="{Binding SizeText}" HorizontalAlignment="Right" Classes="muted" />
+                      <ProgressBar Grid.Row="1" Grid.ColumnSpan="2" Classes="mini" Value="{Binding Fraction}" Margin="0,3,0,0" />
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+
+            <StackPanel IsVisible="{Binding HasLargest}" Spacing="2">
+              <TextBlock Text="Largest file" FontWeight="SemiBold" Classes="small" />
+              <SelectableTextBlock Text="{Binding LargestText}" TextWrapping="Wrap" />
+            </StackPanel>
+          </StackPanel>
+        </StackPanel>
+
+        <!-- If you delete it -->
+        <StackPanel IsVisible="{Binding HasIfDeleted}">
+          <TextBlock Text="If you delete it" Classes="heading" />
+          <SelectableTextBlock Text="{Binding IfDeleted}" TextWrapping="Wrap" LineHeight="19" />
+        </StackPanel>
+
+        <!-- Safer way -->
+        <StackPanel IsVisible="{Binding HasSafer}">
+          <TextBlock Text="Safer way" Classes="heading" />
+          <SelectableTextBlock Text="{Binding SaferText}" IsVisible="{Binding HasSaferText}" TextWrapping="Wrap" LineHeight="19" />
+          <Button Content="{Binding ActionLabel}" Command="{Binding RunActionCommand}" IsVisible="{Binding HasAction}"
+                  Classes="primary" HorizontalAlignment="Left" Margin="0,10,0,0" />
+        </StackPanel>
+
+        <!-- Delete -->
+        <Border BorderBrush="{DynamicResource App.Border}" BorderThickness="0,1,0,0" Margin="0,24,0,0" Padding="0,14,0,0"
+                IsVisible="{Binding CanDelete}">
+          <WrapPanel ItemSpacing="6" LineSpacing="6">
+            <Button Content="Move to Recycle Bin" Command="{Binding RecycleCommand}" />
+            <Button Content="Delete permanently" Classes="danger" Command="{Binding DeletePermanentlyCommand}" />
+          </WrapPanel>
+        </Border>
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

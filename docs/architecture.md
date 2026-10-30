@@ -13,8 +13,7 @@ Product spec: [spec.md](spec.md).
   Windows is the primary platform; Linux and macOS build and run with the
   Windows-only features switched off (see [Platform](#platform)).
 - Tests: xUnit.
-- The SDK on the development machine lives in `%USERPROFILE%\.dotnet\dotnet.exe`
-  (not on PATH).
+- The .NET 10 SDK (see `global.json`).
 
 ## Layout
 
@@ -358,6 +357,23 @@ public sealed class ClaudeCliExplainer
 }
 ```
 
+```csharp
+public sealed class AiCoordinator
+{
+    public AiCoordinator(ClaudeCliExplainer explainer, ExplanationService explanations);
+    public bool IsAvailable { get; }
+    // Unknown (Source.None) folders and files with Size >= thresholdBytes, largest first, at most maxItems.
+    public IReadOnlyList<ScanNode> SelectCandidates(ScanNode root, long thresholdBytes, int maxItems);
+    // Builds AiRequestItems, asks Claude in batches, calls ExplanationService.Invalidate on answered nodes.
+    public Task<int> ExplainAsync(IReadOnlyList<ScanNode> nodes, IProgress<string>? status, CancellationToken ct);
+}
+```
+
+The app runs `SelectCandidates(root, settings.AiThresholdBytes, settings.AiMaxCallsPerScan * 5)` then
+`ExplainAsync` after each scan when auto mode is on, and `ExplainAsync([node])` for the "Ask Claude" button.
+
+`SizeFormat.Format(long)` / `SizeFormat.FormatDelta(long)` in `DiskLore.Core.Model` is the only size formatter; every view uses it.
+
 **Safety clamp:** an AI explanation can never carry `Critical` or `Shrink`, and
 an item under the Windows directory, Program Files or the system root files is
 never given `Safe`; such answers are downgraded to `Check`. Every AI answer
@@ -412,7 +428,7 @@ Views use only these keys, never hard-coded colors.
 ## Build and test
 
 ```
-%USERPROFILE%\.dotnet\dotnet.exe build DiskLore.sln -c Debug
-%USERPROFILE%\.dotnet\dotnet.exe test tests/DiskLore.Tests
-%USERPROFILE%\.dotnet\dotnet.exe run --project src/DiskLore.App -- "C:\some\folder"
+dotnet build DiskLore.sln -c Debug
+dotnet test tests/DiskLore.Tests
+dotnet run --project src/DiskLore.App -- "C:\some\folder"
 ```

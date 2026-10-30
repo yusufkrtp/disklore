@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="using:DiskLore.App.Controls"
+             x:Class="DiskLore.App.Views.Tabs.TreemapView">
+  <UserControl.Styles>
+    <Style Selector="Button.crumb">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource App.Accent}" />
+      <Setter Property="Padding" Value="6,2" />
+      <Setter Property="MinHeight" Value="0" />
+    </Style>
+    <Style Selector="Button.crumb:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource App.SurfaceAlt}" />
+      <Setter Property="Foreground" Value="{DynamicResource App.Accent}" />
+    </Style>
+  </UserControl.Styles>
+  <Grid RowDefinitions="Auto,*">
+    <Border Grid.Row="0" Background="{DynamicResource App.Surface}"
+            BorderBrush="{DynamicResource App.Border}" BorderThickness="0,0,0,1" Padding="8,4">
+      <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+          <TextBlock Text="Color" Foreground="{DynamicResource App.TextMuted}" VerticalAlignment="Center" />
+          <RadioButton x:Name="BySafety" GroupName="TreemapColor" Content="By safety" IsChecked="True"
+                       Foreground="{DynamicResource App.Text}" IsCheckedChanged="OnModeChanged" />
+          <RadioButton x:Name="ByType" GroupName="TreemapColor" Content="By file type"
+                       Foreground="{DynamicResource App.Text}" IsCheckedChanged="OnModeChanged" />
+        </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+          <StackPanel x:Name="Crumbs" Orientation="Horizontal" Spacing="2" VerticalAlignment="Center" />
+        </ScrollViewer>
+      </DockPanel>
+    </Border>
+
+    <c:TreemapControl x:Name="Map" Grid.Row="1" />
+    <TextBlock x:Name="EmptyText" Grid.Row="1" Text="Scan a drive or folder to see the treemap."
+               Foreground="{DynamicResource App.TextMuted}" HorizontalAlignment="Center"
+               VerticalAlignment="Center" IsHitTestVisible="False" />
+  </Grid>
+</UserControl>

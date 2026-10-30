@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="DiskLore.App.Views.UnreadableListWindow"
+        Title="Folders DiskLore couldn't read" Width="640" Height="480"
+        Icon="/Assets/disklore.ico"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource App.Background}">
+  <DockPanel Margin="16">
+    <TextBlock DockPanel.Dock="Top" Classes="muted body" Margin="0,0,0,10"
+               Text="Windows denied access to these folders, so their contents are missing from the totals. Restart as administrator to include them." />
+    <Button DockPanel.Dock="Bottom" Content="Close" HorizontalAlignment="Right" Margin="0,10,0,0" Click="OnClose" />
+    <Border Classes="card">
+      <ListBox x:Name="List" Background="Transparent" BorderThickness="0">
+        <ListBox.ItemTemplate>
+          <DataTemplate x:DataType="x:String">
+            <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" FontFamily="Cascadia Mono,Consolas,Menlo,monospace" FontSize="12" />
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Border>
+  </DockPanel>
+</Window>
