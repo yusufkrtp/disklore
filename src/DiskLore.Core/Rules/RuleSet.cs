@@ -107,6 +107,9 @@ public sealed class RuleSet : IExplainer
 
     internal bool Inherits(string ruleId) => _byId.TryGetValue(ruleId, out var r) && r.Inherit;
 
+    // True for `extension` rules: they know the file type only, not where the file lives.
+    internal bool IsFileTypeRule(string ruleId) => _byId.TryGetValue(ruleId, out var r) && r.Tier == RuleTier.Extension;
+
     public Explanation? Explain(ScanNode node) => Find(node)?.Explanation;
 
     internal CompiledRule? Find(ScanNode node)

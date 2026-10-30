@@ -3864,7 +3864,7 @@
       "platforms": [
         "windows"
       ],
-      "inherit": false,
+      "inherit": true,
       "priority": 80,
       "title": "Cross-platform tool caches (.cache)",
       "badge": "check",
@@ -3979,6 +3979,1176 @@
       "whyBig": "Each VM disk grows to the data stored inside it; snapshots add differencing disks.",
       "ifDeleted": "The virtual machines and everything inside them are lost.",
       "saferAlternative": "Remove VMs in VirtualBox (Remove > Delete all files) and delete old snapshots there.",
+      "action": null
+    },
+    {
+      "id": "browser.mozilla-roaming",
+      "match": {
+        "path": "%APPDATA%\\Mozilla"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Mozilla data (Firefox profiles)",
+      "badge": "app",
+      "owner": "Mozilla",
+      "summary": "Firefox profiles and Mozilla settings; holds your bookmarks and passwords",
+      "whatItIs": "Mozilla's roaming folder: Firefox profiles (bookmarks, history, passwords, extensions) and profile lists.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Firefox starts with a new empty profile; bookmarks, passwords and history are lost unless synced.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.mozilla-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Mozilla"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Mozilla local data (Firefox cache)",
+      "badge": "check",
+      "owner": "Mozilla",
+      "summary": "Firefox's disk cache and other rebuildable data",
+      "whatItIs": "Mozilla's local folder: Firefox's disk cache, startup cache and thumbnails, one folder per profile.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing important is lost; Firefox rebuilds its cache. Close Firefox first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.zen-roaming",
+      "match": {
+        "path": "%APPDATA%\\zen"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Zen Browser data (profiles)",
+      "badge": "app",
+      "owner": "Zen Browser",
+      "summary": "Zen Browser profiles: bookmarks, history, passwords and extensions",
+      "whatItIs": "Zen Browser's roaming folder (Firefox-based): profiles, the profile list (profiles.ini) and crash reports.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Zen starts with a new empty profile; bookmarks, passwords and history are lost unless synced.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.zen-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\zen"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Zen Browser local data (cache)",
+      "badge": "check",
+      "owner": "Zen Browser",
+      "summary": "Zen Browser's disk cache and other rebuildable data",
+      "whatItIs": "Zen Browser's local folder (Firefox-based): disk cache, startup cache and thumbnails per profile.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing important is lost; Zen rebuilds its cache. Close the browser first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.google-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Google"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Google apps (Chrome and others)",
+      "badge": "check",
+      "owner": "Google",
+      "summary": "Chrome profiles and data of other Google apps",
+      "whatItIs": "Google's local folder: Chrome (profiles, and the browser itself when installed for one user), and data of other Google apps such as Google Drive.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Chrome loses its profiles (bookmarks, passwords, history unless synced) and other Google apps lose their data.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.bravesoftware-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\BraveSoftware"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Brave browser data",
+      "badge": "check",
+      "owner": "Brave Software",
+      "summary": "Brave profiles and data",
+      "whatItIs": "Brave's local folder: browser profiles (User Data).",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Brave loses its profiles: bookmarks, passwords and history unless synced.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.vivaldi-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Vivaldi"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Vivaldi browser",
+      "badge": "check",
+      "owner": "Vivaldi Technologies",
+      "summary": "Vivaldi profiles, and the browser itself when installed for one user",
+      "whatItIs": "Vivaldi's local folder: browser profiles (User Data) and, for per-user installs, the program (Application).",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Vivaldi loses its profiles and may stop working.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.steam-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Steam"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Steam client local data",
+      "badge": "check",
+      "owner": "Valve",
+      "summary": "Web cache of the Steam client and a small settings file",
+      "whatItIs": "Steam's local folder: the cache of the client's built-in browser (htmlcache) and local.vdf with client settings.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "The cache is rebuilt; Steam may ask you to sign in again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.modrinth-roaming",
+      "match": {
+        "path": "%APPDATA%\\ModrinthApp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Modrinth App (Minecraft)",
+      "badge": "check",
+      "owner": "Modrinth",
+      "summary": "Minecraft instances, mods, worlds and game files of the Modrinth App",
+      "whatItIs": "The Modrinth App's data folder: instances (profiles) with their mods and worlds, downloaded game files (meta), caches, logs and the app database.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "All instances, including their worlds, are lost; game files are downloaded again.",
+      "saferAlternative": "Delete instances you no longer play from the Modrinth App; back up their saves first.",
+      "action": null
+    },
+    {
+      "id": "game.modrinth-profiles",
+      "match": {
+        "path": "%APPDATA%\\ModrinthApp\\profiles"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Modrinth instances",
+      "badge": "check",
+      "owner": "Modrinth",
+      "summary": "Minecraft instances: mods, settings and worlds of each modpack",
+      "whatItIs": "One folder per Minecraft instance created in the Modrinth App, with its mods, configs, resource packs and worlds (saves).",
+      "whyBig": "Mods, resource packs and large worlds add up quickly.",
+      "ifDeleted": "The instances and their worlds are lost.",
+      "saferAlternative": "Delete instances from the Modrinth App; back up their saves folders first.",
+      "action": null
+    },
+    {
+      "id": "game.modrinth-saves",
+      "match": {
+        "path": "%APPDATA%\\ModrinthApp\\profiles\\*\\saves"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Minecraft worlds (Modrinth)",
+      "badge": "user",
+      "owner": "Modrinth",
+      "summary": "Your Minecraft worlds in this instance",
+      "whatItIs": "The saved worlds of a Minecraft instance.",
+      "whyBig": "Worlds grow as you explore; map mods add their own data.",
+      "ifDeleted": "These worlds are lost for good unless backed up.",
+      "saferAlternative": "Back them up before deleting the instance.",
+      "action": null
+    },
+    {
+      "id": "game.modrinth-meta",
+      "match": {
+        "path": "%APPDATA%\\ModrinthApp\\meta"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Minecraft game files (Modrinth)",
+      "badge": "check",
+      "owner": "Modrinth",
+      "summary": "Minecraft versions, libraries, assets and Java runtimes downloaded by the Modrinth App",
+      "whatItIs": "Game files the Modrinth App downloads for its instances: Minecraft versions, libraries, assets and Java runtimes.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing personal is lost; the app downloads the files again when you launch an instance.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.modrinth-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\ModrinthApp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Modrinth App web data",
+      "badge": "check",
+      "owner": "Modrinth",
+      "summary": "Sign-in cookies and the built-in browser data of the Modrinth App",
+      "whatItIs": "The Modrinth App's local folder: cookies and the WebView2 profile (EBWebView) of its built-in browser.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "The app asks you to sign in again; the browser cache is rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.distant-horizons-db",
+      "match": {
+        "name": "DistantHorizons.sqlite"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 70,
+      "title": "Distant Horizons LOD data",
+      "badge": "check",
+      "owner": "Distant Horizons (Minecraft mod)",
+      "summary": "Far-terrain data of the Distant Horizons mod; rebuilt while you play",
+      "whatItIs": "The level-of-detail database of the Distant Horizons mod for one world: simplified terrain used to draw distant chunks.",
+      "whyBig": "It grows with every area you explore or pre-generate; several GB is normal.",
+      "ifDeleted": "The world itself is not affected; the mod rebuilds distant terrain as you play, which costs time and CPU.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.curseforge-user",
+      "match": {
+        "path": "%USERPROFILE%\\curseforge"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "CurseForge library",
+      "badge": "check",
+      "owner": "CurseForge",
+      "summary": "Minecraft instances and game files managed by the CurseForge app",
+      "whatItIs": "The CurseForge app's library folder: per game (minecraft), the installed game files (Install) and your modpack instances (Instances).",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Instances, including their worlds, are lost; game files are downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.curseforge-minecraft",
+      "match": {
+        "path": "%USERPROFILE%\\curseforge\\minecraft"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "CurseForge Minecraft",
+      "badge": "check",
+      "owner": "CurseForge",
+      "summary": "Minecraft modpack instances and game files of the CurseForge app",
+      "whatItIs": "Minecraft data of the CurseForge app: game files and the launcher (Install), modpack instances (Instances) and downloads.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Instances, including their worlds, are lost; game files are downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.curseforge-instances",
+      "match": {
+        "path": "%USERPROFILE%\\curseforge\\minecraft\\Instances"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "CurseForge Minecraft instances",
+      "badge": "check",
+      "owner": "CurseForge",
+      "summary": "Minecraft modpacks with their mods, settings and worlds",
+      "whatItIs": "One folder per modpack instance created in CurseForge, with its mods, configs and worlds (saves).",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "The modpacks and their worlds are lost.",
+      "saferAlternative": "Delete instances in CurseForge; back up their saves folders first.",
+      "action": null
+    },
+    {
+      "id": "game.curseforge-install",
+      "match": {
+        "path": "%USERPROFILE%\\curseforge\\minecraft\\Install"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Minecraft game files (CurseForge)",
+      "badge": "check",
+      "owner": "CurseForge",
+      "summary": "Minecraft versions, libraries, assets, Java and launcher sign-in data",
+      "whatItIs": "The Minecraft launcher and game files CurseForge uses: versions, libraries, assets, Java runtimes, and the launcher's sign-in data.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Game files are downloaded again, but the launcher asks you to sign in again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.curseforge-roaming",
+      "match": {
+        "path": "%APPDATA%\\CurseForge"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "CurseForge app data",
+      "badge": "check",
+      "owner": "CurseForge",
+      "summary": "Settings, caches and sign-in of the CurseForge app",
+      "whatItIs": "The CurseForge app's data folder (Electron): settings, sign-in and web caches.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "The app forgets its settings and sign-in; caches are rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.notion-roaming",
+      "match": {
+        "path": "%APPDATA%\\Notion"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Notion app data",
+      "badge": "check",
+      "owner": "Notion Labs",
+      "summary": "Notion desktop app data: offline content, sign-in and caches",
+      "whatItIs": "The Notion desktop app's data folder (Electron): sign-in, offline copies of pages and the app's caches.",
+      "whyBig": "The cached app and page data of the built-in web view (Partitions) grows with use.",
+      "ifDeleted": "Notion signs you out and downloads its data and app files again; pages themselves are stored online.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.ea-desktop-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\EADesktop"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "EA app cache",
+      "badge": "check",
+      "owner": "Electronic Arts",
+      "summary": "Cache of the EA app",
+      "whatItIs": "Cache files of the EA app (the Origin successor).",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing breaks; the EA app rebuilds its cache.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.epic-games-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Epic Games"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Epic Online Services data",
+      "badge": "check",
+      "owner": "Epic Games",
+      "summary": "Epic Online Services and its in-game overlay",
+      "whatItIs": "Data of Epic Online Services (EOS) and its in-game overlay, used by games that use Epic accounts, friends or achievements.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Games that use EOS may need to reinstall or repair the overlay.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.unreal-saved",
+      "match": {
+        "path": "%LOCALAPPDATA%\\*\\Saved"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 30,
+      "title": "Unreal Engine game data",
+      "badge": "check",
+      "owner": null,
+      "summary": "Settings, logs and sometimes saves of a game built with Unreal Engine",
+      "whatItIs": "Games built with Unreal Engine keep a Saved folder here: settings (Config), logs, crash reports, shader caches and, for many games, save games.",
+      "whyBig": "Shader caches, logs and crash reports grow; some games also store downloaded content here.",
+      "ifDeleted": "Settings and possibly save games are lost; caches and logs are rebuilt.",
+      "saferAlternative": "Back up SaveGames before deleting; the Logs, Crashes and shader cache files are safe to remove.",
+      "action": null
+    },
+    {
+      "id": "game.unreal-saved-logs",
+      "match": {
+        "path": "%LOCALAPPDATA%\\*\\Saved\\Logs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 40,
+      "title": "Unreal Engine game logs",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Log files of an Unreal Engine game; safe to delete",
+      "whatItIs": "Log files written by a game built with Unreal Engine.",
+      "whyBig": "A log per session; some games keep many.",
+      "ifDeleted": "Nothing breaks; new logs are written.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.unreal-saved-crashes",
+      "match": {
+        "path": "%LOCALAPPDATA%\\*\\Saved\\Crashes"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 40,
+      "title": "Unreal Engine game crash reports",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Crash reports of an Unreal Engine game; safe to delete",
+      "whatItIs": "Crash reports (minidumps and logs) of a game built with Unreal Engine.",
+      "whyBig": "Each crash adds a report with a memory dump.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.unreal-saved-savegames",
+      "match": {
+        "path": "%LOCALAPPDATA%\\*\\Saved\\SaveGames"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 40,
+      "title": "Unreal Engine game saves",
+      "badge": "user",
+      "owner": null,
+      "summary": "Save games of a game built with Unreal Engine",
+      "whatItIs": "Save files of a game built with Unreal Engine.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Your progress in the game is lost unless the game syncs saves to the cloud.",
+      "saferAlternative": "Back them up first.",
+      "action": null
+    },
+    {
+      "id": "game.unreal-saved-webcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\*\\Saved\\webcache*"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 40,
+      "title": "Unreal Engine game web cache",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Cache of the built-in browser of an Unreal Engine game; safe to delete",
+      "whatItIs": "The cache of the embedded web browser (CEF) used by a game's launcher, store or news pages.",
+      "whyBig": "Grows with use.",
+      "ifDeleted": "Nothing breaks; it is rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.unreal-shader-precache",
+      "match": {
+        "name": "*.ushaderprecache"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 60,
+      "title": "Unreal Engine shader cache",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Compiled shaders cached by an Unreal Engine game; rebuilt on next launch",
+      "whatItIs": "Driver-compiled shaders (pipeline cache) saved by a game built with Unreal Engine so it starts faster and stutters less.",
+      "whyBig": "One file per driver and GPU combination; large games produce GB-sized caches.",
+      "ifDeleted": "Nothing breaks; the game compiles shaders again, so the next launch is slower and may stutter.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.locallow-intel",
+      "match": {
+        "path": "%USERPROFILE%\\AppData\\LocalLow\\Intel"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Intel driver data (LocalLow)",
+      "badge": "check",
+      "owner": "Intel",
+      "summary": "Data of the Intel graphics driver for sandboxed apps and games",
+      "whatItIs": "The Intel graphics driver keeps its shader cache for low-integrity (sandboxed) processes here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing important is lost; the cache is rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.locallow-intel-shadercache",
+      "match": {
+        "path": "%USERPROFILE%\\AppData\\LocalLow\\Intel\\ShaderCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Intel graphics shader cache",
+      "badge": "safe",
+      "owner": "Intel",
+      "summary": "Compiled shaders from the Intel graphics driver; safe to clear",
+      "whatItIs": "Shaders the Intel graphics driver compiled for games and apps.",
+      "whyBig": "Each game adds compiled shaders.",
+      "ifDeleted": "Nothing breaks; shaders are recompiled, with stutter at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.locallow-nvidia",
+      "match": {
+        "path": "%USERPROFILE%\\AppData\\LocalLow\\NVIDIA"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "NVIDIA driver data (LocalLow)",
+      "badge": "check",
+      "owner": "NVIDIA",
+      "summary": "Shader caches of the NVIDIA driver",
+      "whatItIs": "The NVIDIA graphics driver keeps per-driver shader caches here (PerDriverVersion).",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing important is lost; the caches are rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.intel-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Intel"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Intel software data",
+      "badge": "check",
+      "owner": "Intel",
+      "summary": "Data of Intel drivers and software, including the graphics shader cache",
+      "whatItIs": "Intel drivers and utilities keep caches and settings here; the graphics shader cache (ShaderCache) is usually the largest part.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Intel software may lose settings; caches are rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.black-myth-wukong",
+      "match": {
+        "path": "%LOCALAPPDATA%\\b1"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Black Myth: Wukong data",
+      "badge": "check",
+      "owner": "Game Science",
+      "summary": "Settings, logs and shader cache of Black Myth: Wukong",
+      "whatItIs": "Black Myth: Wukong (an Unreal Engine game whose internal name is b1) keeps its settings, logs, crash reports, web cache and compiled shader cache here.",
+      "whyBig": "The compiled shader cache alone can exceed 1 GB.",
+      "ifDeleted": "Settings are reset; logs and caches are rebuilt, and the shader cache makes the next start slower.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.reaper",
+      "match": {
+        "path": "%APPDATA%\\REAPER"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "REAPER settings and resources",
+      "badge": "check",
+      "owner": "Cockos",
+      "summary": "REAPER settings, scripts, effects, themes and plugin list",
+      "whatItIs": "REAPER's resource folder: REAPER.ini, key maps, themes, scripts, JS effects, project templates and the plugin scan cache.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "REAPER starts with default settings and loses your scripts, themes and templates.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.obsidian",
+      "match": {
+        "path": "%APPDATA%\\obsidian"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Obsidian app data",
+      "badge": "check",
+      "owner": "Obsidian",
+      "summary": "Obsidian's list of vaults, settings and caches; your notes are in the vaults",
+      "whatItIs": "The Obsidian desktop app's data folder (Electron): the list of known vaults, app settings and web caches. Notes are stored in your vault folders, not here.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "Obsidian forgets which vaults to open; the notes themselves are not affected.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.bitwarden",
+      "match": {
+        "path": "%APPDATA%\\Bitwarden"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Bitwarden desktop data",
+      "badge": "check",
+      "owner": "Bitwarden",
+      "summary": "Bitwarden settings and the encrypted local copy of your vault",
+      "whatItIs": "The Bitwarden desktop app's data folder: settings and an encrypted copy of your vault for offline use.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "You have to sign in again; the vault itself is stored on the Bitwarden server.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.vlc",
+      "match": {
+        "path": "%APPDATA%\\vlc"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "VLC settings",
+      "badge": "check",
+      "owner": "VideoLAN",
+      "summary": "VLC media player settings, media library and artwork cache",
+      "whatItIs": "VLC's settings (vlcrc), playlists, media library and downloaded album art.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "VLC starts with default settings and an empty media library.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.github-desktop",
+      "match": {
+        "path": "%APPDATA%\\GitHub Desktop"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "GitHub Desktop data",
+      "badge": "check",
+      "owner": "GitHub",
+      "summary": "GitHub Desktop settings, sign-in and caches; repositories are elsewhere",
+      "whatItIs": "The GitHub Desktop app's data folder (Electron): the list of repositories, settings, sign-in and caches.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "GitHub Desktop forgets your repositories list and sign-in; the repositories themselves are not affected.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.elden-ring-saves",
+      "match": {
+        "path": "%APPDATA%\\EldenRing"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "ELDEN RING save files",
+      "badge": "user",
+      "owner": "FromSoftware",
+      "summary": "Your ELDEN RING characters and progress",
+      "whatItIs": "ELDEN RING's save files (ER0000.sl2 per Steam account) and backups.",
+      "whyBig": "Small; one save file per account plus a backup.",
+      "ifDeleted": "Your characters and progress are lost unless Steam Cloud has a copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.teamspeak-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\TeamSpeak"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "TeamSpeak app data",
+      "badge": "check",
+      "owner": "TeamSpeak",
+      "summary": "TeamSpeak caches, logs and the data of its built-in browser",
+      "whatItIs": "The TeamSpeak client's local data: caches, logs and the profile of its built-in web view (User Data).",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "TeamSpeak may sign you out; caches and logs are rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.qbittorrent-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\qBittorrent"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "qBittorrent data",
+      "badge": "check",
+      "owner": "qBittorrent",
+      "summary": "qBittorrent logs and the resume data of your torrents",
+      "whatItIs": "qBittorrent keeps its logs and the resume data of every torrent (BT_backup) here; its settings are in Roaming.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "qBittorrent forgets your torrent list; the downloaded files stay where they are.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.qbittorrent-roaming",
+      "match": {
+        "path": "%APPDATA%\\qBittorrent"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "qBittorrent settings",
+      "badge": "check",
+      "owner": "qBittorrent",
+      "summary": "qBittorrent settings",
+      "whatItIs": "qBittorrent's configuration files.",
+      "whyBig": "Small.",
+      "ifDeleted": "qBittorrent starts with default settings.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.miktex-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\MiKTeX"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "MiKTeX user data",
+      "badge": "check",
+      "owner": "MiKTeX",
+      "summary": "MiKTeX configuration, package database and font caches for your account",
+      "whatItIs": "MiKTeX (a TeX distribution) keeps per-user configuration, its package database, generated formats and font caches here.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "MiKTeX rebuilds caches and formats; per-user settings are reset.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.riot-client-roaming",
+      "match": {
+        "path": "%APPDATA%\\Riot Client"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Riot Client data",
+      "badge": "check",
+      "owner": "Riot Games",
+      "summary": "Riot Client settings, logs and caches",
+      "whatItIs": "Data of the Riot Client (League of Legends, VALORANT launcher): settings, logs and caches.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "The Riot Client may sign you out and rebuilds its caches.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.riot-client-ux",
+      "match": {
+        "path": "%APPDATA%\\riot-client-ux"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Riot Client interface data",
+      "badge": "check",
+      "owner": "Riot Games",
+      "summary": "Caches and web data of the Riot Client's interface",
+      "whatItIs": "The Riot Client's interface (Electron) keeps its web caches and local storage here.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "Nothing important is lost; caches are rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.valorant-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\VALORANT"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "VALORANT data",
+      "badge": "check",
+      "owner": "Riot Games",
+      "summary": "VALORANT settings, logs and shader caches",
+      "whatItIs": "VALORANT (an Unreal Engine game) keeps its settings, logs, crash reports and caches here.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "Local settings are reset; logs and caches are rebuilt.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.notion-calendar",
+      "match": {
+        "path": "%APPDATA%\\Notion Calendar"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Notion Calendar app data",
+      "badge": "check",
+      "owner": "Notion Labs",
+      "summary": "Notion Calendar desktop app data: sign-in and caches",
+      "whatItIs": "The Notion Calendar desktop app's data folder (Electron): sign-in, settings and caches.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "The app signs you out and rebuilds its caches; events are stored online.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.wispr-flow",
+      "match": {
+        "path": "%APPDATA%\\Wispr Flow"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Wispr Flow app data",
+      "badge": "check",
+      "owner": "Wispr",
+      "summary": "Wispr Flow settings, sign-in and caches",
+      "whatItIs": "The Wispr Flow desktop app's data folder (Electron): settings, sign-in and caches.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "The app signs you out and loses its local settings.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.antigravity-ide-roaming",
+      "match": {
+        "path": "%APPDATA%\\Antigravity IDE"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Antigravity IDE app data",
+      "badge": "check",
+      "owner": "Google",
+      "summary": "Settings, state and caches of the Antigravity IDE",
+      "whatItIs": "The Antigravity IDE's data folder (an editor based on VS Code): user settings, workspace state and caches.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "The editor loses its settings and workspace history.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.antigravity-roaming",
+      "match": {
+        "path": "%APPDATA%\\Antigravity"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Antigravity app data",
+      "badge": "check",
+      "owner": "Google",
+      "summary": "Settings, state and caches of Google Antigravity",
+      "whatItIs": "Google Antigravity's data folder (an editor based on VS Code): user settings, workspace state and caches.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "The app loses its settings and workspace history.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.antigravity-ide-user",
+      "match": {
+        "path": "%USERPROFILE%\\.antigravity-ide"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Antigravity IDE extensions",
+      "badge": "check",
+      "owner": "Google",
+      "summary": "Extensions and settings of the Antigravity IDE",
+      "whatItIs": "The Antigravity IDE's user folder, like .vscode for VS Code: installed extensions and some settings.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "The editor loses its extensions; they can be reinstalled.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.blizzard-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Blizzard Entertainment"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Blizzard games data",
+      "badge": "check",
+      "owner": "Blizzard Entertainment",
+      "summary": "Caches and logs of Battle.net and Blizzard games",
+      "whatItIs": "Battle.net and Blizzard games keep caches, logs and some settings here.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "Caches and logs are rebuilt; some local settings may be reset.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.amd-roaming",
+      "match": {
+        "path": "%APPDATA%\\AMD"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "AMD software settings",
+      "badge": "check",
+      "owner": "AMD",
+      "summary": "Settings and logs of AMD drivers and AMD Software",
+      "whatItIs": "AMD Software (Adrenalin) and AMD tools keep per-user settings and logs here.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "AMD Software resets its per-user settings.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.github-cli-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\GitHub CLI"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "GitHub CLI state",
+      "badge": "check",
+      "owner": "GitHub",
+      "summary": "State and caches of the GitHub CLI (gh)",
+      "whatItIs": "The GitHub CLI keeps its state, update checks and caches here; its settings and sign-in are in Roaming.",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "Nothing important is lost; gh recreates it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.ea-anticheat-roaming",
+      "match": {
+        "path": "%APPDATA%\\EA"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "EA anti-cheat installer and cache",
+      "badge": "check",
+      "owner": "Electronic Arts",
+      "summary": "Installer and caches of EA's anti-cheat (EA Javelin) used by EA online games",
+      "whatItIs": "EA's anti-cheat keeps its installer (EAAntiCheat.Installer.exe) and caches here (AC).",
+      "whyBig": "Settings are small; caches, logs and downloaded content make up the rest.",
+      "ifDeleted": "EA games that use the anti-cheat may download or repair it again before they start.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.agent-browser",
+      "match": {
+        "path": "%USERPROFILE%\\.agent-browser"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "agent-browser downloads",
+      "badge": "check",
+      "owner": "Vercel",
+      "summary": "Chrome builds downloaded by the agent-browser automation CLI",
+      "whatItIs": "The agent-browser command-line tool (browser automation for AI agents) downloads the Chrome for Testing builds it drives into browsers.",
+      "whyBig": "Each Chrome build is a few hundred MB.",
+      "ifDeleted": "agent-browser downloads the browser again ('agent-browser install') before its next run.",
+      "saferAlternative": null,
       "action": null
     }
   ]

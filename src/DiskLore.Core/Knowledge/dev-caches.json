@@ -2918,6 +2918,822 @@
       "ifDeleted": "The extensions disappear and must be reinstalled.",
       "saferAlternative": null,
       "action": null
+    },
+    {
+      "id": "dev.pip-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\pip"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "pip folder (cache)",
+      "badge": "safe",
+      "owner": "pip (Python)",
+      "summary": "pip's download cache; safe to clear",
+      "whatItIs": "pip keeps only its cache of downloaded packages and wheels here (the Cache subfolder). Its settings live in %APPDATA%\\pip.",
+      "whyBig": "Every package version pip downloaded or built is cached.",
+      "ifDeleted": "Nothing breaks; pip downloads packages again when needed.",
+      "saferAlternative": "Run 'pip cache purge'.",
+      "action": null
+    },
+    {
+      "id": "dev.uv-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\uv"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "uv folder (cache and receipt)",
+      "badge": "check",
+      "owner": "uv (Astral)",
+      "summary": "uv's package cache and the receipt of uv's own install",
+      "whatItIs": "uv keeps its package cache here (the cache subfolder) and, when installed with the standalone installer, uv-receipt.json, which 'uv self update' needs.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "The cache is downloaded again when needed; without the receipt 'uv self update' no longer works.",
+      "saferAlternative": "Run 'uv cache clean' or 'uv cache prune' instead.",
+      "action": null
+    },
+    {
+      "id": "dev.uv-roaming",
+      "match": {
+        "path": "%APPDATA%\\uv"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "uv data (Python versions and tools)",
+      "badge": "check",
+      "owner": "uv (Astral)",
+      "summary": "Python versions and command-line tools installed by uv",
+      "whatItIs": "uv's data folder: Python interpreters it installed (python) and tools installed with 'uv tool install' (tools), plus its settings.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Projects and tools that use these interpreters stop working until uv installs them again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.nuget-user",
+      "match": {
+        "path": "%USERPROFILE%\\.nuget"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "NuGet user folder",
+      "badge": "check",
+      "owner": "NuGet",
+      "summary": "NuGet global packages folder and NuGet plugins",
+      "whatItIs": "Holds the NuGet global packages folder (packages) used by every .NET project, and NuGet plugins such as credential providers.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Packages are restored again by the next build; credential provider plugins must be reinstalled.",
+      "saferAlternative": "Run 'dotnet nuget locals global-packages --clear' to clear the packages.",
+      "action": null
+    },
+    {
+      "id": "dev.yarn-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Yarn"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Yarn data",
+      "badge": "check",
+      "owner": "Yarn",
+      "summary": "Yarn's package cache and globally installed packages",
+      "whatItIs": "Yarn classic keeps its package cache and the packages installed with 'yarn global add' here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "The cache is downloaded again; global Yarn packages stop working until reinstalled.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.poetry-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\pypoetry"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Poetry data",
+      "badge": "check",
+      "owner": "Poetry",
+      "summary": "Poetry's cache and the virtual environments it created",
+      "whatItIs": "Poetry keeps its package cache and, by default, the virtual environments of your projects here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "The cache is downloaded again; project environments are recreated by 'poetry install'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.cypress-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Cypress"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Cypress data",
+      "badge": "safe",
+      "owner": "Cypress",
+      "summary": "Cypress test runner binaries",
+      "whatItIs": "Holds the Cypress binary cache (Cache).",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Cypress downloads its binary again on the next install.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.electron-builder-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\electron-builder"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "electron-builder data",
+      "badge": "safe",
+      "owner": "electron-builder",
+      "summary": "Tools and runtimes downloaded by electron-builder",
+      "whatItIs": "Holds electron-builder's download cache (Cache): Electron runtimes and packaging tools.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing breaks; the next build downloads them again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.node-gyp-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\node-gyp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "node-gyp data",
+      "badge": "safe",
+      "owner": "node-gyp",
+      "summary": "Node.js headers for building native modules; safe to clear",
+      "whatItIs": "node-gyp keeps the Node.js headers it downloads for compiling native add-ons here (Cache).",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing breaks; headers are downloaded again on the next native build.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.conda-user",
+      "match": {
+        "path": "%USERPROFILE%\\.conda"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "conda user data",
+      "badge": "check",
+      "owner": "conda",
+      "summary": "conda's per-user package cache, environments and settings",
+      "whatItIs": "conda keeps per-user package caches (pkgs), environments (envs) and the list of known environments here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Environments stored here are lost; the cache is downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.lmstudio-user",
+      "match": {
+        "path": "%USERPROFILE%\\.lmstudio"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "LM Studio data",
+      "badge": "check",
+      "owner": "LM Studio",
+      "summary": "LM Studio models, runtimes and settings",
+      "whatItIs": "LM Studio's data folder: downloaded models, inference runtimes, settings and conversations.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Models must be downloaded again and conversations and settings are lost.",
+      "saferAlternative": "Delete models you no longer use from LM Studio's My Models page.",
+      "action": null
+    },
+    {
+      "id": "dev.cursor-user",
+      "match": {
+        "path": "%USERPROFILE%\\.cursor"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Cursor user folder",
+      "badge": "check",
+      "owner": "Cursor",
+      "summary": "Cursor extensions and settings",
+      "whatItIs": "Cursor (an editor based on VS Code) keeps its installed extensions and some settings, such as MCP servers, here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Cursor loses its extensions and these settings; extensions can be reinstalled.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.nvm-windows",
+      "match": {
+        "path": "%APPDATA%\\nvm"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Node.js versions (nvm-windows)",
+      "badge": "app",
+      "owner": "nvm-windows",
+      "summary": "Node.js versions installed by nvm-windows",
+      "whatItIs": "The nvm-windows root: one folder per installed Node.js version, each with its global npm packages.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Node.js and globally installed npm tools stop working until nvm installs them again.",
+      "saferAlternative": "Remove versions with 'nvm uninstall <version>'.",
+      "action": null
+    },
+    {
+      "id": "dev.android-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Android"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Android SDK folder",
+      "badge": "app",
+      "owner": "Google",
+      "summary": "Android SDK and related tools used by Android Studio and game engines",
+      "whatItIs": "Holds the Android SDK (Sdk) and tools such as bundletool, used by Android Studio, Godot, Unity and other build tools.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Android builds fail until the SDK is installed again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.unity-roaming",
+      "match": {
+        "path": "%APPDATA%\\Unity"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Unity Editor user data",
+      "badge": "check",
+      "owner": "Unity",
+      "summary": "Unity Editor preferences, licenses and Asset Store downloads",
+      "whatItIs": "Unity Editor data for your account: Asset Store downloads, preferences and licensing data.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Asset Store packages must be downloaded again and some preferences are reset.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.blender-foundation",
+      "match": {
+        "path": "%APPDATA%\\Blender Foundation"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Blender settings folder",
+      "badge": "check",
+      "owner": "Blender Foundation",
+      "summary": "Blender preferences, add-ons and extensions",
+      "whatItIs": "Blender's user folder: one subfolder per Blender version with preferences, add-ons, extensions and startup files.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Blender starts with default settings and without your add-ons.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.unity-hub-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\UnityHub"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Unity Hub update download",
+      "badge": "safe",
+      "owner": "Unity",
+      "summary": "Update installer downloaded by Unity Hub; safe to delete",
+      "whatItIs": "Unity Hub downloads its next update here (pending) before installing it.",
+      "whyBig": "It holds one full Unity Hub installer.",
+      "ifDeleted": "Nothing breaks; Unity Hub downloads the update again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.claude-cli-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\claude-cli-nodejs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Claude Code logs",
+      "badge": "safe",
+      "owner": "Anthropic",
+      "summary": "Logs of Claude Code and the MCP servers it runs; safe to delete",
+      "whatItIs": "Claude Code (the CLI) writes logs here, mostly the output of MCP servers per project.",
+      "whyBig": "Each session of each project adds log files.",
+      "ifDeleted": "Nothing breaks; new logs are written.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.codex-user",
+      "match": {
+        "path": "%USERPROFILE%\\.codex"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "OpenAI Codex data",
+      "badge": "check",
+      "owner": "OpenAI",
+      "summary": "Codex settings, sign-in, session history and sandbox files",
+      "whatItIs": "The Codex home folder (CODEX_HOME): config.toml, sign-in tokens, transcripts of past sessions and sandbox helpers.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Codex loses its settings and sign-in, and past sessions can no longer be resumed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.codex-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\OpenAI"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "OpenAI Codex program files",
+      "badge": "app",
+      "owner": "OpenAI",
+      "summary": "Binaries and runtimes of the OpenAI Codex app",
+      "whatItIs": "Holds the Codex binaries and the runtimes it downloads (Codex).",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Codex stops working until it downloads or reinstalls them.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.claude-projects",
+      "match": {
+        "path": "%USERPROFILE%\\.claude\\projects"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Claude Code session transcripts",
+      "badge": "check",
+      "owner": "Anthropic",
+      "summary": "Transcripts of past Claude Code sessions, one folder per project",
+      "whatItIs": "Claude Code saves every session as a transcript here so it can be resumed or searched.",
+      "whyBig": "Each session adds a transcript; long sessions with tool output are large.",
+      "ifDeleted": "Past sessions can no longer be resumed; current work is not affected.",
+      "saferAlternative": "Delete folders of projects you no longer work on.",
+      "action": null
+    },
+    {
+      "id": "dev.claude-desktop-data",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Claude-Data"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Claude app data",
+      "badge": "check",
+      "owner": "Anthropic",
+      "summary": "Claude desktop settings, sign-in and Cowork tasks; do not delete",
+      "whatItIs": "Data the Claude desktop app keeps for this account: settings, sign-in, and Cowork tasks with their files.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Settings, sign-in and Cowork tasks and their files are lost and cannot be recovered.",
+      "saferAlternative": "In Claude, use Settings > This computer > System > Storage, or Help > Troubleshooting > Clear Cache and Restart.",
+      "action": null
+    },
+    {
+      "id": "dev.claude-desktop-logs",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Claude"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Claude app logs",
+      "badge": "safe",
+      "owner": "Anthropic",
+      "summary": "Log files of the Claude desktop app",
+      "whatItIs": "The Claude desktop app writes its logs here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing breaks; new logs are written.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.hermes-agent",
+      "match": {
+        "path": "%LOCALAPPDATA%\\hermes"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Hermes Agent data",
+      "badge": "check",
+      "owner": "Nous Research",
+      "summary": "Hermes Agent settings, sign-ins, skills, history and local models",
+      "whatItIs": "The data folder of Hermes Agent: its code checkout (hermes-agent), settings, API sign-ins, skills, memory, history and downloaded local models.",
+      "whyBig": "Local AI models (models) are several GB each.",
+      "ifDeleted": "The agent loses its settings, memory and sign-ins, and local models must be downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.libsycl-cache",
+      "match": {
+        "path": "%APPDATA%\\libsycl_cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "SYCL kernel cache",
+      "badge": "safe",
+      "owner": "Intel oneAPI",
+      "summary": "Compiled GPU kernels cached by SYCL/oneAPI programs; safe to clear",
+      "whatItIs": "The persistent device-code cache of the SYCL runtime (Intel oneAPI), used by programs such as AI tools running on Intel GPUs.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing breaks; kernels are compiled again on the next run, which is slower once.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.nltk-data",
+      "match": {
+        "path": "%APPDATA%\\nltk_data"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "NLTK data",
+      "badge": "check",
+      "owner": "NLTK (Python)",
+      "summary": "Language corpora and models downloaded by NLTK",
+      "whatItIs": "Corpora, tokenizers and models downloaded with nltk.download().",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Python code that uses them fails until they are downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.undetected-chromedriver",
+      "match": {
+        "path": "%APPDATA%\\undetected_chromedriver"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "undetected-chromedriver downloads",
+      "badge": "safe",
+      "owner": "undetected-chromedriver (Python)",
+      "summary": "ChromeDriver downloaded by a Python library; downloaded again when needed",
+      "whatItIs": "The undetected-chromedriver library downloads and patches ChromeDriver here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Nothing breaks; it is downloaded again on the next run.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.disklore",
+      "match": {
+        "path": "%LOCALAPPDATA%\\DiskLore"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "DiskLore data",
+      "badge": "check",
+      "owner": "DiskLore",
+      "summary": "DiskLore settings, your own rules, cached AI answers and snapshots",
+      "whatItIs": "DiskLore's data folder: settings, rules.user.json, cached Claude answers (ai-cache.json) and scan snapshots.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "DiskLore loses its settings, your own rules, its snapshots and the AI answers it already paid for.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.disklore-unix",
+      "match": {
+        "path": "~/.local/share/DiskLore"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "DiskLore data",
+      "badge": "check",
+      "owner": "DiskLore",
+      "summary": "DiskLore settings, your own rules, cached AI answers and snapshots",
+      "whatItIs": "DiskLore's data folder: settings, rules.user.json, cached Claude answers (ai-cache.json) and scan snapshots.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "DiskLore loses its settings, your own rules, its snapshots and the AI answers it already paid for.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.disklore-mac",
+      "match": {
+        "path": "~/Library/Application Support/DiskLore"
+      },
+      "kind": "folder",
+      "platforms": [
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "DiskLore data",
+      "badge": "check",
+      "owner": "DiskLore",
+      "summary": "DiskLore settings, your own rules, cached AI answers and snapshots",
+      "whatItIs": "DiskLore's data folder: settings, rules.user.json, cached Claude answers (ai-cache.json) and scan snapshots.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "DiskLore loses its settings, your own rules, its snapshots and the AI answers it already paid for.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.python-user-installs",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Programs\\Python"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Python (installed for your account)",
+      "badge": "app",
+      "owner": "Python Software Foundation",
+      "summary": "Python versions installed for your account by the python.org installer",
+      "whatItIs": "The default location of Python versions installed 'for me only' by the python.org installer, one folder per version, plus the py launcher.",
+      "whyBig": "Each version with its installed packages is 100 MB to several GB.",
+      "ifDeleted": "Python and everything installed into it stop working; uninstall it from Settings > Apps instead.",
+      "saferAlternative": "Uninstall versions you no longer need from Settings > Apps.",
+      "action": null
+    },
+    {
+      "id": "dev.gemini-user",
+      "match": {
+        "path": "%USERPROFILE%\\.gemini"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Gemini CLI and Antigravity data",
+      "badge": "check",
+      "owner": "Google",
+      "summary": "Settings, sign-in and data of Gemini CLI and Google Antigravity",
+      "whatItIs": "Gemini CLI and Google Antigravity keep their settings, sign-in, history and downloaded components here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "These tools lose their settings, sign-in and history.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.chromium-gpucache",
+      "match": {
+        "name": "GPUCache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 30,
+      "title": "GPU cache (Chromium)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "GPU cache of a Chromium-based app; rebuilt automatically",
+      "whatItIs": "Compiled GPU programs of a Chromium-based app or browser. Electron apps (Discord, Slack, VS Code, Notion...), CEF apps and WebView2 apps all use it.",
+      "whyBig": "It grows with use; each app keeps its own.",
+      "ifDeleted": "Nothing is lost; the app rebuilds it, so it may start or load a little slower once. Close the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.chromium-code-cache",
+      "match": {
+        "name": "Code Cache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 30,
+      "title": "JavaScript code cache (Chromium)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "JavaScript code cache of a Chromium-based app; rebuilt automatically",
+      "whatItIs": "Compiled JavaScript of a Chromium-based app or browser. Electron apps (Discord, Slack, VS Code, Notion...), CEF apps and WebView2 apps all use it.",
+      "whyBig": "It grows with use; each app keeps its own.",
+      "ifDeleted": "Nothing is lost; the app rebuilds it, so it may start or load a little slower once. Close the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.chromium-dawngraphitecache",
+      "match": {
+        "name": "DawnGraphiteCache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 30,
+      "title": "WebGPU cache (Dawn) (Chromium)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "WebGPU cache (Dawn) of a Chromium-based app; rebuilt automatically",
+      "whatItIs": "Compiled WebGPU shaders of a Chromium-based app or browser. Electron apps (Discord, Slack, VS Code, Notion...), CEF apps and WebView2 apps all use it.",
+      "whyBig": "It grows with use; each app keeps its own.",
+      "ifDeleted": "Nothing is lost; the app rebuilds it, so it may start or load a little slower once. Close the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.chromium-dawnwebgpucache",
+      "match": {
+        "name": "DawnWebGPUCache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 30,
+      "title": "WebGPU cache (Dawn) (Chromium)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "WebGPU cache (Dawn) of a Chromium-based app; rebuilt automatically",
+      "whatItIs": "Compiled WebGPU shaders of a Chromium-based app or browser. Electron apps (Discord, Slack, VS Code, Notion...), CEF apps and WebView2 apps all use it.",
+      "whyBig": "It grows with use; each app keeps its own.",
+      "ifDeleted": "Nothing is lost; the app rebuilds it, so it may start or load a little slower once. Close the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.chromium-dawncache",
+      "match": {
+        "name": "DawnCache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 30,
+      "title": "WebGPU cache (Dawn) (Chromium)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "WebGPU cache (Dawn) of a Chromium-based app; rebuilt automatically",
+      "whatItIs": "Compiled WebGPU shaders of a Chromium-based app or browser. Electron apps (Discord, Slack, VS Code, Notion...), CEF apps and WebView2 apps all use it.",
+      "whyBig": "It grows with use; each app keeps its own.",
+      "ifDeleted": "Nothing is lost; the app rebuilds it, so it may start or load a little slower once. Close the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.chromium-grshadercache",
+      "match": {
+        "name": "GrShaderCache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 30,
+      "title": "Graphics shader cache (Chromium)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Graphics shader cache of a Chromium-based app; rebuilt automatically",
+      "whatItIs": "Compiled graphics shaders of a Chromium-based app or browser. Electron apps (Discord, Slack, VS Code, Notion...), CEF apps and WebView2 apps all use it.",
+      "whyBig": "It grows with use; each app keeps its own.",
+      "ifDeleted": "Nothing is lost; the app rebuilds it, so it may start or load a little slower once. Close the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.chromium-graphitedawncache",
+      "match": {
+        "name": "GraphiteDawnCache"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 30,
+      "title": "Graphics shader cache (Chromium)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Graphics shader cache of a Chromium-based app; rebuilt automatically",
+      "whatItIs": "Compiled graphics shaders of a Chromium-based app or browser. Electron apps (Discord, Slack, VS Code, Notion...), CEF apps and WebView2 apps all use it.",
+      "whyBig": "It grows with use; each app keeps its own.",
+      "ifDeleted": "Nothing is lost; the app rebuilds it, so it may start or load a little slower once. Close the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.chromium-cache-data",
+      "match": {
+        "name": "Cache_Data"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 30,
+      "title": "Web cache (Chromium)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Web cache of a Chromium-based app; rebuilt automatically",
+      "whatItIs": "Downloaded web content cached by a Chromium-based app or browser. Electron apps (Discord, Slack, VS Code, Notion...), CEF apps and WebView2 apps all use it.",
+      "whyBig": "It grows with use; each app keeps its own.",
+      "ifDeleted": "Nothing is lost; the app rebuilds it, so it may start or load a little slower once. Close the app first.",
+      "saferAlternative": null,
+      "action": null
     }
   ]
 }

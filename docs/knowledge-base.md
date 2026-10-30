@@ -43,6 +43,9 @@ The full schema (match keys, qualifiers, precedence, path tokens and globs,
 - `badge` is one of `critical`, `shrink`, `app`, `check`, `safe`, `leftover`,
   `user`, `unknown`.
 - Text fields are plain sentences, no markdown.
+- An `extension` rule knows only the file type: if the file sits in an installed
+  program or under a more cautious inherited rule, that verdict wins, so a type
+  rule can raise caution but never lower it.
 
 ## Writing good rules
 

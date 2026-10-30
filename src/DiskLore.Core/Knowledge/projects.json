@@ -403,96 +403,6 @@
       "action": null
     },
     {
-      "id": "proj.pkg-dist",
-      "match": {
-        "name": "dist",
-        "under": "**/node_modules"
-      },
-      "kind": "folder",
-      "platforms": [
-        "linux",
-        "macos"
-      ],
-      "inherit": true,
-      "priority": 70,
-      "title": "Package build output (inside node_modules)",
-      "badge": "safe",
-      "owner": "npm / Node.js",
-      "summary": "Built files of an installed npm package; part of node_modules",
-      "whatItIs": "The published build of a package installed in node_modules.",
-      "whyBig": "Packages ship their compiled code here.",
-      "ifDeleted": "Same as deleting node_modules: restore with 'npm install'.",
-      "saferAlternative": null,
-      "action": null
-    },
-    {
-      "id": "proj.pkg-dist-win",
-      "match": {
-        "name": "dist",
-        "under": "**\\node_modules"
-      },
-      "kind": "folder",
-      "platforms": [
-        "windows"
-      ],
-      "inherit": true,
-      "priority": 70,
-      "title": "Package build output (inside node_modules)",
-      "badge": "safe",
-      "owner": "npm / Node.js",
-      "summary": "Built files of an installed npm package; part of node_modules",
-      "whatItIs": "The published build of a package installed in node_modules.",
-      "whyBig": "Packages ship their compiled code here.",
-      "ifDeleted": "Same as deleting node_modules: restore with 'npm install'.",
-      "saferAlternative": null,
-      "action": null
-    },
-    {
-      "id": "proj.pkg-build-win",
-      "match": {
-        "name": "build",
-        "under": "**\\node_modules"
-      },
-      "kind": "folder",
-      "platforms": [
-        "windows"
-      ],
-      "inherit": true,
-      "priority": 70,
-      "title": "Package build output (inside node_modules)",
-      "badge": "safe",
-      "owner": "npm / Node.js",
-      "summary": "Built files of an installed npm package; part of node_modules",
-      "whatItIs": "The published build or native addon output of a package installed in node_modules.",
-      "whyBig": "Packages ship compiled code or native binaries here.",
-      "ifDeleted": "Same as deleting node_modules: restore with 'npm install'.",
-      "saferAlternative": null,
-      "action": null
-    },
-    {
-      "id": "proj.pkg-build",
-      "match": {
-        "name": "build",
-        "under": "**/node_modules"
-      },
-      "kind": "folder",
-      "platforms": [
-        "linux",
-        "macos"
-      ],
-      "inherit": true,
-      "priority": 70,
-      "title": "Package build output (inside node_modules)",
-      "badge": "safe",
-      "owner": "npm / Node.js",
-      "summary": "Built files of an installed npm package; part of node_modules",
-      "whatItIs": "The published build or native addon output of a package installed in node_modules.",
-      "whyBig": "Packages ship compiled code or native binaries here.",
-      "ifDeleted": "Same as deleting node_modules: restore with 'npm install'.",
-      "saferAlternative": null,
-      "action": null
-    },
-    {
       "id": "proj.js-dist",
       "match": {
         "name": "dist",
@@ -1704,6 +1614,294 @@
       "whyBig": "As large as the scene.",
       "ifDeleted": "You can no longer recover that scene after a crash with File > Recover > Auto Save.",
       "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "proj.unreal-engine-plugin-intermediate",
+      "match": {
+        "name": "Intermediate",
+        "sibling": "*.uplugin",
+        "under": "**/Engine/Plugins"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 80,
+      "title": "Unreal Engine plugin intermediates (engine install)",
+      "badge": "check",
+      "owner": "Unreal Engine",
+      "summary": "Part of an Unreal Engine install, not of your project; installed engines cannot rebuild it",
+      "whatItIs": "Build intermediates (generated headers and build data) of a plugin that ships with Unreal Engine itself.",
+      "whyBig": "Engine plugins ship generated code and precompiled build data for every platform they support.",
+      "ifDeleted": "In an engine installed by the Epic Games Launcher, C++ projects that use the plugin can stop compiling until the engine is verified or reinstalled; a source-built engine has to be rebuilt.",
+      "saferAlternative": "Remove engine versions you no longer use in the Epic Games Launcher instead.",
+      "action": null
+    },
+    {
+      "id": "proj.unreal-engine-plugin-binaries",
+      "match": {
+        "name": "Binaries",
+        "sibling": "*.uplugin",
+        "under": "**/Engine/Plugins"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 80,
+      "title": "Unreal Engine plugin binaries (engine install)",
+      "badge": "app",
+      "owner": "Unreal Engine",
+      "summary": "Compiled modules of a plugin that ships with Unreal Engine; part of the engine",
+      "whatItIs": "Compiled modules (DLLs) of a plugin that ships with Unreal Engine itself.",
+      "whyBig": "Each plugin ships editor and runtime modules for every platform it supports.",
+      "ifDeleted": "The editor cannot load the plugin and projects that use it fail to open until the engine is verified or reinstalled.",
+      "saferAlternative": "Remove engine versions you no longer use in the Epic Games Launcher instead.",
+      "action": null
+    },
+    {
+      "id": "pf.epic-ue-intermediate",
+      "match": {
+        "path": "%PROGRAMFILES%\\Epic Games\\UE_*\\**\\Intermediate"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Part of the Unreal Engine install",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Build data of an installed Unreal Engine version; not project output",
+      "whatItIs": "A Intermediate folder inside an Unreal Engine version installed by the Epic Games Launcher. It belongs to the engine, not to one of your projects.",
+      "whyBig": "Installed engines ship generated code, compiled modules and build data for their programs and plugins.",
+      "ifDeleted": "The engine, its tools or C++ projects built against it can stop working until the engine is verified or reinstalled in the Epic Games Launcher.",
+      "saferAlternative": "Remove engine versions you no longer use in the Epic Games Launcher instead.",
+      "action": null
+    },
+    {
+      "id": "pf.epic-ue-binaries",
+      "match": {
+        "path": "%PROGRAMFILES%\\Epic Games\\UE_*\\**\\Binaries"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Part of the Unreal Engine install",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Build data of an installed Unreal Engine version; not project output",
+      "whatItIs": "A Binaries folder inside an Unreal Engine version installed by the Epic Games Launcher. It belongs to the engine, not to one of your projects.",
+      "whyBig": "Installed engines ship generated code, compiled modules and build data for their programs and plugins.",
+      "ifDeleted": "The engine, its tools or C++ projects built against it can stop working until the engine is verified or reinstalled in the Epic Games Launcher.",
+      "saferAlternative": "Remove engine versions you no longer use in the Epic Games Launcher instead.",
+      "action": null
+    },
+    {
+      "id": "pf.epic-ue-deriveddatacache",
+      "match": {
+        "path": "%PROGRAMFILES%\\Epic Games\\UE_*\\**\\DerivedDataCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Part of the Unreal Engine install",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Build data of an installed Unreal Engine version; not project output",
+      "whatItIs": "A DerivedDataCache folder inside an Unreal Engine version installed by the Epic Games Launcher. It belongs to the engine, not to one of your projects.",
+      "whyBig": "Installed engines ship generated code, compiled modules and build data for their programs and plugins.",
+      "ifDeleted": "The engine, its tools or C++ projects built against it can stop working until the engine is verified or reinstalled in the Epic Games Launcher.",
+      "saferAlternative": "Remove engine versions you no longer use in the Epic Games Launcher instead.",
+      "action": null
+    },
+    {
+      "id": "pf.epic-ue-saved",
+      "match": {
+        "path": "%PROGRAMFILES%\\Epic Games\\UE_*\\**\\Saved"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Part of the Unreal Engine install",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Build data of an installed Unreal Engine version; not project output",
+      "whatItIs": "A Saved folder inside an Unreal Engine version installed by the Epic Games Launcher. It belongs to the engine, not to one of your projects.",
+      "whyBig": "Installed engines ship generated code, compiled modules and build data for their programs and plugins.",
+      "ifDeleted": "The engine, its tools or C++ projects built against it can stop working until the engine is verified or reinstalled in the Epic Games Launcher.",
+      "saferAlternative": "Remove engine versions you no longer use in the Epic Games Launcher instead.",
+      "action": null
+    },
+    {
+      "id": "proj.egg-info-installed",
+      "match": {
+        "name": "*.egg-info",
+        "under": "**/site-packages"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Installed Python package metadata (egg-info)",
+      "badge": "app",
+      "owner": "Python",
+      "summary": "Metadata of an installed Python package; pip and Python need it",
+      "whatItIs": "The metadata of a package installed into a Python environment: its name, version, files and entry points.",
+      "whyBig": "Usually small; it lists the files the package installed.",
+      "ifDeleted": "pip no longer sees the package, so it cannot be upgraded or uninstalled cleanly, and code that looks up its version or entry points fails.",
+      "saferAlternative": "Remove the package with 'pip uninstall' instead.",
+      "action": null
+    },
+    {
+      "id": "proj.venv-stdlib",
+      "match": {
+        "name": "venv",
+        "sibling": "os.py"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 70,
+      "title": "Python standard library: venv module",
+      "badge": "app",
+      "owner": "Python",
+      "summary": "Part of a Python installation (the module that creates environments)",
+      "whatItIs": "The 'venv' package of the Python standard library, which creates virtual environments. It sits next to os.py and the other standard modules.",
+      "whyBig": "Small; some distributions add launcher executables.",
+      "ifDeleted": "Python can no longer create virtual environments ('python -m venv' fails), and tools that rely on it break.",
+      "saferAlternative": "Uninstall or repair the Python installation it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.venv-in-programs-pf",
+      "match": {
+        "path": "%PROGRAMFILES%\\**\\venv"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Python environment of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A Python virtual environment inside Program Files. Here it holds the Python packages an installed program runs on, not a project environment you can recreate.",
+      "whyBig": "Programs that bundle Python (AI tools, launchers, editors) ship their packages this way, often several GB.",
+      "ifDeleted": "The program it belongs to stops working until it is reinstalled or repaired.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.venv-in-programs-pf-dot",
+      "match": {
+        "path": "%PROGRAMFILES%\\**\\.venv"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Python environment of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A Python virtual environment inside Program Files. Here it holds the Python packages an installed program runs on, not a project environment you can recreate.",
+      "whyBig": "Programs that bundle Python (AI tools, launchers, editors) ship their packages this way, often several GB.",
+      "ifDeleted": "The program it belongs to stops working until it is reinstalled or repaired.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.venv-in-programs-pf86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\**\\venv"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Python environment of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A Python virtual environment inside Program Files (x86). Here it holds the Python packages an installed program runs on, not a project environment you can recreate.",
+      "whyBig": "Programs that bundle Python (AI tools, launchers, editors) ship their packages this way, often several GB.",
+      "ifDeleted": "The program it belongs to stops working until it is reinstalled or repaired.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.venv-in-programs-pf86-dot",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\**\\.venv"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Python environment of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A Python virtual environment inside Program Files (x86). Here it holds the Python packages an installed program runs on, not a project environment you can recreate.",
+      "whyBig": "Programs that bundle Python (AI tools, launchers, editors) ship their packages this way, often several GB.",
+      "ifDeleted": "The program it belongs to stops working until it is reinstalled or repaired.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.venv-in-programs-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Programs\\**\\venv"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Python environment of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A Python virtual environment inside a per-user installed program. Here it holds the Python packages an installed program runs on, not a project environment you can recreate.",
+      "whyBig": "Programs that bundle Python (AI tools, launchers, editors) ship their packages this way, often several GB.",
+      "ifDeleted": "The program it belongs to stops working until it is reinstalled or repaired.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
+      "action": null
+    },
+    {
+      "id": "proj.venv-in-programs-local-dot",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Programs\\**\\.venv"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Python environment of an installed program",
+      "badge": "app",
+      "owner": null,
+      "summary": "Part of an installed program or tool, not a project; do not delete",
+      "whatItIs": "A Python virtual environment inside a per-user installed program. Here it holds the Python packages an installed program runs on, not a project environment you can recreate.",
+      "whyBig": "Programs that bundle Python (AI tools, launchers, editors) ship their packages this way, often several GB.",
+      "ifDeleted": "The program it belongs to stops working until it is reinstalled or repaired.",
+      "saferAlternative": "Uninstall or update the program it belongs to instead.",
       "action": null
     }
   ]

@@ -2241,6 +2241,384 @@
         "label": "Open Installed apps",
         "value": "ms-settings:appsfeatures"
       }
+    },
+    {
+      "id": "pf.jetbrains",
+      "match": {
+        "path": "%PROGRAMFILES%\\JetBrains"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "JetBrains IDEs",
+      "badge": "app",
+      "owner": "JetBrains",
+      "summary": "Installed JetBrains IDEs (Rider, IntelliJ IDEA, PyCharm...) and their helpers",
+      "whatItIs": "The default install folder of JetBrains IDEs: one folder per IDE version, plus shared helpers and precompiled caches.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "The IDEs stop working; uninstall them from Settings > Apps or the JetBrains Toolbox instead.",
+      "saferAlternative": "Uninstall old IDE versions from Settings > Apps or the Toolbox app.",
+      "action": null
+    },
+    {
+      "id": "pf.microsoft-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Microsoft"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Microsoft Edge, WebView2 and Copilot",
+      "badge": "app",
+      "owner": "Microsoft",
+      "summary": "Microsoft Edge, the WebView2 runtime, their updater and Copilot",
+      "whatItIs": "Holds Microsoft Edge (Edge, EdgeCore), the WebView2 runtime many apps depend on (EdgeWebView), the Edge updater (EdgeUpdate) and the Copilot app.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Edge, Copilot and every app that uses WebView2 (Office, Teams, widgets and many others) stop working.",
+      "saferAlternative": "Leave it; these components update and clean up after themselves.",
+      "action": null
+    },
+    {
+      "id": "pf.ubisoft-x86",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\Ubisoft"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Ubisoft",
+      "badge": "app",
+      "owner": "Ubisoft",
+      "summary": "Ubisoft Connect and, by default, its games",
+      "whatItIs": "Ubisoft's install folder: the Ubisoft Connect launcher and, unless you chose another library, its games.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Ubisoft Connect and its games stop working; uninstall games from Ubisoft Connect instead.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.android",
+      "match": {
+        "path": "%PROGRAMFILES%\\Android"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Android Studio install folder",
+      "badge": "app",
+      "owner": "Google",
+      "summary": "Android Studio program files",
+      "whatItIs": "The default install folder of Android Studio.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Android Studio stops working; uninstall it from Settings > Apps instead.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.easyanticheat-eos",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\EasyAntiCheat_EOS"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Easy Anti-Cheat (Epic Online Services)",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Anti-cheat service required by online games that use it",
+      "whatItIs": "The Easy Anti-Cheat service shared by games that use Epic Online Services.",
+      "whyBig": "Small.",
+      "ifDeleted": "Games that use Easy Anti-Cheat refuse to start until one of them reinstalls the service.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.easyanticheat",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\EasyAntiCheat"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Easy Anti-Cheat",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Anti-cheat service required by online games that use it",
+      "whatItIs": "The Easy Anti-Cheat service shared by games that use it.",
+      "whyBig": "Small.",
+      "ifDeleted": "Games that use Easy Anti-Cheat refuse to start until one of them reinstalls the service.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pf.installshield-info",
+      "match": {
+        "path": "%PROGRAMFILESX86%\\InstallShield Installation Information"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "InstallShield maintenance data",
+      "badge": "app",
+      "owner": null,
+      "summary": "Setup files programs need to repair, change or uninstall themselves",
+      "whatItIs": "Programs installed with InstallShield keep a copy of their setup here, one folder per program (named by a GUID).",
+      "whyBig": "Each program keeps its setup, usually a few MB.",
+      "ifDeleted": "Those programs can no longer be repaired, changed or uninstalled cleanly.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.ubisoft",
+      "match": {
+        "path": "%PROGRAMDATA%\\Ubisoft"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Ubisoft shared data",
+      "badge": "check",
+      "owner": "Ubisoft",
+      "summary": "Shared data of Ubisoft Connect and Ubisoft games (cache, patches)",
+      "whatItIs": "Data Ubisoft Connect and Ubisoft games share between users: launcher cache, downloaded patches and game data.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Ubisoft Connect may download patches again and games may need a repair.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.squirrel-machine-installs",
+      "match": {
+        "path": "%PROGRAMDATA%\\SquirrelMachineInstalls"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Machine-wide app installers",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installers that set up apps such as Discord for every user who signs in",
+      "whatItIs": "Apps built with the Squirrel installer (for example Discord or Teams classic) place a machine-wide installer here; it installs the app for each user account at sign-in.",
+      "whyBig": "One full installer per app, often 100 MB or more.",
+      "ifDeleted": "Existing installs keep working, but the app is no longer installed automatically for new users.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.caphyon",
+      "match": {
+        "path": "%PROGRAMDATA%\\Caphyon"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Advanced Installer data",
+      "badge": "check",
+      "owner": "Caphyon",
+      "summary": "Setup files of programs packaged with Advanced Installer",
+      "whatItIs": "Programs packaged with Advanced Installer keep setup files and prerequisites here, used for updates, repair and uninstall.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Those programs may fail to update, repair or uninstall cleanly.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.ea-desktop",
+      "match": {
+        "path": "%PROGRAMDATA%\\EA Desktop"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "EA app shared data",
+      "badge": "check",
+      "owner": "Electronic Arts",
+      "summary": "Install data, logs and service settings of the EA app",
+      "whatItIs": "Data the EA app keeps for all users: install records of EA games, logs and settings of its background service.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "The EA app may lose track of installed games and need a repair.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.mozilla-updates",
+      "match": {
+        "path": "%PROGRAMDATA%\\Mozilla-*"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Firefox update data",
+      "badge": "check",
+      "owner": "Mozilla",
+      "summary": "Update downloads and update state of Firefox-based browsers",
+      "whatItIs": "Firefox and Firefox-based browsers (Zen, Thunderbird...) keep pending updates, update locks and background-task state in this machine-wide folder.",
+      "whyBig": "Pending updates and their logs are the usual large parts.",
+      "ifDeleted": "A pending update is downloaded again; nothing personal is stored here.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.adobe",
+      "match": {
+        "path": "%PROGRAMDATA%\\Adobe"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Adobe shared data",
+      "badge": "check",
+      "owner": "Adobe",
+      "summary": "Shared data of Adobe apps: updaters, licensing, Camera Raw and the PDF printer",
+      "whatItIs": "Data Adobe apps share between users: Acrobat's updater (ARM), licensing (SLStore), Camera Raw profiles and the Adobe PDF printer settings.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Adobe apps may lose licensing or need a repair.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.apple",
+      "match": {
+        "path": "%PROGRAMDATA%\\Apple"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Apple shared data",
+      "badge": "check",
+      "owner": "Apple",
+      "summary": "Shared data of Apple software (iTunes, Apple Devices, Bonjour)",
+      "whatItIs": "Data Apple's Windows software keeps for all users: device pairing records (Lockdown), Apple Application Support and cached installers.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Paired iPhones and iPads must be trusted again and Apple software may need a repair.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.apple-computer",
+      "match": {
+        "path": "%PROGRAMDATA%\\Apple Computer"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Apple shared data (older)",
+      "badge": "check",
+      "owner": "Apple",
+      "summary": "Cached installers and iTunes data of Apple software",
+      "whatItIs": "Older Apple software keeps cached installers (Installer Cache) and iTunes data here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Apple software may need its installer to repair or uninstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.intel",
+      "match": {
+        "path": "%PROGRAMDATA%\\Intel"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Intel shared data",
+      "badge": "check",
+      "owner": "Intel",
+      "summary": "Shared data of Intel drivers and utilities (installers, update services)",
+      "whatItIs": "Data Intel drivers and tools keep for all users, such as the graphics installer, driver support assistant and firmware update service.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Intel driver tools may need to be reinstalled.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.sony-pspc",
+      "match": {
+        "path": "%PROGRAMDATA%\\Sony Interactive Entertainment Inc"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "PlayStation PC SDK data",
+      "badge": "check",
+      "owner": "Sony Interactive Entertainment",
+      "summary": "Shared component used by PlayStation games on PC for PlayStation Network sign-in",
+      "whatItIs": "Data of the PlayStation PC SDK (PSPC_SDK), used by PlayStation Studios games on PC for PlayStation Network sign-in and services.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "PlayStation games on PC may need a repair or reinstall to sign in to PlayStation Network.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "pd.epson",
+      "match": {
+        "path": "%PROGRAMDATA%\\EPSON"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Epson printer and scanner data",
+      "badge": "check",
+      "owner": "Epson",
+      "summary": "Shared data of Epson printer and scanner software",
+      "whatItIs": "Epson drivers and utilities keep shared settings, logs and update data here.",
+      "whyBig": "Mostly the subfolders explained separately.",
+      "ifDeleted": "Epson utilities may need to be reinstalled.",
+      "saferAlternative": null,
+      "action": null
     }
   ]
 }

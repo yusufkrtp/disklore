@@ -8,6 +8,7 @@ namespace DiskLore.Core.Programs;
 /// <summary>
 /// Windows only. Flags direct children of AppData\Local, AppData\Roaming, ProgramData and Program Files
 /// that match no installed program. It is a guess, so the confidence stays low.
+/// A data folder (AppData, ProgramData) that clearly matches an installed program is attributed to it instead.
 /// </summary>
 public sealed class LeftoverHeuristic : IExplainer
 {
@@ -32,12 +33,13 @@ public sealed class LeftoverHeuristic : IExplainer
         "WindowsApps", "Dell", "HP", "Hewlett-Packard", "Lenovo", "ASUS", "Acer", "Apple", "Apple Computer",
         "Sun", "Oracle", "Java", "npm", "npm-cache", "NuGet", "pip", "node_modules", "$Recycle.Bin",
         "System Volume Information", "Recovery", "MiracastView", "Notifications", "GameBar", "AppReadiness",
-        "Local", "LocalLow", "Roaming", "AppData",
+        "Local", "LocalLow", "Roaming", "AppData", "InstallShield Installation Information", "Whesvc",
+        "Visual Studio Setup", "AMDSoftwareInstaller",
     };
 
     private static readonly string[] AllowPrefixes =
     {
-        "regid.", "Windows ", "Microsoft", "Windows.", "MicrosoftEdge", "{", "$", "NVIDIA ", "Intel ", "AMD ",
+        "regid.", "Windows ", "Microsoft", "Windows.", "MicrosoftEdge", "{", "$", "NVIDIA ", "Intel ", "AMD ", "AMD_",
     };
 
     private static readonly HashSet<string> NoiseWords = new(StringComparer.Ordinal)
@@ -54,9 +56,10 @@ public sealed class LeftoverHeuristic : IExplainer
     private readonly Func<DateTime> _utcNow;
     private readonly HashSet<string> _containers;           // exact container paths, lower-cased, no trailing separator
     private readonly string? _usersRoot;                    // parent of the user profile folder
-    private readonly List<string> _names = new();           // normalized program names and publishers, len >= 3
-    private readonly List<string> _locations = new();       // install locations with trailing separator
-    private readonly List<string> _families = new();        // store family names (lower-case)
+    private readonly List<(string Name, InstalledProgram Program)> _names = new();       // normalized display names, len >= 3
+    private readonly List<(string Name, InstalledProgram Program)> _publishers = new();  // normalized publishers, len >= 3
+    private readonly List<(string Path, InstalledProgram Program)> _locations = new();   // install locations with trailing separator
+    private readonly List<(string Family, InstalledProgram Program)> _families = new();  // store family names (lower-case)
     private readonly ConditionalWeakTable<ScanNode, Memo> _memo = new();
 
     public LeftoverHeuristic(IReadOnlyList<InstalledProgram> programs)
@@ -75,23 +78,23 @@ public sealed class LeftoverHeuristic : IExplainer
 
         foreach (var p in programs)
         {
-            AddName(Normalize(p.DisplayName));
-            if (p.Publisher != null) AddName(Normalize(p.Publisher));
+            AddName(_names, Normalize(p.DisplayName), p);
+            if (p.Publisher != null) AddName(_publishers, Normalize(p.Publisher), p);
 
             if (!string.IsNullOrWhiteSpace(p.InstallLocation))
             {
                 var loc = p.InstallLocation.Trim().Trim('"').TrimEnd('\\', '/');
-                if (loc.Length > 3) _locations.Add(loc + Path.DirectorySeparatorChar);
+                if (loc.Length > 3) _locations.Add((loc + Path.DirectorySeparatorChar, p));
             }
 
             if (p.IsStoreApp && !string.IsNullOrEmpty(p.PackageFamilyName))
-                _families.Add(p.PackageFamilyName.ToLowerInvariant());
+                _families.Add((p.PackageFamilyName.ToLowerInvariant(), p));
         }
     }
 
-    private void AddName(string n)
+    private static void AddName(List<(string, InstalledProgram)> list, string n, InstalledProgram p)
     {
-        if (n.Length >= 3) _names.Add(n);
+        if (n.Length >= 3) list.Add((n, p));
     }
 
     private static IEnumerable<string> DefaultContainers() => new[]
@@ -148,7 +151,12 @@ public sealed class LeftoverHeuristic : IExplainer
         var token = Normalize(name);
         if (token.Length < 3) return null;   // too short to compare safely: stay quiet
 
-        if (MatchesProgram(token, name, parentPath + Path.DirectorySeparatorChar + name)) return null;
+        if (MatchesProgram(token, name, parentPath + Path.DirectorySeparatorChar + name, out var owner))
+        {
+            // Program Files children are install roots, which ProgramMatcher explains; stay quiet there.
+            if (owner == null || Last(parentPath).StartsWith("Program Files", StringComparison.OrdinalIgnoreCase)) return null;
+            return DataOf(owner);
+        }
 
         bool recent = (_utcNow() - node.LastWriteUtc) < TimeSpan.FromDays(30);
         double confidence = recent ? 0.4 : 0.55;
@@ -192,22 +200,71 @@ public sealed class LeftoverHeuristic : IExplainer
         return false;
     }
 
-    private bool MatchesProgram(string token, string rawName, string folderPath)
+    // True when some installed program matches the folder (fuzzy). `owner` is only set when the match is strong
+    // enough to name the program: an install location inside the folder, a Store family name, or a display name
+    // or publisher equal to the folder name or one starting with the other (display names win over publishers).
+    private bool MatchesProgram(string token, string rawName, string folderPath, out InstalledProgram? owner)
     {
-        foreach (var n in _names)
-            if (n.Contains(token, StringComparison.Ordinal) || token.Contains(n, StringComparison.Ordinal))
-                return true;
+        owner = null;
+        bool matched = false;
 
         var folderWithSep = folderPath + Path.DirectorySeparatorChar;
-        foreach (var loc in _locations)
-            if (loc.StartsWith(folderWithSep, PathCmp)) return true;
+        foreach (var (loc, p) in _locations)
+            if (loc.StartsWith(folderWithSep, PathCmp))
+            {
+                owner = p;
+                return true;
+            }
 
         var lower = rawName.ToLowerInvariant();
-        foreach (var f in _families)
-            if (f.StartsWith(lower, StringComparison.Ordinal) || Normalize(f).Contains(token, StringComparison.Ordinal))
+        foreach (var (f, p) in _families)
+        {
+            if (f.StartsWith(lower, StringComparison.Ordinal))
+            {
+                owner = p;
                 return true;
+            }
+            if (Normalize(f).Contains(token, StringComparison.Ordinal)) matched = true;
+        }
 
-        return false;
+        foreach (var list in new[] { _names, _publishers })
+            foreach (var (n, p) in list)
+            {
+                if (!n.Contains(token, StringComparison.Ordinal) && !token.Contains(n, StringComparison.Ordinal)) continue;
+                matched = true;
+                if (owner == null && IsStrongNameMatch(token, n)) owner = p;
+            }
+        return matched;
+    }
+
+    // Equal, or one is a prefix covering at least half of the other ("unity" / "unityhub", not "narrator" /
+    // "narratorextensionoutlookwebapp").
+    private static bool IsStrongNameMatch(string token, string name)
+    {
+        if (token == name) return true;
+        int shorter = Math.Min(token.Length, name.Length), longer = Math.Max(token.Length, name.Length);
+        return shorter >= 4 && shorter * 2 >= longer &&
+               (name.StartsWith(token, StringComparison.Ordinal) || token.StartsWith(name, StringComparison.Ordinal));
+    }
+
+    private static Explanation DataOf(InstalledProgram p)
+    {
+        var publisher = string.IsNullOrWhiteSpace(p.Publisher) ? null : p.Publisher;
+        return new Explanation(
+            $"Data of {p.DisplayName}",
+            Badge.App,
+            publisher,
+            $"Settings and data of {p.DisplayName} (installed)",
+            $"The folder's name matches {p.DisplayName}, a program installed on this computer, so it most likely " +
+            "holds that program's settings, caches or downloads.",
+            "Programs keep settings, caches, logs and downloaded content in their data folder.",
+            $"{p.DisplayName} loses its settings, sign-ins or cached data and may recreate the folder; " +
+            "uninstall the program first if you want both gone.",
+            $"Use {p.DisplayName}'s own settings to clear its cache, or uninstall it from Settings > Apps.",
+            new SaferAction("settingsUri", "Open Installed apps", "ms-settings:appsfeatures"),
+            ExplanationSource.InstalledProgram,
+            0.6,
+            null);
     }
 
     /// <summary>

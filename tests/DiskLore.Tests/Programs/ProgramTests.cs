@@ -177,13 +177,56 @@ public class ProgramTests
     }
 
     [Theory]
-    [InlineData("Unity")]        // display name contains folder
-    [InlineData("UnityTechnologies")] // publisher
-    [InlineData("Unity Hub")]    // folder contains display token
-    public void Leftover_Matches_By_Name_Or_Publisher(string folder)
+    [InlineData("Unity")]             // display name starts with the folder name
+    [InlineData("Unity Technologies")] // publisher-style name, company suffix ignored
+    [InlineData("Unity Hub")]         // same name
+    public void NameMatch_InAppData_IsAttributedToTheProgram(string folder)
     {
         var h = Heuristic(new[] { Prog("Unity Hub 3.8", "Unity Technologies", null) });
-        Assert.Null(h.Explain(Folder(folder)));
+        var e = h.Explain(Folder(folder))!;
+        Assert.Equal(Badge.App, e.Badge);
+        Assert.Equal(ExplanationSource.InstalledProgram, e.Source);
+        Assert.Equal(0.6, e.Confidence);
+        Assert.Equal("Data of Unity Hub 3.8", e.Title);
+        Assert.Equal("Unity Technologies", e.Owner);
+        Assert.Equal("Settings and data of Unity Hub 3.8 (installed)", e.Summary);
+        Assert.StartsWith("Unity Hub 3.8 loses its settings, sign-ins or cached data", e.IfDeleted);
+        Assert.Equal("Use Unity Hub 3.8's own settings to clear its cache, or uninstall it from Settings > Apps", e.SaferAlternative!.TrimEnd('.'));
+        Assert.Equal(new SaferAction("settingsUri", "Open Installed apps", "ms-settings:appsfeatures"), e.Action);
+    }
+
+    [Fact]
+    public void WeakNameMatch_StaysQuiet()
+    {
+        // "Runtime" only appears inside the display name: not enough to name the program, not a leftover either.
+        var h = Heuristic(new[] { Prog("Microsoft Edge WebView2 Runtime", "Microsoft Corporation", null) });
+        Assert.Null(h.Explain(Folder("Runtime")));
+
+        // A short prefix of a much longer name is not enough either.
+        var n = Heuristic(new[] { Prog("Narrator Extension - Outlook Web App", "Contoso", null) });
+        Assert.Null(n.Explain(Folder("Narrator")));
+    }
+
+    [Fact]
+    public void DisplayName_BeatsPublisher()
+    {
+        var h = Heuristic(new[] { Prog("Acme Studio", "Steam", null), Prog("Steam", "Valve Corporation", null) });
+        Assert.Equal("Data of Steam", h.Explain(Folder("Steam"))!.Title);
+
+        var byPublisher = Heuristic(new[] { Prog("Hub Tool", "Zorblax Software Ltd", null) });
+        Assert.Equal("Data of Hub Tool", byPublisher.Explain(Folder("Zorblax"))!.Title);
+    }
+
+    [Fact]
+    public void NameMatch_InProgramData_IsAttributed_InProgramFiles_StaysQuiet()
+    {
+        var pd = Path.Combine(Drive, "ProgramData");
+        var pf = Path.Combine(Drive, "Program Files");
+        var h = new LeftoverHeuristic(new[] { Prog("Steam", "Valve Corporation", null) }, new[] { pd, pf },
+            Path.Combine(Drive, "Users"), true, () => Now);
+        Assert.Equal(Badge.App, h.Explain(Child(Chain("ProgramData"), "Steam"))!.Badge);
+        Assert.Null(h.Explain(Child(Chain("Program Files"), "Steam")));
+        Assert.Equal(Badge.Leftover, h.Explain(Child(Chain("Program Files"), "ObscureOldTool"))!.Badge);
     }
 
     [Fact]
@@ -191,14 +234,14 @@ public class ProgramTests
     {
         var loc = Path.Combine(Drive, "Users", "me", "AppData", "Local", "Zzcustom", "bin");
         var h = Heuristic(new[] { Prog("Totally Different Name", "Nobody", loc) });
-        Assert.Null(h.Explain(Folder("Zzcustom")));
+        Assert.Equal("Data of Totally Different Name", h.Explain(Folder("Zzcustom"))!.Title);
     }
 
     [Fact]
     public void Leftover_Matches_By_Store_Family()
     {
         var h = Heuristic(new[] { Store("Some App", "Contoso.CoolPhotos_abc123") });
-        Assert.Null(h.Explain(Folder("Contoso.CoolPhotos")));
+        Assert.Equal("Data of Some App", h.Explain(Folder("Contoso.CoolPhotos"))!.Title);
     }
 
     [Theory]
