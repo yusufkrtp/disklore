@@ -1,0 +1,2182 @@
+{
+  "rules": [
+    {
+      "id": "type.mp4",
+      "match": {
+        "extension": ".mp4"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (MP4)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.mkv",
+      "match": {
+        "extension": ".mkv"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (MKV)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.mov",
+      "match": {
+        "extension": ".mov"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (QuickTime)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.avi",
+      "match": {
+        "extension": ".avi"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (AVI)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.webm",
+      "match": {
+        "extension": ".webm"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (WebM)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.m4v",
+      "match": {
+        "extension": ".m4v"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (M4V)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.wmv",
+      "match": {
+        "extension": ".wmv"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (Windows Media)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.flv",
+      "match": {
+        "extension": ".flv"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (Flash)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.mpg",
+      "match": {
+        "extension": ".mpg"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (MPEG)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.mpeg",
+      "match": {
+        "extension": ".mpeg"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (MPEG)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.mts",
+      "match": {
+        "extension": ".mts"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (AVCHD)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.m2ts",
+      "match": {
+        "extension": ".m2ts"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (AVCHD)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.3gp",
+      "match": {
+        "extension": ".3gp"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Video file (3GP)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Video file; usually a recording, download or export of yours",
+      "whatItIs": "A video file. Outside program folders it is usually your own recording, a download or an export.",
+      "whyBig": "Video is large: roughly 1-4 GB per hour at HD quality, more for 4K or screen recordings.",
+      "ifDeleted": "The video is gone unless you have another copy.",
+      "saferAlternative": "Move videos you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "type.wav",
+      "match": {
+        "extension": ".wav"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (WAV)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.flac",
+      "match": {
+        "extension": ".flac"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (FLAC)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.mp3",
+      "match": {
+        "extension": ".mp3"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (MP3)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.aac",
+      "match": {
+        "extension": ".aac"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (AAC)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.m4a",
+      "match": {
+        "extension": ".m4a"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (M4A)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.ogg",
+      "match": {
+        "extension": ".ogg"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (Ogg)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.opus",
+      "match": {
+        "extension": ".opus"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (Opus)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.aiff",
+      "match": {
+        "extension": ".aiff"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (AIFF)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.aif",
+      "match": {
+        "extension": ".aif"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (AIFF)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.wma",
+      "match": {
+        "extension": ".wma"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Audio file (Windows Media)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Audio file; usually music, a recording or a sound you made",
+      "whatItIs": "An audio file: music, a recording, a sample or a sound effect.",
+      "whyBig": "Uncompressed formats (WAV, AIFF) take about 10 MB per minute; compressed ones much less.",
+      "ifDeleted": "The audio is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.jpg",
+      "match": {
+        "extension": ".jpg"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (JPEG)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.jpeg",
+      "match": {
+        "extension": ".jpeg"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (JPEG)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.png",
+      "match": {
+        "extension": ".png"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (PNG)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.gif",
+      "match": {
+        "extension": ".gif"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (GIF)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.webp",
+      "match": {
+        "extension": ".webp"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (WebP)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.heic",
+      "match": {
+        "extension": ".heic"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (HEIC)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.tif",
+      "match": {
+        "extension": ".tif"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (TIFF)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.tiff",
+      "match": {
+        "extension": ".tiff"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (TIFF)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.bmp",
+      "match": {
+        "extension": ".bmp"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (BMP)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.exr",
+      "match": {
+        "extension": ".exr"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (OpenEXR)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.dng",
+      "match": {
+        "extension": ".dng"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (DNG raw)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.cr2",
+      "match": {
+        "extension": ".cr2"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (Canon raw)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.cr3",
+      "match": {
+        "extension": ".cr3"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (Canon raw)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.nef",
+      "match": {
+        "extension": ".nef"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (Nikon raw)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.arw",
+      "match": {
+        "extension": ".arw"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (Sony raw)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.raf",
+      "match": {
+        "extension": ".raf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (Fujifilm raw)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.orf",
+      "match": {
+        "extension": ".orf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (Olympus raw)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.rw2",
+      "match": {
+        "extension": ".rw2"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Image (Panasonic raw)",
+      "badge": "user",
+      "owner": null,
+      "summary": "Image file; usually a photo, screenshot or artwork of yours",
+      "whatItIs": "An image file: a photo, screenshot, render or artwork.",
+      "whyBig": "Camera raw files are 20-60 MB each; renders and textures can be larger.",
+      "ifDeleted": "The image is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.psd",
+      "match": {
+        "extension": ".psd"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Photoshop project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Photoshop project; the source of what you made with it",
+      "whatItIs": "A project or document file of Photoshop. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.psb",
+      "match": {
+        "extension": ".psb"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Photoshop (large document) project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Photoshop (large document) project; the source of what you made with it",
+      "whatItIs": "A project or document file of Photoshop (large document). It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.kra",
+      "match": {
+        "extension": ".kra"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Krita project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Krita project; the source of what you made with it",
+      "whatItIs": "A project or document file of Krita. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.xcf",
+      "match": {
+        "extension": ".xcf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "GIMP project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your GIMP project; the source of what you made with it",
+      "whatItIs": "A project or document file of GIMP. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.blend",
+      "match": {
+        "extension": ".blend"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Blender project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Blender project; the source of what you made with it",
+      "whatItIs": "A project or document file of Blender. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.aep",
+      "match": {
+        "extension": ".aep"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "After Effects project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your After Effects project; the source of what you made with it",
+      "whatItIs": "A project or document file of After Effects. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.prproj",
+      "match": {
+        "extension": ".prproj"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Premiere Pro project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Premiere Pro project; the source of what you made with it",
+      "whatItIs": "A project or document file of Premiere Pro. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.veg",
+      "match": {
+        "extension": ".veg"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Vegas Pro project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Vegas Pro project; the source of what you made with it",
+      "whatItIs": "A project or document file of Vegas Pro. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.rpp",
+      "match": {
+        "extension": ".rpp"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "REAPER project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your REAPER project; the source of what you made with it",
+      "whatItIs": "A project or document file of REAPER. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.als",
+      "match": {
+        "extension": ".als"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Ableton Live project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Ableton Live project; the source of what you made with it",
+      "whatItIs": "A project or document file of Ableton Live. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.flp",
+      "match": {
+        "extension": ".flp"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "FL Studio project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your FL Studio project; the source of what you made with it",
+      "whatItIs": "A project or document file of FL Studio. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.ptx",
+      "match": {
+        "extension": ".ptx"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Pro Tools project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Pro Tools project; the source of what you made with it",
+      "whatItIs": "A project or document file of Pro Tools. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.afphoto",
+      "match": {
+        "extension": ".afphoto"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Affinity Photo project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Affinity Photo project; the source of what you made with it",
+      "whatItIs": "A project or document file of Affinity Photo. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.afdesign",
+      "match": {
+        "extension": ".afdesign"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Affinity Designer project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Affinity Designer project; the source of what you made with it",
+      "whatItIs": "A project or document file of Affinity Designer. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.clip",
+      "match": {
+        "extension": ".clip"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Clip Studio Paint project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Clip Studio Paint project; the source of what you made with it",
+      "whatItIs": "A project or document file of Clip Studio Paint. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.ai",
+      "match": {
+        "extension": ".ai"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Illustrator project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Illustrator project; the source of what you made with it",
+      "whatItIs": "A project or document file of Illustrator. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.indd",
+      "match": {
+        "extension": ".indd"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "InDesign project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your InDesign project; the source of what you made with it",
+      "whatItIs": "A project or document file of InDesign. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.fig",
+      "match": {
+        "extension": ".fig"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Figma (local copy) project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Figma (local copy) project; the source of what you made with it",
+      "whatItIs": "A project or document file of Figma (local copy). It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.spp",
+      "match": {
+        "extension": ".spp"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Substance Painter project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Substance Painter project; the source of what you made with it",
+      "whatItIs": "A project or document file of Substance Painter. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.sbs",
+      "match": {
+        "extension": ".sbs"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Substance Designer project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Substance Designer project; the source of what you made with it",
+      "whatItIs": "A project or document file of Substance Designer. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.ma",
+      "match": {
+        "extension": ".ma"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Maya project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Maya project; the source of what you made with it",
+      "whatItIs": "A project or document file of Maya. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.mb",
+      "match": {
+        "extension": ".mb"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Maya project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Maya project; the source of what you made with it",
+      "whatItIs": "A project or document file of Maya. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.max",
+      "match": {
+        "extension": ".max"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3ds Max project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your 3ds Max project; the source of what you made with it",
+      "whatItIs": "A project or document file of 3ds Max. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.c4d",
+      "match": {
+        "extension": ".c4d"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Cinema 4D project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Cinema 4D project; the source of what you made with it",
+      "whatItIs": "A project or document file of Cinema 4D. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.hip",
+      "match": {
+        "extension": ".hip"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Houdini project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Houdini project; the source of what you made with it",
+      "whatItIs": "A project or document file of Houdini. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.hiplc",
+      "match": {
+        "extension": ".hiplc"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Houdini project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your Houdini project; the source of what you made with it",
+      "whatItIs": "A project or document file of Houdini. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.ztl",
+      "match": {
+        "extension": ".ztl"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "ZBrush project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your ZBrush project; the source of what you made with it",
+      "whatItIs": "A project or document file of ZBrush. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.zpr",
+      "match": {
+        "extension": ".zpr"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "ZBrush project file",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your ZBrush project; the source of what you made with it",
+      "whatItIs": "A project or document file of ZBrush. It holds your work: layers, tracks, scenes or edits.",
+      "whyBig": "Projects embed images, audio, geometry or history; large ones reach GBs.",
+      "ifDeleted": "Your work in this project is lost unless you have a backup.",
+      "saferAlternative": "Back it up before cleaning up.",
+      "action": null
+    },
+    {
+      "id": "type.fbx",
+      "match": {
+        "extension": ".fbx"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3D model or scene (FBX)",
+      "badge": "user",
+      "owner": null,
+      "summary": "3D model or animation export; usually yours or a downloaded asset",
+      "whatItIs": "A 3D model, scene or animation cache in an exchange format, used by 3D apps and game engines.",
+      "whyBig": "Dense meshes and baked animation caches (Alembic) can be several GB.",
+      "ifDeleted": "The model is gone unless you have the source project or another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.glb",
+      "match": {
+        "extension": ".glb"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3D model or scene (glTF binary)",
+      "badge": "user",
+      "owner": null,
+      "summary": "3D model or animation export; usually yours or a downloaded asset",
+      "whatItIs": "A 3D model, scene or animation cache in an exchange format, used by 3D apps and game engines.",
+      "whyBig": "Dense meshes and baked animation caches (Alembic) can be several GB.",
+      "ifDeleted": "The model is gone unless you have the source project or another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.gltf",
+      "match": {
+        "extension": ".gltf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3D model or scene (glTF)",
+      "badge": "user",
+      "owner": null,
+      "summary": "3D model or animation export; usually yours or a downloaded asset",
+      "whatItIs": "A 3D model, scene or animation cache in an exchange format, used by 3D apps and game engines.",
+      "whyBig": "Dense meshes and baked animation caches (Alembic) can be several GB.",
+      "ifDeleted": "The model is gone unless you have the source project or another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.usd",
+      "match": {
+        "extension": ".usd"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3D model or scene (USD)",
+      "badge": "user",
+      "owner": null,
+      "summary": "3D model or animation export; usually yours or a downloaded asset",
+      "whatItIs": "A 3D model, scene or animation cache in an exchange format, used by 3D apps and game engines.",
+      "whyBig": "Dense meshes and baked animation caches (Alembic) can be several GB.",
+      "ifDeleted": "The model is gone unless you have the source project or another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.usdc",
+      "match": {
+        "extension": ".usdc"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3D model or scene (USD)",
+      "badge": "user",
+      "owner": null,
+      "summary": "3D model or animation export; usually yours or a downloaded asset",
+      "whatItIs": "A 3D model, scene or animation cache in an exchange format, used by 3D apps and game engines.",
+      "whyBig": "Dense meshes and baked animation caches (Alembic) can be several GB.",
+      "ifDeleted": "The model is gone unless you have the source project or another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.usdz",
+      "match": {
+        "extension": ".usdz"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3D model or scene (USDZ)",
+      "badge": "user",
+      "owner": null,
+      "summary": "3D model or animation export; usually yours or a downloaded asset",
+      "whatItIs": "A 3D model, scene or animation cache in an exchange format, used by 3D apps and game engines.",
+      "whyBig": "Dense meshes and baked animation caches (Alembic) can be several GB.",
+      "ifDeleted": "The model is gone unless you have the source project or another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.abc",
+      "match": {
+        "extension": ".abc"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3D model or scene (Alembic)",
+      "badge": "user",
+      "owner": null,
+      "summary": "3D model or animation export; usually yours or a downloaded asset",
+      "whatItIs": "A 3D model, scene or animation cache in an exchange format, used by 3D apps and game engines.",
+      "whyBig": "Dense meshes and baked animation caches (Alembic) can be several GB.",
+      "ifDeleted": "The model is gone unless you have the source project or another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.stl",
+      "match": {
+        "extension": ".stl"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3D model or scene (STL)",
+      "badge": "user",
+      "owner": null,
+      "summary": "3D model or animation export; usually yours or a downloaded asset",
+      "whatItIs": "A 3D model, scene or animation cache in an exchange format, used by 3D apps and game engines.",
+      "whyBig": "Dense meshes and baked animation caches (Alembic) can be several GB.",
+      "ifDeleted": "The model is gone unless you have the source project or another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.3mf",
+      "match": {
+        "extension": ".3mf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "3D model or scene (3MF)",
+      "badge": "user",
+      "owner": null,
+      "summary": "3D model or animation export; usually yours or a downloaded asset",
+      "whatItIs": "A 3D model, scene or animation cache in an exchange format, used by 3D apps and game engines.",
+      "whyBig": "Dense meshes and baked animation caches (Alembic) can be several GB.",
+      "ifDeleted": "The model is gone unless you have the source project or another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.zip",
+      "match": {
+        "extension": ".zip"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Archive (ZIP)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Compressed archive; often a download you already extracted",
+      "whatItIs": "A compressed archive. Often it is a download that was already extracted, or a backup.",
+      "whyBig": "It holds whatever was packed into it.",
+      "ifDeleted": "Its contents are gone unless they were extracted or exist elsewhere.",
+      "saferAlternative": "Open it to check whether its contents exist elsewhere before deleting.",
+      "action": null
+    },
+    {
+      "id": "type.7z",
+      "match": {
+        "extension": ".7z"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Archive (7-Zip)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Compressed archive; often a download you already extracted",
+      "whatItIs": "A compressed archive. Often it is a download that was already extracted, or a backup.",
+      "whyBig": "It holds whatever was packed into it.",
+      "ifDeleted": "Its contents are gone unless they were extracted or exist elsewhere.",
+      "saferAlternative": "Open it to check whether its contents exist elsewhere before deleting.",
+      "action": null
+    },
+    {
+      "id": "type.rar",
+      "match": {
+        "extension": ".rar"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Archive (RAR)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Compressed archive; often a download you already extracted",
+      "whatItIs": "A compressed archive. Often it is a download that was already extracted, or a backup.",
+      "whyBig": "It holds whatever was packed into it.",
+      "ifDeleted": "Its contents are gone unless they were extracted or exist elsewhere.",
+      "saferAlternative": "Open it to check whether its contents exist elsewhere before deleting.",
+      "action": null
+    },
+    {
+      "id": "type.tar",
+      "match": {
+        "extension": ".tar"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Archive (tar)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Compressed archive; often a download you already extracted",
+      "whatItIs": "A compressed archive. Often it is a download that was already extracted, or a backup.",
+      "whyBig": "It holds whatever was packed into it.",
+      "ifDeleted": "Its contents are gone unless they were extracted or exist elsewhere.",
+      "saferAlternative": "Open it to check whether its contents exist elsewhere before deleting.",
+      "action": null
+    },
+    {
+      "id": "type.gz",
+      "match": {
+        "extension": ".gz"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Archive (gzip)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Compressed archive; often a download you already extracted",
+      "whatItIs": "A compressed archive. Often it is a download that was already extracted, or a backup.",
+      "whyBig": "It holds whatever was packed into it.",
+      "ifDeleted": "Its contents are gone unless they were extracted or exist elsewhere.",
+      "saferAlternative": "Open it to check whether its contents exist elsewhere before deleting.",
+      "action": null
+    },
+    {
+      "id": "type.tgz",
+      "match": {
+        "extension": ".tgz"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Archive (gzip tar)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Compressed archive; often a download you already extracted",
+      "whatItIs": "A compressed archive. Often it is a download that was already extracted, or a backup.",
+      "whyBig": "It holds whatever was packed into it.",
+      "ifDeleted": "Its contents are gone unless they were extracted or exist elsewhere.",
+      "saferAlternative": "Open it to check whether its contents exist elsewhere before deleting.",
+      "action": null
+    },
+    {
+      "id": "type.xz",
+      "match": {
+        "extension": ".xz"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Archive (xz)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Compressed archive; often a download you already extracted",
+      "whatItIs": "A compressed archive. Often it is a download that was already extracted, or a backup.",
+      "whyBig": "It holds whatever was packed into it.",
+      "ifDeleted": "Its contents are gone unless they were extracted or exist elsewhere.",
+      "saferAlternative": "Open it to check whether its contents exist elsewhere before deleting.",
+      "action": null
+    },
+    {
+      "id": "type.bz2",
+      "match": {
+        "extension": ".bz2"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Archive (bzip2)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Compressed archive; often a download you already extracted",
+      "whatItIs": "A compressed archive. Often it is a download that was already extracted, or a backup.",
+      "whyBig": "It holds whatever was packed into it.",
+      "ifDeleted": "Its contents are gone unless they were extracted or exist elsewhere.",
+      "saferAlternative": "Open it to check whether its contents exist elsewhere before deleting.",
+      "action": null
+    },
+    {
+      "id": "type.zst",
+      "match": {
+        "extension": ".zst"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Archive (Zstandard)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Compressed archive; often a download you already extracted",
+      "whatItIs": "A compressed archive. Often it is a download that was already extracted, or a backup.",
+      "whyBig": "It holds whatever was packed into it.",
+      "ifDeleted": "Its contents are gone unless they were extracted or exist elsewhere.",
+      "saferAlternative": "Open it to check whether its contents exist elsewhere before deleting.",
+      "action": null
+    },
+    {
+      "id": "type.msi",
+      "match": {
+        "extension": ".msi"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Windows Installer package",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.msix",
+      "match": {
+        "extension": ".msix"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "MSIX app package",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.msixbundle",
+      "match": {
+        "extension": ".msixbundle"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "MSIX app bundle",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.appx",
+      "match": {
+        "extension": ".appx"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "App package",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.appxbundle",
+      "match": {
+        "extension": ".appxbundle"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "App package bundle",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.dmg",
+      "match": {
+        "extension": ".dmg"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "macOS disk image",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.pkg",
+      "match": {
+        "extension": ".pkg"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "macOS installer package",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.deb",
+      "match": {
+        "extension": ".deb"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Debian package",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.rpm",
+      "match": {
+        "extension": ".rpm"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "RPM package",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.appimage",
+      "match": {
+        "extension": ".appimage"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "AppImage",
+      "badge": "check",
+      "owner": null,
+      "summary": "Installer package; usually downloadable again",
+      "whatItIs": "An installer or app package. Outside system folders it is usually a download.",
+      "whyBig": "It contains the whole program.",
+      "ifDeleted": "Nothing that is already installed breaks; you need to download it again to reinstall.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.wim",
+      "match": {
+        "extension": ".wim"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Windows image (WIM)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Disk or system image; check whether something still uses it",
+      "whatItIs": "An image of a disk or of a Windows installation, used by installers, recovery tools and virtual machines.",
+      "whyBig": "It holds a whole system or disk.",
+      "ifDeleted": "Recovery tools or virtual machines that use it stop working; installers can be downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.esd",
+      "match": {
+        "extension": ".esd"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Windows image (ESD)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Disk or system image; check whether something still uses it",
+      "whatItIs": "An image of a disk or of a Windows installation, used by installers, recovery tools and virtual machines.",
+      "whyBig": "It holds a whole system or disk.",
+      "ifDeleted": "Recovery tools or virtual machines that use it stop working; installers can be downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.img",
+      "match": {
+        "extension": ".img"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Disk image",
+      "badge": "check",
+      "owner": null,
+      "summary": "Disk or system image; check whether something still uses it",
+      "whatItIs": "An image of a disk or of a Windows installation, used by installers, recovery tools and virtual machines.",
+      "whyBig": "It holds a whole system or disk.",
+      "ifDeleted": "Recovery tools or virtual machines that use it stop working; installers can be downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.pt",
+      "match": {
+        "extension": ".pt"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "AI model weights (PyTorch)",
+      "badge": "check",
+      "owner": null,
+      "summary": "AI model weights; can be downloaded again if you know the source",
+      "whatItIs": "A file with neural network weights in the PyTorch format, used by AI and machine learning tools.",
+      "whyBig": "Model weights are often several GB.",
+      "ifDeleted": "Tools that use this model fail until it is downloaded again; a model you trained yourself is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.pth",
+      "match": {
+        "extension": ".pth"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "AI model weights (PyTorch)",
+      "badge": "check",
+      "owner": null,
+      "summary": "AI model weights; can be downloaded again if you know the source",
+      "whatItIs": "A file with neural network weights in the PyTorch format, used by AI and machine learning tools.",
+      "whyBig": "Model weights are often several GB.",
+      "ifDeleted": "Tools that use this model fail until it is downloaded again; a model you trained yourself is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.onnx",
+      "match": {
+        "extension": ".onnx"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "AI model weights (ONNX)",
+      "badge": "check",
+      "owner": null,
+      "summary": "AI model weights; can be downloaded again if you know the source",
+      "whatItIs": "A file with neural network weights in the ONNX format, used by AI and machine learning tools.",
+      "whyBig": "Model weights are often several GB.",
+      "ifDeleted": "Tools that use this model fail until it is downloaded again; a model you trained yourself is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.tflite",
+      "match": {
+        "extension": ".tflite"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "AI model weights (TensorFlow Lite)",
+      "badge": "check",
+      "owner": null,
+      "summary": "AI model weights; can be downloaded again if you know the source",
+      "whatItIs": "A file with neural network weights in the TensorFlow Lite format, used by AI and machine learning tools.",
+      "whyBig": "Model weights are often several GB.",
+      "ifDeleted": "Tools that use this model fail until it is downloaded again; a model you trained yourself is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.ggml",
+      "match": {
+        "extension": ".ggml"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "AI model weights (GGML)",
+      "badge": "check",
+      "owner": null,
+      "summary": "AI model weights; can be downloaded again if you know the source",
+      "whatItIs": "A file with neural network weights in the GGML format, used by AI and machine learning tools.",
+      "whyBig": "Model weights are often several GB.",
+      "ifDeleted": "Tools that use this model fail until it is downloaded again; a model you trained yourself is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.mlmodel",
+      "match": {
+        "extension": ".mlmodel"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "AI model weights (Core ML)",
+      "badge": "check",
+      "owner": null,
+      "summary": "AI model weights; can be downloaded again if you know the source",
+      "whatItIs": "A file with neural network weights in the Core ML format, used by AI and machine learning tools.",
+      "whyBig": "Model weights are often several GB.",
+      "ifDeleted": "Tools that use this model fail until it is downloaded again; a model you trained yourself is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.part",
+      "match": {
+        "extension": ".part"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Partial download",
+      "badge": "check",
+      "owner": null,
+      "summary": "Unfinished download; safe to delete if the download is no longer running",
+      "whatItIs": "A file that is still being downloaded, or whose download stopped (Firefox, wget, many download tools). It is renamed when the download finishes.",
+      "whyBig": "It grows up to the full size of the download.",
+      "ifDeleted": "The unfinished download is lost and has to start again; an active download fails.",
+      "saferAlternative": "Cancel or resume the download in the program that started it.",
+      "action": null
+    },
+    {
+      "id": "type.crdownload",
+      "match": {
+        "extension": ".crdownload"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Partial download (Chrome)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Unfinished download; safe to delete if the download is no longer running",
+      "whatItIs": "A file that is still being downloaded, or whose download stopped (Chrome and other Chromium browsers). It is renamed when the download finishes.",
+      "whyBig": "It grows up to the full size of the download.",
+      "ifDeleted": "The unfinished download is lost and has to start again; an active download fails.",
+      "saferAlternative": "Cancel or resume the download in the program that started it.",
+      "action": null
+    },
+    {
+      "id": "type.partial",
+      "match": {
+        "extension": ".partial"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Partial download (Edge)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Unfinished download; safe to delete if the download is no longer running",
+      "whatItIs": "A file that is still being downloaded, or whose download stopped (Edge). It is renamed when the download finishes.",
+      "whyBig": "It grows up to the full size of the download.",
+      "ifDeleted": "The unfinished download is lost and has to start again; an active download fails.",
+      "saferAlternative": "Cancel or resume the download in the program that started it.",
+      "action": null
+    },
+    {
+      "id": "type.qb",
+      "match": {
+        "extension": ".!qb"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Partial download (qBittorrent)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Unfinished download; safe to delete if the download is no longer running",
+      "whatItIs": "A file that is still being downloaded, or whose download stopped (qBittorrent). It is renamed when the download finishes.",
+      "whyBig": "It grows up to the full size of the download.",
+      "ifDeleted": "The unfinished download is lost and has to start again; an active download fails.",
+      "saferAlternative": "Cancel or resume the download in the program that started it.",
+      "action": null
+    },
+    {
+      "id": "type.sqlite",
+      "match": {
+        "extension": ".sqlite"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Database file (SQLite)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Database of a program; deleting can lose its data or settings",
+      "whatItIs": "A database file a program keeps its data in: history, settings, indexes or content.",
+      "whyBig": "It grows with what the program stores.",
+      "ifDeleted": "The program loses the data stored in it; caches are rebuilt, real data is gone.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.sqlite3",
+      "match": {
+        "extension": ".sqlite3"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Database file (SQLite)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Database of a program; deleting can lose its data or settings",
+      "whatItIs": "A database file a program keeps its data in: history, settings, indexes or content.",
+      "whyBig": "It grows with what the program stores.",
+      "ifDeleted": "The program loses the data stored in it; caches are rebuilt, real data is gone.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.db",
+      "match": {
+        "extension": ".db"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Database file (database)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Database of a program; deleting can lose its data or settings",
+      "whatItIs": "A database file a program keeps its data in: history, settings, indexes or content.",
+      "whyBig": "It grows with what the program stores.",
+      "ifDeleted": "The program loses the data stored in it; caches are rebuilt, real data is gone.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.mdf",
+      "match": {
+        "extension": ".mdf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Database file (SQL Server data)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Database of a program; deleting can lose its data or settings",
+      "whatItIs": "A database file a program keeps its data in: history, settings, indexes or content.",
+      "whyBig": "It grows with what the program stores.",
+      "ifDeleted": "The program loses the data stored in it; caches are rebuilt, real data is gone.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.ldf",
+      "match": {
+        "extension": ".ldf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Database file (SQL Server log)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Database of a program; deleting can lose its data or settings",
+      "whatItIs": "A database file a program keeps its data in: history, settings, indexes or content.",
+      "whyBig": "It grows with what the program stores.",
+      "ifDeleted": "The program loses the data stored in it; caches are rebuilt, real data is gone.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.bak",
+      "match": {
+        "extension": ".bak"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Backup copy",
+      "badge": "check",
+      "owner": null,
+      "summary": "Backup copy made by a program or by hand",
+      "whatItIs": "A backup copy of a file, made by a program before changing it or by hand.",
+      "whyBig": "As large as the file it copies.",
+      "ifDeleted": "Only the backup is lost; check that the original is fine first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.pdf",
+      "match": {
+        "extension": ".pdf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "PDF document",
+      "badge": "user",
+      "owner": null,
+      "summary": "Document; usually yours or a download",
+      "whatItIs": "A document file.",
+      "whyBig": "Embedded images and scans make documents large.",
+      "ifDeleted": "The document is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.docx",
+      "match": {
+        "extension": ".docx"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Word document",
+      "badge": "user",
+      "owner": null,
+      "summary": "Document; usually yours or a download",
+      "whatItIs": "A document file.",
+      "whyBig": "Embedded images and scans make documents large.",
+      "ifDeleted": "The document is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.xlsx",
+      "match": {
+        "extension": ".xlsx"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "Excel workbook",
+      "badge": "user",
+      "owner": null,
+      "summary": "Document; usually yours or a download",
+      "whatItIs": "A document file.",
+      "whyBig": "Embedded images and scans make documents large.",
+      "ifDeleted": "The document is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.pptx",
+      "match": {
+        "extension": ".pptx"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "PowerPoint presentation",
+      "badge": "user",
+      "owner": null,
+      "summary": "Document; usually yours or a download",
+      "whatItIs": "A document file.",
+      "whyBig": "Embedded images and scans make documents large.",
+      "ifDeleted": "The document is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "type.epub",
+      "match": {
+        "extension": ".epub"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 5,
+      "title": "E-book",
+      "badge": "user",
+      "owner": null,
+      "summary": "Document; usually yours or a download",
+      "whatItIs": "A document file.",
+      "whyBig": "Embedded images and scans make documents large.",
+      "ifDeleted": "The document is gone unless you have another copy.",
+      "saferAlternative": null,
+      "action": null
+    }
+  ]
+}

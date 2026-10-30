@@ -153,7 +153,7 @@ public interface IExplainer
 
 public sealed class ExplanationService
 {
-    // Order: RuleSet -> ProgramMatcher -> LeftoverHeuristic -> AiCache -> Inherited -> Unknown.
+    // Order: RuleSet -> ProgramMatcher -> AiCache -> LeftoverHeuristic -> Inherited -> Unknown.
     public ExplanationService(RuleSet rules, ProgramMatcher programs, LeftoverHeuristic leftovers, AiCache aiCache);
     public Explanation Explain(ScanNode node);   // never null; Badge.Unknown + Source.None when nothing matches
     public void Invalidate(ScanNode node);       // drop memoized result (after AI answer arrives)
@@ -249,7 +249,8 @@ public sealed class LeftoverHeuristic : IExplainer
 {
     // Direct children of AppData\Local, AppData\Roaming, ProgramData, Program Files, Program Files (x86)
     // that match no installed program (fuzzy name/publisher/location) -> Badge.Leftover, Source.Heuristic,
-    // Confidence 0.4-0.7. Only asked after RuleSet and ProgramMatcher returned null. Windows only.
+    // Confidence 0.4-0.7. AppData/ProgramData children that clearly match an installed program by name
+    // -> Badge.App, Source.InstalledProgram, "Data of <program>". Windows only.
     public LeftoverHeuristic(IReadOnlyList<InstalledProgram> programs);
     public Explanation? Explain(ScanNode node);
 }

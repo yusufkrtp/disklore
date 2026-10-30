@@ -149,4 +149,64 @@ public class ExplanationServiceTests
         Assert.Equal(ExplanationSource.Inherited, svc.Explain(nodes[0]).Source);
         Assert.Equal(ExplanationSource.None, svc.Explain(nodes[1]).Source);
     }
+
+    [Fact]
+    public void AiAnswer_BeatsLeftoverGuess()
+    {
+        var local = Path.Combine(AbsRoot, "Users", "u", "AppData", "Local");
+        var programs = new List<InstalledProgram>();
+        var leftovers = new LeftoverHeuristic(programs, new[] { local }, null, true, () => DateTime.UtcNow);
+        var ai = new AiCache(Path.Combine(Path.GetTempPath(), "disklore-ai-" + Guid.NewGuid().ToString("N") + ".json"));
+        var svc = new ExplanationService(RuleSet.FromJson(Rules), new ProgramMatcher(programs), leftovers, ai);
+
+        var root = Root(AbsRoot);
+        var vendor = Dir(Dir(Dir(Dir(Dir(root, "Users"), "u"), "AppData"), "Local"), "FooVendor");
+        var other = Dir(vendor.Parent!, "BarVendor");
+        Assert.Equal(Badge.Leftover, svc.Explain(other).Badge);
+
+        ai.Set(vendor.FullPath, new Explanation("Foo tool data", Badge.Check, "Foo", "sum", "w", "y", "d", null, null,
+            ExplanationSource.AI, 0.8, null));
+        var e = svc.Explain(vendor);
+        Assert.Equal(ExplanationSource.AI, e.Source);
+        Assert.Equal("Foo tool data", e.Title);
+    }
+
+    private const string TypeRules = """
+        { "rules": [
+          { "id": "sys", "match": { "name": "Sys" }, "inherit": true, "title": "System", "badge": "critical", "summary": "s" },
+          { "id": "tmp", "match": { "name": "Tmp" }, "inherit": true, "title": "Temp", "badge": "safe", "summary": "s" },
+          { "id": "docs", "match": { "name": "Docs" }, "inherit": true, "title": "Docs", "badge": "user", "summary": "s" },
+          { "id": "wav", "match": { "extension": ".wav" }, "title": "Audio", "badge": "user", "summary": "s" },
+          { "id": "vhdx", "match": { "extension": ".vhdx" }, "title": "Disk", "badge": "check", "summary": "s" },
+          { "id": "named", "match": { "name": "chime.wav" }, "title": "Named", "badge": "safe", "summary": "s" }
+        ] }
+        """;
+
+    [Fact]
+    public void FileTypeRule_NeverLowersTheFolderVerdict()
+    {
+        var root = Root(AbsRoot);
+        var game = Dir(root, "Game");
+        var programs = new List<InstalledProgram> { new("Game", "Acme", game.FullPath, "1.0", null, false, null) };
+        var svc = new ExplanationService(RuleSet.FromJson(TypeRules), new ProgramMatcher(programs),
+            new LeftoverHeuristic(programs, Array.Empty<string>(), null, false, () => DateTime.UtcNow),
+            new AiCache(Path.Combine(Path.GetTempPath(), "disklore-ai-" + Guid.NewGuid().ToString("N") + ".json")));
+
+        // More cautious context wins over the type rule.
+        var sysWav = svc.Explain(File(Dir(Dir(root, "Sys"), "Media"), "ding.wav", 1));
+        Assert.Equal(Badge.Critical, sysWav.Badge);
+        Assert.Equal(ExplanationSource.Inherited, sysWav.Source);
+        var gameWav = svc.Explain(File(game, "intro.wav", 1));
+        Assert.Equal(Badge.App, gameWav.Badge);
+        Assert.Equal(ExplanationSource.InstalledProgram, gameWav.Source);
+
+        // The type rule applies where it is at least as cautious, or where nothing else is known.
+        Assert.Equal("wav", svc.Explain(File(Dir(root, "Docs"), "song.wav", 1)).RuleId);
+        Assert.Equal("wav", svc.Explain(File(Dir(root, "Tmp"), "song.wav", 1)).RuleId);
+        Assert.Equal("wav", svc.Explain(File(root, "loose.wav", 1)).RuleId);
+        Assert.Equal("vhdx", svc.Explain(File(Dir(root, "Docs"), "vm.vhdx", 1)).RuleId);
+
+        // Name and path rules are specific knowledge and are not second-guessed.
+        Assert.Equal("named", svc.Explain(File(Dir(root, "Sys"), "chime.wav", 1)).RuleId);
+    }
 }

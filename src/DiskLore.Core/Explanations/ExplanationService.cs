@@ -27,7 +27,8 @@ public sealed class ExplanationService
         public readonly Explanation? Explanation;
     }
 
-    // Order: RuleSet -> ProgramMatcher -> LeftoverHeuristic -> AiCache -> Inherited -> Unknown.
+    // Order: RuleSet -> ProgramMatcher -> AiCache -> LeftoverHeuristic -> Inherited -> Unknown.
+    // Exception: an `extension` rule yields to a more cautious ProgramMatcher or Inherited answer.
     public ExplanationService(RuleSet rules, ProgramMatcher programs, LeftoverHeuristic leftovers, AiCache aiCache)
     {
         _rules = rules;
@@ -56,15 +57,26 @@ public sealed class ExplanationService
     private Explanation Compute(ScanNode node)
     {
         var own = RuleHitOf(node).Explanation;
-        if (own != null) return own;
+        Explanation? e;
+        if (own != null)
+        {
+            if (own.RuleId == null || !_rules.IsFileTypeRule(own.RuleId)) return own;
 
-        var e = Guard(() => _programs?.Explain(node), ref _programsStub);
+            // A file-type rule only knows the extension. When the file sits in an installed program or in a
+            // folder whose rule is inherited, that context wins if it is more cautious: a type rule may warn
+            // about a file, but never lowers the verdict of the folder it lives in.
+            var context = Guard(() => _programs?.Explain(node), ref _programsStub) ?? Inherit(node);
+            return context != null && Caution(context.Badge) > Caution(own.Badge) ? context : own;
+        }
+
+        e = Guard(() => _programs?.Explain(node), ref _programsStub);
+        if (e != null) return e;
+
+        // An answer the user asked Claude for beats the leftover guess.
+        e = Guard(() => _aiCache?.Get(node.FullPath), ref _aiStub);
         if (e != null) return e;
 
         e = Guard(() => _leftovers?.Explain(node), ref _leftoversStub);
-        if (e != null) return e;
-
-        e = Guard(() => _aiCache?.Get(node.FullPath), ref _aiStub);
         if (e != null) return e;
 
         e = Inherit(node);
@@ -88,6 +100,18 @@ public sealed class ExplanationService
         }
         return null;
     }
+
+    // Higher means "be more careful with it".
+    private static int Caution(Badge badge) => badge switch
+    {
+        Badge.Critical => 6,
+        Badge.Shrink => 5,
+        Badge.App => 4,
+        Badge.Check => 3,
+        Badge.User => 2,
+        Badge.Leftover => 1,
+        _ => 0,
+    };
 
     private RuleHit RuleHitOf(ScanNode node)
     {
