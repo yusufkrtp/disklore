@@ -1,0 +1,2923 @@
+{
+  "rules": [
+    {
+      "id": "dev.npm-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\npm-cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "npm cache",
+      "badge": "safe",
+      "owner": "npm",
+      "summary": "Downloaded npm packages; safe to clear, npm downloads them again",
+      "whatItIs": "npm's content-addressed cache (_cacache) of every package tarball and metadata it downloaded, plus logs and packages fetched by npx (_npx).",
+      "whyBig": "Every package version you have ever installed is kept, and npm never trims it automatically, so it often reaches several GB.",
+      "ifDeleted": "Nothing breaks; the next install downloads packages again, which is slower and needs network access.",
+      "saferAlternative": "Run 'npm cache clean --force', or delete the folder while no npm process is running.",
+      "action": {
+        "kind": "command",
+        "label": "Clear npm cache",
+        "value": "npm cache clean --force"
+      }
+    },
+    {
+      "id": "dev.npm-cache-roaming",
+      "match": {
+        "path": "%APPDATA%\\npm-cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "npm cache (older location)",
+      "badge": "safe",
+      "owner": "npm",
+      "summary": "npm cache from older npm versions; safe to clear",
+      "whatItIs": "Older npm versions on Windows kept their package cache in AppData\\Roaming.",
+      "whyBig": "Every downloaded package version is kept until cleared.",
+      "ifDeleted": "Nothing breaks; packages are downloaded again when needed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.npm-npx",
+      "match": {
+        "path": "%LOCALAPPDATA%\\npm-cache\\_npx"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "npx package cache",
+      "badge": "safe",
+      "owner": "npm",
+      "summary": "Packages downloaded to run with npx; safe to clear",
+      "whatItIs": "Packages that 'npx <tool>' downloaded so it can run them, one folder per tool and version set.",
+      "whyBig": "Each npx run of a new tool or version adds a full node_modules tree.",
+      "ifDeleted": "Nothing breaks; npx downloads tools again the next time they run.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.npm-global",
+      "match": {
+        "path": "%APPDATA%\\npm"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Global npm packages",
+      "badge": "app",
+      "owner": "npm",
+      "summary": "Command-line tools installed with npm install -g, and their launchers",
+      "whatItIs": "Packages installed globally with 'npm install -g' (node_modules) and the .cmd/.ps1 launchers that put them on your PATH.",
+      "whyBig": "Each global tool brings its full dependency tree; some CLIs are hundreds of MB.",
+      "ifDeleted": "Every globally installed command (for example CLIs installed with npm -g) stops working.",
+      "saferAlternative": "List them with 'npm ls -g --depth=0' and remove unused ones with 'npm uninstall -g <name>'.",
+      "action": {
+        "kind": "command",
+        "label": "List global npm packages",
+        "value": "npm ls -g --depth=0"
+      }
+    },
+    {
+      "id": "dev.yarn-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Yarn\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Yarn 1 cache",
+      "badge": "safe",
+      "owner": "Yarn",
+      "summary": "Downloaded packages of Yarn classic; safe to clear",
+      "whatItIs": "Yarn 1 (classic) keeps every package it downloads here so installs can be offline and fast.",
+      "whyBig": "Every package version is kept until cleaned.",
+      "ifDeleted": "Nothing breaks; packages are downloaded again on the next install.",
+      "saferAlternative": "Run 'yarn cache clean'.",
+      "action": {
+        "kind": "command",
+        "label": "Clear Yarn cache",
+        "value": "yarn cache clean"
+      }
+    },
+    {
+      "id": "dev.yarn-berry-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Yarn\\Berry\\cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Yarn global cache",
+      "badge": "safe",
+      "owner": "Yarn",
+      "summary": "Global package cache of Yarn 2+; safe to clear",
+      "whatItIs": "Yarn 2 and later keep a global cache of package archives here when the global cache is enabled (the default in recent versions).",
+      "whyBig": "Every package version used by any project is kept.",
+      "ifDeleted": "Nothing breaks; packages are downloaded again on the next install.",
+      "saferAlternative": "Run 'yarn cache clean --all' inside a project.",
+      "action": null
+    },
+    {
+      "id": "dev.pnpm-store",
+      "match": {
+        "path": "%LOCALAPPDATA%\\pnpm\\store"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "pnpm store",
+      "badge": "safe",
+      "owner": "pnpm",
+      "summary": "pnpm's shared package store; hard links make its size look doubled",
+      "whatItIs": "pnpm keeps one copy of every package version here and hard-links it into each project's node_modules.",
+      "whyBig": "Every package version used by any project is kept. Because files are hard-linked, the same bytes are also counted in each project's node_modules, so the real disk use is lower than the sum shown.",
+      "ifDeleted": "Existing projects keep working (their hard links keep the data), but the next install downloads packages again.",
+      "saferAlternative": "Run 'pnpm store prune' to remove packages no project references.",
+      "action": {
+        "kind": "command",
+        "label": "Prune pnpm store",
+        "value": "pnpm store prune"
+      }
+    },
+    {
+      "id": "dev.pnpm-store-name",
+      "match": {
+        "name": ".pnpm-store"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 50,
+      "title": "pnpm store",
+      "badge": "safe",
+      "owner": "pnpm",
+      "summary": "pnpm's shared package store; hard links make its size look doubled",
+      "whatItIs": "A pnpm content-addressable store. pnpm puts one at the root of a drive when projects live on a different drive from the default store.",
+      "whyBig": "Every package version used by projects on this drive. Files are hard-linked into node_modules, so they are counted twice here.",
+      "ifDeleted": "Existing projects keep working, but the next install downloads packages again.",
+      "saferAlternative": "Run 'pnpm store prune'.",
+      "action": null
+    },
+    {
+      "id": "dev.pnpm-home",
+      "match": {
+        "path": "%LOCALAPPDATA%\\pnpm"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "pnpm home",
+      "badge": "check",
+      "owner": "pnpm",
+      "summary": "pnpm itself, its global packages and its store",
+      "whatItIs": "pnpm's home folder: the pnpm executable (when installed standalone), globally installed packages and the store.",
+      "whyBig": "The store is the large part.",
+      "ifDeleted": "pnpm and global packages installed with it stop working.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.bun-cache",
+      "match": {
+        "path": "%USERPROFILE%\\.bun\\install\\cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Bun package cache",
+      "badge": "safe",
+      "owner": "Bun",
+      "summary": "Downloaded packages of the Bun runtime; safe to clear",
+      "whatItIs": "Global cache of packages installed with 'bun install'.",
+      "whyBig": "Every package version used by any project is kept.",
+      "ifDeleted": "Nothing breaks; packages are downloaded again.",
+      "saferAlternative": "Run 'bun pm cache rm'.",
+      "action": null
+    },
+    {
+      "id": "dev.bun",
+      "match": {
+        "path": "%USERPROFILE%\\.bun"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Bun runtime",
+      "badge": "app",
+      "owner": "Bun",
+      "summary": "The Bun JavaScript runtime, its global packages and cache",
+      "whatItIs": "Bun's home folder: the bun executable (bin), globally installed packages and the package cache.",
+      "whyBig": "The package cache is usually the large part.",
+      "ifDeleted": "Bun and global packages installed with it stop working.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.node-gyp",
+      "match": {
+        "path": "%LOCALAPPDATA%\\node-gyp\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "node-gyp headers cache",
+      "badge": "safe",
+      "owner": "Node.js",
+      "summary": "Node.js headers for building native modules; safe to clear",
+      "whatItIs": "Header files and libraries that node-gyp downloads to compile native npm modules, one folder per Node.js version.",
+      "whyBig": "Each Node.js version adds tens of MB.",
+      "ifDeleted": "Nothing breaks; node-gyp downloads the headers again when a native module is built.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.electron-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\electron"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Electron download cache",
+      "badge": "safe",
+      "owner": "Electron",
+      "summary": "Electron runtime zips downloaded by npm installs; safe to clear",
+      "whatItIs": "Zips of the Electron runtime that the electron npm package downloads during install.",
+      "whyBig": "One zip of about 100 MB per Electron version used by your projects.",
+      "ifDeleted": "Nothing breaks; the next install downloads them again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.electron-builder-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\electron-builder\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "electron-builder cache",
+      "badge": "safe",
+      "owner": "electron-builder",
+      "summary": "Tools and runtimes downloaded by electron-builder; safe to clear",
+      "whatItIs": "Packaging tools (NSIS, winCodeSign) and Electron builds that electron-builder downloads to package apps.",
+      "whyBig": "Several hundred MB of tools and runtimes.",
+      "ifDeleted": "Nothing breaks; they are downloaded again on the next build.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.playwright",
+      "match": {
+        "path": "%LOCALAPPDATA%\\ms-playwright"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Playwright browsers",
+      "badge": "safe",
+      "owner": "Microsoft Playwright",
+      "summary": "Browsers downloaded by Playwright for automated tests; re-download with playwright install",
+      "whatItIs": "Chromium, Firefox and WebKit builds that Playwright downloads to run browser automation and tests.",
+      "whyBig": "Each browser build is 100-300 MB, and every Playwright version downloads its own builds without removing old ones.",
+      "ifDeleted": "Playwright scripts and tests fail until the browsers are installed again with 'npx playwright install'.",
+      "saferAlternative": "Delete old version folders (for example chromium-1100) and keep the newest.",
+      "action": null
+    },
+    {
+      "id": "dev.playwright-go",
+      "match": {
+        "path": "%LOCALAPPDATA%\\ms-playwright-go"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Playwright for Go driver",
+      "badge": "safe",
+      "owner": "Microsoft Playwright",
+      "summary": "Driver downloaded by Playwright for Go; safe to clear",
+      "whatItIs": "The Node.js-based driver that playwright-go downloads.",
+      "whyBig": "One driver per version.",
+      "ifDeleted": "Playwright for Go downloads it again when needed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.puppeteer",
+      "match": {
+        "path": "%USERPROFILE%\\.cache\\puppeteer"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Puppeteer browsers",
+      "badge": "safe",
+      "owner": "Puppeteer",
+      "summary": "Chrome builds downloaded by Puppeteer; downloaded again on install",
+      "whatItIs": "Chrome for Testing builds that Puppeteer downloads during 'npm install'.",
+      "whyBig": "Each version is a few hundred MB, and old versions stay.",
+      "ifDeleted": "Puppeteer scripts fail until the browser is downloaded again (reinstall puppeteer or run 'npx puppeteer browsers install chrome').",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.cypress",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Cypress\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Cypress binary cache",
+      "badge": "safe",
+      "owner": "Cypress",
+      "summary": "Cypress test runner binaries; downloaded again on install",
+      "whatItIs": "The Cypress app binaries, one folder per version.",
+      "whyBig": "Each version is several hundred MB, and old versions stay.",
+      "ifDeleted": "Cypress downloads its binary again on the next install ('npx cypress install').",
+      "saferAlternative": "Run 'npx cypress cache prune' to keep only the current version.",
+      "action": null
+    },
+    {
+      "id": "dev.pip-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\pip\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "pip cache",
+      "badge": "safe",
+      "owner": "pip",
+      "summary": "Downloaded and built Python packages; safe to clear",
+      "whatItIs": "pip's HTTP cache and locally built wheels, so packages install faster the next time.",
+      "whyBig": "Large packages (PyTorch, TensorFlow, CUDA libraries) are cached at full size; several GB is common.",
+      "ifDeleted": "Nothing breaks; the next install downloads packages again.",
+      "saferAlternative": "Run 'pip cache purge'.",
+      "action": {
+        "kind": "command",
+        "label": "Clear pip cache",
+        "value": "pip cache purge"
+      }
+    },
+    {
+      "id": "dev.pip-cache-dotcache",
+      "match": {
+        "path": "%USERPROFILE%\\.cache\\pip"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "pip cache",
+      "badge": "safe",
+      "owner": "pip",
+      "summary": "pip cache in the Unix-style location; safe to clear",
+      "whatItIs": "pip's cache when it is configured (or run under a Unix-style shell) to use the .cache folder.",
+      "whyBig": "Large packages are cached at full size.",
+      "ifDeleted": "Nothing breaks; packages are downloaded again.",
+      "saferAlternative": "Run 'pip cache purge'.",
+      "action": null
+    },
+    {
+      "id": "dev.pip-user",
+      "match": {
+        "path": "%APPDATA%\\Python"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "pip --user packages",
+      "badge": "app",
+      "owner": "Python",
+      "summary": "Python packages installed with pip install --user, per Python version",
+      "whatItIs": "Packages installed with 'pip install --user' (PythonXY\\site-packages) and their command-line scripts.",
+      "whyBig": "Data science and machine learning packages can be GBs.",
+      "ifDeleted": "Scripts and tools that import these packages fail.",
+      "saferAlternative": "Remove packages with 'pip uninstall <name>' for the matching Python version.",
+      "action": null
+    },
+    {
+      "id": "dev.uv-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\uv\\cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "uv cache",
+      "badge": "safe",
+      "owner": "uv (Astral)",
+      "summary": "Package cache of the uv Python package manager; safe to clear",
+      "whatItIs": "uv keeps downloaded and built Python packages here and links them into virtual environments.",
+      "whyBig": "Every package version used by any project is kept; machine learning packages are GBs.",
+      "ifDeleted": "Existing environments keep working; the next install downloads packages again.",
+      "saferAlternative": "Run 'uv cache clean', or 'uv cache prune' to remove only unused entries.",
+      "action": {
+        "kind": "command",
+        "label": "Prune uv cache",
+        "value": "uv cache prune"
+      }
+    },
+    {
+      "id": "dev.uv-python",
+      "match": {
+        "path": "%APPDATA%\\uv\\python"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Python versions installed by uv",
+      "badge": "app",
+      "owner": "uv (Astral)",
+      "summary": "Python interpreters downloaded by uv",
+      "whatItIs": "Python versions that uv installed ('uv python install' or automatically for projects).",
+      "whyBig": "Each interpreter is 50-150 MB.",
+      "ifDeleted": "Projects and tools that use these interpreters fail until uv installs them again.",
+      "saferAlternative": "List them with 'uv python list --only-installed' and remove with 'uv python uninstall <version>'.",
+      "action": null
+    },
+    {
+      "id": "dev.uv-tools",
+      "match": {
+        "path": "%APPDATA%\\uv\\tools"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Tools installed by uv",
+      "badge": "app",
+      "owner": "uv (Astral)",
+      "summary": "Command-line tools installed with uv tool install",
+      "whatItIs": "Isolated environments of tools installed with 'uv tool install'.",
+      "whyBig": "Each tool has its own environment with its dependencies.",
+      "ifDeleted": "Those tools stop working.",
+      "saferAlternative": "Remove tools with 'uv tool uninstall <name>'.",
+      "action": null
+    },
+    {
+      "id": "dev.poetry-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\pypoetry\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Poetry cache and virtualenvs",
+      "badge": "safe",
+      "owner": "Poetry",
+      "summary": "Poetry's package cache and project virtualenvs; recreated by poetry install",
+      "whatItIs": "Poetry's package cache and, by default, the virtual environments it creates for projects (virtualenvs).",
+      "whyBig": "Every package version and one environment per project and Python version.",
+      "ifDeleted": "Nothing is lost from your projects; run 'poetry install' to recreate environments.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.conda-pkgs",
+      "match": {
+        "name": "pkgs",
+        "sibling": "conda-meta"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "conda package cache",
+      "badge": "safe",
+      "owner": "conda",
+      "summary": "Downloaded conda packages; clear with conda clean",
+      "whatItIs": "The package cache of a conda installation (Anaconda, Miniconda, Miniforge): downloaded archives and extracted packages.",
+      "whyBig": "Every package version ever installed in any environment stays here; tens of GB is common.",
+      "ifDeleted": "Environments keep working (files are hard-linked or copied into them); new installs download again.",
+      "saferAlternative": "Run 'conda clean --all' to remove unused packages and archives.",
+      "action": {
+        "kind": "command",
+        "label": "Clean conda cache",
+        "value": "conda clean --all"
+      }
+    },
+    {
+      "id": "dev.conda-envs",
+      "match": {
+        "name": "envs",
+        "sibling": "conda-meta"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "conda environments",
+      "badge": "check",
+      "owner": "conda",
+      "summary": "Your conda environments; remove unused ones with conda env remove",
+      "whatItIs": "Each subfolder is a conda environment with its own Python and packages.",
+      "whyBig": "Data science environments are often 2-10 GB each.",
+      "ifDeleted": "The environments and everything installed in them are gone.",
+      "saferAlternative": "List them with 'conda env list' and remove unused ones with 'conda env remove -n <name>'.",
+      "action": null
+    },
+    {
+      "id": "dev.conda-user-pkgs",
+      "match": {
+        "path": "%USERPROFILE%\\.conda\\pkgs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "conda package cache (user)",
+      "badge": "safe",
+      "owner": "conda",
+      "summary": "Per-user conda package cache; clear with conda clean",
+      "whatItIs": "Package cache that conda uses for your account when the main installation is not writable.",
+      "whyBig": "Every package version installed is kept.",
+      "ifDeleted": "Environments keep working; new installs download again.",
+      "saferAlternative": "Run 'conda clean --all'.",
+      "action": null
+    },
+    {
+      "id": "dev.conda-user-envs",
+      "match": {
+        "path": "%USERPROFILE%\\.conda\\envs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "conda environments (user)",
+      "badge": "check",
+      "owner": "conda",
+      "summary": "Your conda environments created outside the main installation",
+      "whatItIs": "Conda environments created for your account.",
+      "whyBig": "Each environment is often several GB.",
+      "ifDeleted": "The environments are gone.",
+      "saferAlternative": "Remove unused ones with 'conda env remove -n <name>'.",
+      "action": null
+    },
+    {
+      "id": "dev.huggingface",
+      "match": {
+        "path": "%USERPROFILE%\\.cache\\huggingface"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Hugging Face cache",
+      "badge": "safe",
+      "owner": "Hugging Face",
+      "summary": "Downloaded AI models and datasets; downloaded again when needed",
+      "whatItIs": "Models (hub), datasets and Xet storage cached by Hugging Face libraries such as transformers and diffusers. Your login token is also stored here.",
+      "whyBig": "Each model you load is downloaded in full; large language and image models are 2-50 GB each.",
+      "ifDeleted": "Nothing breaks, but models download again when used (gated models need a login), and the stored login token is removed.",
+      "saferAlternative": "Remove single models with 'hf cache delete' (older versions: 'huggingface-cli delete-cache').",
+      "action": null
+    },
+    {
+      "id": "dev.torch-hub",
+      "match": {
+        "path": "%USERPROFILE%\\.cache\\torch"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "PyTorch hub cache",
+      "badge": "safe",
+      "owner": "PyTorch",
+      "summary": "Model weights downloaded by PyTorch; downloaded again when needed",
+      "whatItIs": "Pretrained weights and repositories downloaded through torch.hub and torchvision.",
+      "whyBig": "Each model checkpoint is tens of MB to several GB.",
+      "ifDeleted": "Nothing breaks; weights are downloaded again on first use.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.ollama",
+      "match": {
+        "path": "%USERPROFILE%\\.ollama"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Ollama data",
+      "badge": "check",
+      "owner": "Ollama",
+      "summary": "Ollama's models and identity key",
+      "whatItIs": "Ollama's home folder: downloaded models and the key that identifies this machine to ollama.com.",
+      "whyBig": "Models are the large part.",
+      "ifDeleted": "Models must be downloaded again and the identity key is regenerated.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.ollama-models",
+      "match": {
+        "path": "%USERPROFILE%\\.ollama\\models"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Ollama models",
+      "badge": "check",
+      "owner": "Ollama",
+      "summary": "Language models pulled with Ollama; remove them with ollama rm",
+      "whatItIs": "Model layers (blobs) and manifests of every model you pulled or created with Ollama. Models share layers, so file sizes do not map one-to-one to models.",
+      "whyBig": "Each model is 1-50 GB or more depending on size and quantization.",
+      "ifDeleted": "Pulled models must be downloaded again; models you created yourself from a Modelfile are lost.",
+      "saferAlternative": "Run 'ollama list' and remove models with 'ollama rm <name>' instead of deleting blobs by hand.",
+      "action": {
+        "kind": "command",
+        "label": "List Ollama models",
+        "value": "ollama list"
+      }
+    },
+    {
+      "id": "dev.lmstudio-models",
+      "match": {
+        "path": "%USERPROFILE%\\.lmstudio\\models"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "LM Studio models",
+      "badge": "check",
+      "owner": "LM Studio",
+      "summary": "Language models downloaded in LM Studio",
+      "whatItIs": "Model files (mostly GGUF) downloaded through LM Studio.",
+      "whyBig": "Each model is 1-50 GB or more.",
+      "ifDeleted": "The models must be downloaded again.",
+      "saferAlternative": "Delete models from LM Studio's My Models view.",
+      "action": null
+    },
+    {
+      "id": "dev.lmstudio-old",
+      "match": {
+        "path": "%USERPROFILE%\\.cache\\lm-studio"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "LM Studio data (older location)",
+      "badge": "check",
+      "owner": "LM Studio",
+      "summary": "Models and data of older LM Studio versions",
+      "whatItIs": "Older LM Studio versions kept downloaded models and app data here.",
+      "whyBig": "Downloaded models are GBs each.",
+      "ifDeleted": "Models must be downloaded again; settings of old versions are lost.",
+      "saferAlternative": "If LM Studio now uses .lmstudio, check whether these models are still referenced before deleting.",
+      "action": null
+    },
+    {
+      "id": "dev.comfyui-models",
+      "match": {
+        "name": "models",
+        "sibling": "custom_nodes"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "ComfyUI models",
+      "badge": "check",
+      "owner": "ComfyUI",
+      "summary": "Checkpoints, LoRAs and other models used by ComfyUI",
+      "whatItIs": "ComfyUI's model folders: checkpoints, LoRAs, VAEs, ControlNets, upscalers, text encoders and more.",
+      "whyBig": "Image and video models are 2-25 GB each and add up quickly.",
+      "ifDeleted": "Workflows that use the deleted models fail; you have to find and download them again.",
+      "saferAlternative": "Delete individual models you no longer use; note where each came from before deleting.",
+      "action": null
+    },
+    {
+      "id": "dev.comfyui-output",
+      "match": {
+        "name": "output",
+        "sibling": "custom_nodes"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "ComfyUI outputs",
+      "badge": "user",
+      "owner": "ComfyUI",
+      "summary": "Images and videos you generated with ComfyUI",
+      "whatItIs": "Default output folder for images and videos generated with ComfyUI.",
+      "whyBig": "Every generation is saved; videos are large.",
+      "ifDeleted": "Your generated images and videos are gone.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.a1111-models",
+      "match": {
+        "name": "models",
+        "sibling": "webui.py"
+      },
+      "kind": "folder",
+      "inherit": true,
+      "priority": 60,
+      "title": "Stable Diffusion WebUI models",
+      "badge": "check",
+      "owner": "Stable Diffusion WebUI",
+      "summary": "Checkpoints and LoRAs used by Stable Diffusion WebUI (A1111/Forge)",
+      "whatItIs": "Model folders of Stable Diffusion WebUI (AUTOMATIC1111, Forge): checkpoints, LoRAs, VAEs and embeddings.",
+      "whyBig": "Checkpoints are 2-7 GB each.",
+      "ifDeleted": "The deleted models must be found and downloaded again.",
+      "saferAlternative": "Delete individual models you no longer use.",
+      "action": null
+    },
+    {
+      "id": "dev.ext-safetensors",
+      "match": {
+        "extension": ".safetensors"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "AI model weights (safetensors)",
+      "badge": "check",
+      "owner": null,
+      "summary": "AI model weights; can be downloaded again if you know the source",
+      "whatItIs": "A file with neural network weights in the safetensors format, used by Stable Diffusion, Hugging Face and similar tools.",
+      "whyBig": "Model weights are often several GB.",
+      "ifDeleted": "Tools that use this model fail until it is downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.ext-ckpt",
+      "match": {
+        "extension": ".ckpt"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "AI model checkpoint",
+      "badge": "check",
+      "owner": null,
+      "summary": "Model checkpoint (often Stable Diffusion); re-downloadable if you know the source",
+      "whatItIs": "A model checkpoint file, commonly a Stable Diffusion model or a training checkpoint.",
+      "whyBig": "Checkpoints are several GB.",
+      "ifDeleted": "Tools that use this checkpoint fail; training checkpoints you made yourself are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.ext-gguf",
+      "match": {
+        "extension": ".gguf"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "Language model (GGUF)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Quantized language model for llama.cpp, LM Studio or Ollama",
+      "whatItIs": "A language model file in the GGUF format used by llama.cpp-based tools.",
+      "whyBig": "Models are 1-50 GB or more.",
+      "ifDeleted": "Tools that use this model fail until it is downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.nuget-packages",
+      "match": {
+        "path": "%USERPROFILE%\\.nuget\\packages"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NuGet global packages",
+      "badge": "safe",
+      "owner": "NuGet",
+      "summary": "Packages restored by .NET builds; restored again on the next build",
+      "whatItIs": "NuGet's global packages folder: every package version that any .NET project restored, extracted.",
+      "whyBig": "Every version of every package is kept and never cleaned automatically; several GB is common.",
+      "ifDeleted": "Nothing is lost; the next restore or build downloads packages again.",
+      "saferAlternative": "Run 'dotnet nuget locals global-packages --clear' (requires the dotnet CLI on PATH).",
+      "action": {
+        "kind": "command",
+        "label": "Clear NuGet global packages",
+        "value": "dotnet nuget locals global-packages --clear"
+      }
+    },
+    {
+      "id": "dev.nuget-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\NuGet"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "NuGet caches",
+      "badge": "safe",
+      "owner": "NuGet",
+      "summary": "NuGet HTTP and plugin caches; safe to clear",
+      "whatItIs": "NuGet's HTTP cache (v3-cache), plugin cache and older package cache.",
+      "whyBig": "Package metadata and downloads kept for fast restores.",
+      "ifDeleted": "Nothing breaks; NuGet downloads again when needed.",
+      "saferAlternative": "Run 'dotnet nuget locals all --clear' to clear every NuGet cache at once.",
+      "action": null
+    },
+    {
+      "id": "dev.nuget-v3-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\NuGet\\v3-cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NuGet HTTP cache",
+      "badge": "safe",
+      "owner": "NuGet",
+      "summary": "Cached NuGet feed responses and downloads; safe to clear",
+      "whatItIs": "NuGet's HTTP cache of feed responses and package downloads.",
+      "whyBig": "It grows with every restore against online feeds.",
+      "ifDeleted": "Nothing breaks; NuGet downloads again.",
+      "saferAlternative": "Run 'dotnet nuget locals http-cache --clear'.",
+      "action": {
+        "kind": "command",
+        "label": "Clear NuGet HTTP cache",
+        "value": "dotnet nuget locals http-cache --clear"
+      }
+    },
+    {
+      "id": "dev.dotnet-home",
+      "match": {
+        "path": "%USERPROFILE%\\.dotnet"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": ".NET user folder",
+      "badge": "check",
+      "owner": "Microsoft .NET",
+      "summary": ".NET tools, telemetry data and sometimes a per-user SDK install",
+      "whatItIs": ".NET's per-user folder: global tools (tools), first-run markers and telemetry. When .NET was installed with the dotnet-install script, the whole SDK lives here too.",
+      "whyBig": "A per-user SDK install is several hundred MB per version.",
+      "ifDeleted": "Global tools stop working, and if an SDK is installed here, builds that use it fail.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.dotnet-tools",
+      "match": {
+        "path": "%USERPROFILE%\\.dotnet\\tools"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": ".NET global tools",
+      "badge": "app",
+      "owner": "Microsoft .NET",
+      "summary": "Command-line tools installed with dotnet tool install -g",
+      "whatItIs": "Global .NET tools and their shims.",
+      "whyBig": "Each tool is a few MB to hundreds of MB.",
+      "ifDeleted": "Those tools stop working.",
+      "saferAlternative": "Remove tools with 'dotnet tool uninstall -g <name>'.",
+      "action": null
+    },
+    {
+      "id": "dev.dotnet-telemetry",
+      "match": {
+        "path": "%USERPROFILE%\\.dotnet\\TelemetryStorageService"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": ".NET telemetry buffer",
+      "badge": "safe",
+      "owner": "Microsoft .NET",
+      "summary": "Buffered .NET CLI telemetry; safe to delete",
+      "whatItIs": "Telemetry events the .NET CLI buffers before sending.",
+      "whyBig": "Usually small; it grows when sending fails.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.templateengine",
+      "match": {
+        "path": "%USERPROFILE%\\.templateengine"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "dotnet new template cache",
+      "badge": "safe",
+      "owner": "Microsoft .NET",
+      "summary": "Cache of installed 'dotnet new' templates; rebuilt automatically",
+      "whatItIs": "The template engine's cache of templates available to 'dotnet new'.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Nothing breaks; it is rebuilt. Templates you installed with 'dotnet new install' may need to be installed again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.gradle",
+      "match": {
+        "path": "%USERPROFILE%\\.gradle"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Gradle user home",
+      "badge": "check",
+      "owner": "Gradle",
+      "summary": "Gradle caches and wrappers; gradle.properties may hold credentials",
+      "whatItIs": "Gradle's user home: dependency and build caches (caches), downloaded Gradle versions (wrapper), daemon logs and gradle.properties, which can contain signing keys and repository credentials.",
+      "whyBig": "caches and wrapper/dists are the large parts, often many GB for Android and Java developers.",
+      "ifDeleted": "Caches are rebuilt, but settings and credentials in gradle.properties and init scripts are lost.",
+      "saferAlternative": "Delete caches, wrapper\\dists and daemon instead of the whole folder.",
+      "action": null
+    },
+    {
+      "id": "dev.gradle-caches",
+      "match": {
+        "path": "%USERPROFILE%\\.gradle\\caches"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Gradle caches",
+      "badge": "safe",
+      "owner": "Gradle",
+      "summary": "Downloaded dependencies and build caches of Gradle; safe to clear",
+      "whatItIs": "Gradle's dependency cache (modules-2), transformed artifacts, build cache and per-version caches.",
+      "whyBig": "Every dependency version and per-Gradle-version caches are kept; Gradle only cleans unused entries after 30 days by default.",
+      "ifDeleted": "Nothing is lost; the next build downloads dependencies again and runs slower. Stop Gradle daemons first ('gradle --stop').",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.gradle-wrapper",
+      "match": {
+        "path": "%USERPROFILE%\\.gradle\\wrapper"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Gradle wrapper distributions",
+      "badge": "safe",
+      "owner": "Gradle",
+      "summary": "Gradle versions downloaded by project wrappers; safe to clear",
+      "whatItIs": "Full Gradle distributions that the Gradle wrapper (gradlew) downloads, one per version a project asks for.",
+      "whyBig": "Each distribution is 100-200 MB, and every project's Gradle version adds one.",
+      "ifDeleted": "Nothing is lost; the wrapper downloads the version again on the next build.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.gradle-daemon",
+      "match": {
+        "path": "%USERPROFILE%\\.gradle\\daemon"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Gradle daemon logs",
+      "badge": "safe",
+      "owner": "Gradle",
+      "summary": "Gradle daemon logs and registry; safe to clear",
+      "whatItIs": "Logs and the registry of Gradle daemon processes, per Gradle version.",
+      "whyBig": "Daemon logs accumulate.",
+      "ifDeleted": "Nothing breaks; stop daemons first with 'gradle --stop'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.m2",
+      "match": {
+        "path": "%USERPROFILE%\\.m2"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Maven user folder",
+      "badge": "check",
+      "owner": "Apache Maven",
+      "summary": "Maven settings (may hold credentials) and the local repository",
+      "whatItIs": "Maven's per-user folder: settings.xml (mirrors and credentials) and the local repository of downloaded artifacts.",
+      "whyBig": "The repository is the large part.",
+      "ifDeleted": "Settings and stored credentials are lost; artifacts are downloaded again.",
+      "saferAlternative": "Delete only the repository folder to free space.",
+      "action": null
+    },
+    {
+      "id": "dev.m2-repository",
+      "match": {
+        "path": "%USERPROFILE%\\.m2\\repository"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Maven local repository",
+      "badge": "safe",
+      "owner": "Apache Maven",
+      "summary": "Downloaded Maven artifacts; downloaded again by the next build",
+      "whatItIs": "Every dependency and plugin that Maven (and tools such as IntelliJ or Gradle with mavenLocal) downloaded.",
+      "whyBig": "Every version is kept and Maven never cleans it.",
+      "ifDeleted": "The next build downloads dependencies again. Artifacts you installed locally with 'mvn install' and that exist nowhere else are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.cargo",
+      "match": {
+        "path": "%USERPROFILE%\\.cargo"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Cargo home",
+      "badge": "check",
+      "owner": "Rust (Cargo)",
+      "summary": "Cargo tools, registry cache and config",
+      "whatItIs": "Cargo's home folder: installed binaries (bin, including the rustup proxies), the crates registry cache, git checkouts and config.",
+      "whyBig": "The registry cache and git checkouts are usually the large parts.",
+      "ifDeleted": "cargo, rustc and installed tools stop working if bin is removed.",
+      "saferAlternative": "Delete registry and git instead of the whole folder.",
+      "action": null
+    },
+    {
+      "id": "dev.cargo-registry",
+      "match": {
+        "path": "%USERPROFILE%\\.cargo\\registry"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Cargo registry cache",
+      "badge": "safe",
+      "owner": "Rust (Cargo)",
+      "summary": "Downloaded and extracted Rust crates; downloaded again when needed",
+      "whatItIs": "Crate archives (cache), their extracted sources (src) and the registry index.",
+      "whyBig": "Every crate version any project used is kept; Cargo cleans only old entries in recent versions.",
+      "ifDeleted": "Nothing is lost; the next build downloads crates again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.cargo-git",
+      "match": {
+        "path": "%USERPROFILE%\\.cargo\\git"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Cargo git checkouts",
+      "badge": "safe",
+      "owner": "Rust (Cargo)",
+      "summary": "Git dependencies checked out by Cargo; fetched again when needed",
+      "whatItIs": "Clones and checkouts of git-based Rust dependencies.",
+      "whyBig": "Each git dependency keeps a full clone plus checkouts per revision.",
+      "ifDeleted": "Nothing is lost; the next build fetches them again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.cargo-bin",
+      "match": {
+        "path": "%USERPROFILE%\\.cargo\\bin"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Cargo-installed tools",
+      "badge": "app",
+      "owner": "Rust (Cargo)",
+      "summary": "rustup proxies (cargo, rustc) and tools installed with cargo install",
+      "whatItIs": "The cargo and rustc commands (rustup proxies) and every tool installed with 'cargo install'.",
+      "whyBig": "Each installed tool is a standalone binary, a few to tens of MB.",
+      "ifDeleted": "cargo, rustc and installed tools stop working.",
+      "saferAlternative": "Remove tools with 'cargo uninstall <name>'.",
+      "action": null
+    },
+    {
+      "id": "dev.rustup",
+      "match": {
+        "path": "%USERPROFILE%\\.rustup"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "rustup toolchains",
+      "badge": "app",
+      "owner": "Rust (rustup)",
+      "summary": "Rust toolchains installed by rustup; remove unused ones with rustup",
+      "whatItIs": "rustup's home: installed toolchains (stable, nightly, specific versions), their components and downloads.",
+      "whyBig": "Each toolchain is 0.5-1.5 GB with docs and sources; nightlies and old versions add up.",
+      "ifDeleted": "Rust stops working until rustup installs a toolchain again.",
+      "saferAlternative": "Run 'rustup toolchain list' and remove unused ones with 'rustup toolchain uninstall <name>'.",
+      "action": {
+        "kind": "command",
+        "label": "List Rust toolchains",
+        "value": "rustup toolchain list"
+      }
+    },
+    {
+      "id": "dev.rustup-downloads",
+      "match": {
+        "path": "%USERPROFILE%\\.rustup\\downloads"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "rustup downloads",
+      "badge": "safe",
+      "owner": "Rust (rustup)",
+      "summary": "Leftover rustup downloads; safe to clear",
+      "whatItIs": "Partially downloaded or leftover toolchain components.",
+      "whyBig": "Interrupted updates leave files.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.rustup-tmp",
+      "match": {
+        "path": "%USERPROFILE%\\.rustup\\tmp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "rustup temporary files",
+      "badge": "safe",
+      "owner": "Rust (rustup)",
+      "summary": "Temporary files of rustup; safe to clear",
+      "whatItIs": "Temporary files rustup uses while installing.",
+      "whyBig": "Interrupted installs leave files.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.gopath",
+      "match": {
+        "path": "%USERPROFILE%\\go"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Go workspace (GOPATH)",
+      "badge": "check",
+      "owner": "Go",
+      "summary": "Go module cache, installed tools and possibly your code",
+      "whatItIs": "The default GOPATH: the module cache (pkg\\mod), tools installed with 'go install' (bin) and, in old-style setups, source code (src).",
+      "whyBig": "The module cache is usually the large part.",
+      "ifDeleted": "Installed Go tools stop working, and code under src (old GOPATH layout) is lost.",
+      "saferAlternative": "Clear only the module cache with 'go clean -modcache'.",
+      "action": null
+    },
+    {
+      "id": "dev.go-modcache",
+      "match": {
+        "path": "%USERPROFILE%\\go\\pkg\\mod"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Go module cache",
+      "badge": "safe",
+      "owner": "Go",
+      "summary": "Downloaded Go modules; clear with go clean -modcache",
+      "whatItIs": "Every module version downloaded by Go builds, extracted and read-only.",
+      "whyBig": "Every version of every dependency is kept; Go never trims it.",
+      "ifDeleted": "Nothing is lost; modules are downloaded again. The files are read-only, so deleting by hand often fails; use the Go command.",
+      "saferAlternative": "Run 'go clean -modcache'.",
+      "action": {
+        "kind": "command",
+        "label": "Clear Go module cache",
+        "value": "go clean -modcache"
+      }
+    },
+    {
+      "id": "dev.go-build-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\go-build"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Go build cache",
+      "badge": "safe",
+      "owner": "Go",
+      "summary": "Compiled Go packages cached between builds; safe to clear",
+      "whatItIs": "Go's build cache with compiled packages and test results.",
+      "whyBig": "It grows with every build; Go trims entries unused for several days, but it can still reach GBs.",
+      "ifDeleted": "Nothing is lost; the next builds are slower.",
+      "saferAlternative": "Run 'go clean -cache'.",
+      "action": {
+        "kind": "command",
+        "label": "Clear Go build cache",
+        "value": "go clean -cache"
+      }
+    },
+    {
+      "id": "dev.go-bin",
+      "match": {
+        "path": "%USERPROFILE%\\go\\bin"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Go-installed tools",
+      "badge": "app",
+      "owner": "Go",
+      "summary": "Tools installed with go install",
+      "whatItIs": "Binaries of tools installed with 'go install'.",
+      "whyBig": "Each tool is a standalone binary, often tens of MB.",
+      "ifDeleted": "Those tools stop working.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.android-home",
+      "match": {
+        "path": "%USERPROFILE%\\.android"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Android user folder",
+      "badge": "check",
+      "owner": "Android SDK",
+      "summary": "Android emulators (avd), debug keys and caches",
+      "whatItIs": "Android tools' per-user folder: emulator virtual devices (avd), the debug signing key (debug.keystore), adb keys and caches.",
+      "whyBig": "Virtual devices are the large part.",
+      "ifDeleted": "Emulators are gone, adb has to be re-authorised on devices, and apps signed with the old debug key cannot be updated in place.",
+      "saferAlternative": "Delete unused virtual devices from Android Studio's Device Manager.",
+      "action": null
+    },
+    {
+      "id": "dev.android-avd",
+      "match": {
+        "path": "%USERPROFILE%\\.android\\avd"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Android emulator devices",
+      "badge": "check",
+      "owner": "Android SDK",
+      "summary": "Android emulator virtual devices with their data and snapshots",
+      "whatItIs": "Each .avd folder is one emulator: its writable disk images, installed apps, data and quick-boot snapshots.",
+      "whyBig": "Each device is 2-15 GB; snapshots and user data grow with use.",
+      "ifDeleted": "The emulators and everything installed in them are gone.",
+      "saferAlternative": "Delete devices or wipe their data in Android Studio > Device Manager.",
+      "action": null
+    },
+    {
+      "id": "dev.android-cache",
+      "match": {
+        "path": "%USERPROFILE%\\.android\\cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Android tools cache",
+      "badge": "safe",
+      "owner": "Android SDK",
+      "summary": "Cache of Android SDK tools; safe to clear",
+      "whatItIs": "Cached downloads and metadata of Android SDK tools.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.android-sdk",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Android\\Sdk"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Android SDK",
+      "badge": "app",
+      "owner": "Android SDK",
+      "summary": "Android SDK: platforms, build tools, emulator, system images and NDKs",
+      "whatItIs": "The Android SDK installed by Android Studio: platform versions, build tools, platform tools (adb), the emulator, system images and NDKs.",
+      "whyBig": "System images (1-2 GB each) and NDK versions (1-3 GB each) add up; old versions stay until removed.",
+      "ifDeleted": "Android builds and the emulator stop working.",
+      "saferAlternative": "Remove old platforms, system images and NDKs in Android Studio > SDK Manager.",
+      "action": null
+    },
+    {
+      "id": "dev.android-system-images",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Android\\Sdk\\system-images"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Android emulator system images",
+      "badge": "check",
+      "owner": "Android SDK",
+      "summary": "Android system images used by emulators; remove unused ones in SDK Manager",
+      "whatItIs": "Android OS images that emulator devices boot from, per API level, variant and CPU architecture.",
+      "whyBig": "Each image is 1-2 GB, and Play Store or multiple ABIs add more.",
+      "ifDeleted": "Emulators based on these images no longer start until they are downloaded again.",
+      "saferAlternative": "Remove images no virtual device uses in Android Studio > SDK Manager.",
+      "action": null
+    },
+    {
+      "id": "dev.android-ndk",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Android\\Sdk\\ndk"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Android NDK versions",
+      "badge": "check",
+      "owner": "Android SDK",
+      "summary": "Native Development Kits, one folder per version",
+      "whatItIs": "Android NDK versions for building C/C++ code; Gradle downloads the version each project asks for.",
+      "whyBig": "Each NDK is 1-3 GB, and old versions stay.",
+      "ifDeleted": "Projects that need a removed NDK version download it again or fail to build.",
+      "saferAlternative": "Remove old versions in SDK Manager > SDK Tools (show package details).",
+      "action": null
+    },
+    {
+      "id": "dev.android-emulator",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Android\\Sdk\\emulator"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Android emulator",
+      "badge": "app",
+      "owner": "Android SDK",
+      "summary": "The Android emulator program",
+      "whatItIs": "The Android emulator binaries.",
+      "whyBig": "About 1 GB.",
+      "ifDeleted": "Emulators stop working until it is reinstalled from the SDK Manager.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.android-sdk-temp",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Android\\Sdk\\.temp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "SDK Manager temporary downloads",
+      "badge": "safe",
+      "owner": "Android SDK",
+      "summary": "Temporary downloads of the Android SDK Manager; safe to clear",
+      "whatItIs": "Download staging area of the SDK Manager.",
+      "whyBig": "Interrupted downloads leave files.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.wsl-store-vhdx",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\CanonicalGroupLimited.*\\LocalState\\ext4.vhdx"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 110,
+      "title": "WSL Ubuntu disk",
+      "badge": "shrink",
+      "owner": "Windows Subsystem for Linux",
+      "summary": "Your WSL Ubuntu Linux disk; never delete, compact it after freeing space inside",
+      "whatItIs": "The virtual disk that holds the entire Linux file system of a WSL 2 Ubuntu distribution: your Linux home folder, installed packages and projects.",
+      "whyBig": "It grows as you add files inside Linux but does not shrink by itself when you delete them, so it can be much larger than the data inside. To give space back to Windows after deleting files inside, shut the VM down and compact the disk: with Hyper-V tools, Optimize-VHD -Path <file> -Mode Full; otherwise in an elevated diskpart: select vdisk file=\"<file>\", attach vdisk readonly, compact vdisk, detach vdisk.",
+      "ifDeleted": "Every file inside that Linux distribution is lost.",
+      "saferAlternative": "Free space inside Linux first (apt clean, docker prune, old projects), then run 'wsl --shutdown' and compact the disk. Recent WSL versions can also make it sparse with 'wsl --manage <distro> --set-sparse true'.",
+      "action": {
+        "kind": "command",
+        "label": "Shut down WSL",
+        "value": "wsl --shutdown"
+      }
+    },
+    {
+      "id": "dev.ext4-vhdx",
+      "match": {
+        "name": "ext4.vhdx"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "WSL Linux disk",
+      "badge": "shrink",
+      "owner": "Windows Subsystem for Linux",
+      "summary": "A WSL 2 Linux disk; never delete, compact it after freeing space inside",
+      "whatItIs": "The virtual disk that holds the Linux file system of a WSL 2 distribution (or of a tool built on WSL such as Docker Desktop).",
+      "whyBig": "It grows as data is added inside Linux and does not shrink by itself. To give space back to Windows after deleting files inside, shut the VM down and compact the disk: with Hyper-V tools, Optimize-VHD -Path <file> -Mode Full; otherwise in an elevated diskpart: select vdisk file=\"<file>\", attach vdisk readonly, compact vdisk, detach vdisk.",
+      "ifDeleted": "Every file inside that Linux distribution is lost. Unregister distributions you no longer need with 'wsl --unregister <name>' instead.",
+      "saferAlternative": "Free space inside Linux first, then run 'wsl --shutdown' and compact the disk.",
+      "action": {
+        "kind": "command",
+        "label": "Shut down WSL",
+        "value": "wsl --shutdown"
+      }
+    },
+    {
+      "id": "dev.docker-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Docker"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Docker Desktop data",
+      "badge": "check",
+      "owner": "Docker",
+      "summary": "Docker Desktop's virtual disks, logs and settings",
+      "whatItIs": "Docker Desktop's per-user data: the WSL virtual disks that hold all images, containers and volumes (wsl), logs and settings.",
+      "whyBig": "The WSL data disk is the large part and only grows unless compacted.",
+      "ifDeleted": "All Docker images, containers, volumes and build cache are lost.",
+      "saferAlternative": "Use 'docker system prune' or Docker Desktop's Troubleshoot > Clean / Purge data instead of deleting files.",
+      "action": null
+    },
+    {
+      "id": "dev.docker-wsl",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Docker\\wsl"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Docker Desktop virtual disks",
+      "badge": "shrink",
+      "owner": "Docker",
+      "summary": "Disks holding all Docker images, containers and volumes; prune, do not delete",
+      "whatItIs": "WSL virtual disks of Docker Desktop. The data disk (docker_data.vhdx in current versions, data\\ext4.vhdx in older ones) contains every image, container, volume and the build cache.",
+      "whyBig": "Pulled images, build cache and volumes fill it, and the disk does not shrink after pruning unless it is compacted. To give space back to Windows after deleting files inside, shut the VM down and compact the disk: with Hyper-V tools, Optimize-VHD -Path <file> -Mode Full; otherwise in an elevated diskpart: select vdisk file=\"<file>\", attach vdisk readonly, compact vdisk, detach vdisk.",
+      "ifDeleted": "Every Docker image, container and volume, including database data in volumes, is lost.",
+      "saferAlternative": "Run 'docker system prune' (add -a for unused images; add --volumes only if no volume holds data you need), then quit Docker Desktop and compact the disk.",
+      "action": {
+        "kind": "command",
+        "label": "Prune unused Docker data",
+        "value": "docker system prune"
+      }
+    },
+    {
+      "id": "dev.docker-wsl-vhdx",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Docker\\wsl\\**\\ext4.vhdx"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 110,
+      "title": "Docker Desktop data disk (older versions)",
+      "badge": "shrink",
+      "owner": "Docker",
+      "summary": "Docker Desktop disk with all images and containers; prune, do not delete",
+      "whatItIs": "In older Docker Desktop versions, this disk holds all images, containers, volumes and build cache.",
+      "whyBig": "It grows with pulled images and builds and does not shrink by itself. To give space back to Windows after deleting files inside, shut the VM down and compact the disk: with Hyper-V tools, Optimize-VHD -Path <file> -Mode Full; otherwise in an elevated diskpart: select vdisk file=\"<file>\", attach vdisk readonly, compact vdisk, detach vdisk.",
+      "ifDeleted": "Every Docker image, container and volume is lost.",
+      "saferAlternative": "Run 'docker system prune', then quit Docker Desktop and compact the disk.",
+      "action": {
+        "kind": "command",
+        "label": "Prune unused Docker data",
+        "value": "docker system prune"
+      }
+    },
+    {
+      "id": "dev.docker-data-vhdx",
+      "match": {
+        "name": "docker_data.vhdx"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Docker Desktop data disk",
+      "badge": "shrink",
+      "owner": "Docker",
+      "summary": "Docker Desktop disk with all images and containers; prune, do not delete",
+      "whatItIs": "The virtual disk in which Docker Desktop stores every image, container, volume and the build cache.",
+      "whyBig": "It grows with pulled images, builds and volumes and does not shrink by itself after pruning. To give space back to Windows after deleting files inside, shut the VM down and compact the disk: with Hyper-V tools, Optimize-VHD -Path <file> -Mode Full; otherwise in an elevated diskpart: select vdisk file=\"<file>\", attach vdisk readonly, compact vdisk, detach vdisk.",
+      "ifDeleted": "Every Docker image, container and volume is lost.",
+      "saferAlternative": "Run 'docker system prune' (and Docker Desktop's Clean / Purge data if needed), then quit Docker Desktop and compact the disk.",
+      "action": {
+        "kind": "command",
+        "label": "Prune unused Docker data",
+        "value": "docker system prune"
+      }
+    },
+    {
+      "id": "dev.ext-vhdx",
+      "match": {
+        "extension": ".vhdx"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "Virtual hard disk (VHDX)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Virtual machine disk (Hyper-V, WSL, Docker or Windows Sandbox)",
+      "whatItIs": "A virtual hard disk that holds a whole disk of a virtual machine or container system (Hyper-V, WSL, Docker Desktop, Dev Drive or a backup).",
+      "whyBig": "Dynamically expanding disks grow with the data inside and do not shrink by themselves. To give space back to Windows after deleting files inside, shut the VM down and compact the disk: with Hyper-V tools, Optimize-VHD -Path <file> -Mode Full; otherwise in an elevated diskpart: select vdisk file=\"<file>\", attach vdisk readonly, compact vdisk, detach vdisk.",
+      "ifDeleted": "Everything stored inside the virtual disk is lost.",
+      "saferAlternative": "Find out which VM or tool uses it first; delete VMs through their own manager.",
+      "action": null
+    },
+    {
+      "id": "dev.ext-avhdx",
+      "match": {
+        "extension": ".avhdx"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 20,
+      "title": "Hyper-V checkpoint disk",
+      "badge": "check",
+      "owner": "Microsoft Hyper-V",
+      "summary": "Hyper-V checkpoint (differencing) disk; delete checkpoints in Hyper-V Manager",
+      "whatItIs": "A differencing disk created by a Hyper-V checkpoint; it records all changes since the checkpoint.",
+      "whyBig": "It grows with every change inside the VM until the checkpoint is deleted and merged.",
+      "ifDeleted": "Deleting it by hand breaks the virtual machine's disk chain; the VM may not start and recent data is lost.",
+      "saferAlternative": "Delete the checkpoint in Hyper-V Manager so Hyper-V merges it properly.",
+      "action": null
+    },
+    {
+      "id": "dev.ext-vhd",
+      "match": {
+        "extension": ".vhd"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "Virtual hard disk (VHD)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Virtual machine or backup disk (older VHD format)",
+      "whatItIs": "A virtual hard disk in the older VHD format, used by Hyper-V, Virtual PC and Windows system image backups.",
+      "whyBig": "It holds a whole disk; fixed-size VHDs use their full size.",
+      "ifDeleted": "Everything stored inside the virtual disk is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.ext-vmdk",
+      "match": {
+        "extension": ".vmdk"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "VMware virtual disk",
+      "badge": "check",
+      "owner": null,
+      "summary": "Virtual machine disk (VMware, also used by VirtualBox)",
+      "whatItIs": "A virtual disk in VMware's format.",
+      "whyBig": "It grows with the data inside the virtual machine.",
+      "ifDeleted": "Everything inside that virtual machine's disk is lost.",
+      "saferAlternative": "Delete the VM from VMware or VirtualBox instead.",
+      "action": null
+    },
+    {
+      "id": "dev.ext-vdi",
+      "match": {
+        "extension": ".vdi"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "VirtualBox virtual disk",
+      "badge": "check",
+      "owner": "Oracle VirtualBox",
+      "summary": "VirtualBox virtual machine disk",
+      "whatItIs": "A virtual disk in VirtualBox's native format.",
+      "whyBig": "Dynamically allocated disks grow with the data inside the VM.",
+      "ifDeleted": "Everything inside that virtual machine's disk is lost.",
+      "saferAlternative": "Delete the VM in VirtualBox (Remove > Delete all files).",
+      "action": null
+    },
+    {
+      "id": "dev.ext-qcow2",
+      "match": {
+        "extension": ".qcow2"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "QEMU virtual disk",
+      "badge": "check",
+      "owner": null,
+      "summary": "Virtual machine disk (QEMU/KVM)",
+      "whatItIs": "A virtual disk in QEMU's qcow2 format.",
+      "whyBig": "It grows with the data inside the VM and with internal snapshots.",
+      "ifDeleted": "Everything inside that virtual machine's disk is lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.ext-iso",
+      "match": {
+        "extension": ".iso"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "Disc image (ISO)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Disc image, usually an installer you can download again",
+      "whatItIs": "An image of a CD, DVD or installation medium (for example Windows or Linux installers).",
+      "whyBig": "Operating system images are 1-6 GB.",
+      "ifDeleted": "Nothing breaks unless a virtual machine still has it attached; you need to download it again to reuse it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.unity-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Unity"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Unity user data",
+      "badge": "check",
+      "owner": "Unity Technologies",
+      "summary": "Unity editor logs, licensing data and global caches",
+      "whatItIs": "Per-user data of the Unity editor: logs, licensing files, the global package cache (cache) and other caches (Caches).",
+      "whyBig": "The package cache and build caches are the large parts.",
+      "ifDeleted": "Caches are rebuilt; licensing data loss means signing in again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.unity-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Unity\\cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Unity package cache",
+      "badge": "safe",
+      "owner": "Unity Technologies",
+      "summary": "Packages downloaded by Unity's Package Manager; downloaded again when needed",
+      "whatItIs": "Global cache of the Unity Package Manager (upm): downloaded registry and git packages shared by all projects.",
+      "whyBig": "Every package version any project used is kept.",
+      "ifDeleted": "Nothing is lost; projects download their packages again when opened. Close Unity first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.unity-caches",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Unity\\Caches"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Unity build and lighting caches",
+      "badge": "safe",
+      "owner": "Unity Technologies",
+      "summary": "Global build and GI caches of the Unity editor; safe to clear",
+      "whatItIs": "Global caches of the Unity editor, such as the build system cache (bee) and the global illumination cache (GiCache).",
+      "whyBig": "Lighting bakes and builds add data; the GI cache has a size limit set in Preferences.",
+      "ifDeleted": "Nothing is lost; builds and lighting take longer until the cache refills. Close Unity first.",
+      "saferAlternative": "Use Preferences > GI Cache > Clean Cache in the editor.",
+      "action": null
+    },
+    {
+      "id": "dev.unity-asset-store",
+      "match": {
+        "path": "%APPDATA%\\Unity\\Asset Store-5.x"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Unity Asset Store downloads",
+      "badge": "check",
+      "owner": "Unity Technologies",
+      "summary": "Downloaded Asset Store packages (.unitypackage)",
+      "whatItIs": "Packages you downloaded from the Unity Asset Store, kept so they can be imported into projects.",
+      "whyBig": "Each asset pack is tens of MB to several GB and stays after it was imported.",
+      "ifDeleted": "Projects keep the assets already imported. To import again you must download again; assets removed from the store may no longer be downloadable.",
+      "saferAlternative": "Delete packages you no longer need through Package Manager > My Assets, or delete old ones by hand.",
+      "action": null
+    },
+    {
+      "id": "dev.unityhub-roaming",
+      "match": {
+        "path": "%APPDATA%\\UnityHub"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Unity Hub settings and logs",
+      "badge": "app",
+      "owner": "Unity Technologies",
+      "summary": "Unity Hub settings, project list and logs",
+      "whatItIs": "Settings, the project list and logs of Unity Hub.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Unity Hub forgets your project list and settings.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.godot-roaming",
+      "match": {
+        "path": "%APPDATA%\\Godot"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Godot editor data",
+      "badge": "check",
+      "owner": "Godot Engine",
+      "summary": "Godot editor settings, export templates, game data and caches",
+      "whatItIs": "Data of the Godot editor: editor settings, export templates, the user:// data of your projects and games (app_userdata), and the shader cache.",
+      "whyBig": "Export templates (about 1 GB per Godot version) are usually the large part.",
+      "ifDeleted": "Editor settings, export templates and project user data (including saves) are lost.",
+      "saferAlternative": "Remove export templates of Godot versions you no longer use via Editor > Manage Export Templates.",
+      "action": null
+    },
+    {
+      "id": "dev.godot-export-templates",
+      "match": {
+        "path": "%APPDATA%\\Godot\\export_templates"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Godot export templates",
+      "badge": "safe",
+      "owner": "Godot Engine",
+      "summary": "Export templates per Godot version; downloaded again from the editor",
+      "whatItIs": "Templates the Godot editor uses to export games for each platform, one folder per Godot version.",
+      "whyBig": "About 1 GB per version, and old versions stay after upgrading.",
+      "ifDeleted": "Exporting fails until templates are downloaded again from Editor > Manage Export Templates.",
+      "saferAlternative": "Delete folders for Godot versions you no longer use.",
+      "action": null
+    },
+    {
+      "id": "dev.godot-app-userdata",
+      "match": {
+        "path": "%APPDATA%\\Godot\\app_userdata"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Godot project and game user data",
+      "badge": "user",
+      "owner": "Godot Engine",
+      "summary": "user:// data of your Godot projects and games, including saves",
+      "whatItIs": "Each subfolder is the user:// folder of a Godot project or game run from the editor: saves, settings, logs and shader caches.",
+      "whyBig": "Usually small; logs and caches can grow.",
+      "ifDeleted": "Save files and settings of those projects and games are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.godot-shader-cache",
+      "match": {
+        "path": "%APPDATA%\\Godot\\shader_cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Godot editor shader cache",
+      "badge": "safe",
+      "owner": "Godot Engine",
+      "summary": "Compiled shaders of the Godot editor; safe to clear",
+      "whatItIs": "Shaders compiled by the Godot 4 editor.",
+      "whyBig": "Grows with editor versions and rendering backends.",
+      "ifDeleted": "Nothing is lost; the editor recompiles shaders, so the next start is slower.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.godot-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Godot"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Godot editor cache",
+      "badge": "safe",
+      "owner": "Godot Engine",
+      "summary": "Godot editor thumbnail and documentation cache; safe to clear",
+      "whatItIs": "Cache of the Godot editor: resource thumbnails (resthumb-*) and the documentation cache.",
+      "whyBig": "One thumbnail per previewed resource.",
+      "ifDeleted": "Nothing is lost; the editor regenerates thumbnails. Close Godot first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.unreal-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\UnrealEngine"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Unreal Engine user data",
+      "badge": "check",
+      "owner": "Epic Games",
+      "summary": "Unreal Engine shared caches and per-version editor settings",
+      "whatItIs": "Per-user data of Unreal Engine: the shared Derived Data Cache and Zen storage (Common), and editor settings per engine version.",
+      "whyBig": "The shared Derived Data Cache (compiled shaders and cooked assets) is the large part.",
+      "ifDeleted": "Caches are rebuilt; editor settings per version are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.unreal-ddc",
+      "match": {
+        "path": "%LOCALAPPDATA%\\UnrealEngine\\Common\\DerivedDataCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Unreal shared Derived Data Cache",
+      "badge": "safe",
+      "owner": "Epic Games",
+      "summary": "Compiled shaders and processed assets of Unreal projects; rebuilt when needed",
+      "whatItIs": "Unreal Engine's shared local Derived Data Cache: compiled shaders, processed textures and other derived data shared by all projects.",
+      "whyBig": "It grows with every project and engine version you open; tens of GB is common.",
+      "ifDeleted": "Nothing is lost, but the next time each project opens Unreal recompiles shaders and rebuilds data, which can take a long time.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.unreal-zen",
+      "match": {
+        "path": "%LOCALAPPDATA%\\UnrealEngine\\Common\\Zen"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Unreal Zen storage",
+      "badge": "safe",
+      "owner": "Epic Games",
+      "summary": "Local Zen server cache used by newer Unreal versions; rebuilt when needed",
+      "whatItIs": "Storage of the Zen server, which newer Unreal Engine versions use for the local Derived Data Cache.",
+      "whyBig": "It grows with every project and engine version you open.",
+      "ifDeleted": "Nothing is lost, but projects rebuild shaders and derived data on next open. Close the editor (and the Zen server) first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.unreal-version",
+      "match": {
+        "path": "%LOCALAPPDATA%\\UnrealEngine\\*"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 50,
+      "title": "Unreal editor settings (per version)",
+      "badge": "check",
+      "owner": "Epic Games",
+      "summary": "Editor settings and logs for one Unreal Engine version",
+      "whatItIs": "Per-version editor data such as saved editor settings and logs.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "The editor of that version resets its settings.",
+      "saferAlternative": "Folders of engine versions you removed can go.",
+      "action": null
+    },
+    {
+      "id": "dev.crashreportclient",
+      "match": {
+        "path": "%LOCALAPPDATA%\\CrashReportClient"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Unreal crash reports",
+      "badge": "safe",
+      "owner": "Epic Games",
+      "summary": "Crash reports of Unreal Engine games and the editor; safe to delete",
+      "whatItIs": "Crash reports collected by Unreal Engine's crash reporter for games and the editor.",
+      "whyBig": "Each report can include a dump; frequent crashes add up.",
+      "ifDeleted": "Nothing breaks; unsent reports are not sent.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.blender-roaming",
+      "match": {
+        "path": "%APPDATA%\\Blender Foundation\\Blender"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Blender settings (per version)",
+      "badge": "check",
+      "owner": "Blender Foundation",
+      "summary": "Blender preferences, add-ons and extensions, one folder per version",
+      "whatItIs": "One folder per Blender version with preferences, start-up file, installed add-ons and extensions.",
+      "whyBig": "Add-ons and extensions with bundled libraries or assets can be large; folders of old versions remain after upgrading.",
+      "ifDeleted": "Blender loses preferences, add-ons and extensions for that version.",
+      "saferAlternative": "Delete folders of Blender versions you no longer use.",
+      "action": null
+    },
+    {
+      "id": "dev.blend1",
+      "match": {
+        "extension": ".blend1"
+      },
+      "kind": "file",
+      "inherit": false,
+      "priority": 10,
+      "title": "Blender backup file",
+      "badge": "check",
+      "owner": "Blender Foundation",
+      "summary": "Previous version of a .blend file, saved as a backup",
+      "whatItIs": "When you save a .blend file, Blender keeps the previous version as .blend1 (and .blend2 and so on, depending on Save Versions).",
+      "whyBig": "Each backup is as large as the .blend file.",
+      "ifDeleted": "You lose the ability to go back to the previous save.",
+      "saferAlternative": "Set Preferences > Save & Load > Save Versions to 0 if you do not want them.",
+      "action": null
+    },
+    {
+      "id": "dev.blender-quit",
+      "match": {
+        "name": "quit.blend"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Blender session recovery file",
+      "badge": "check",
+      "owner": "Blender Foundation",
+      "summary": "Blender's last-session file, used by File > Recover > Last Session",
+      "whatItIs": "Blender saves the current scene as quit.blend in the temporary folder when it closes.",
+      "whyBig": "As large as the scene.",
+      "ifDeleted": "You can no longer recover the last session.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.choco-lib",
+      "match": {
+        "path": "%PROGRAMDATA%\\chocolatey\\lib"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Chocolatey packages",
+      "badge": "app",
+      "owner": "Chocolatey",
+      "summary": "Installed Chocolatey packages (portable tools live entirely here)",
+      "whatItIs": "One folder per installed Chocolatey package with its metadata; portable packages keep their whole program here.",
+      "whyBig": "Portable tools and packages that embed installers can be large.",
+      "ifDeleted": "Chocolatey loses track of packages, and portable tools stop working.",
+      "saferAlternative": "Uninstall packages with 'choco uninstall <name>'.",
+      "action": null
+    },
+    {
+      "id": "dev.choco-lib-bad",
+      "match": {
+        "path": "%PROGRAMDATA%\\chocolatey\\lib-bad"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Chocolatey failed installs",
+      "badge": "safe",
+      "owner": "Chocolatey",
+      "summary": "Packages whose installation failed; safe to delete",
+      "whatItIs": "Chocolatey moves packages here when their installation fails.",
+      "whyBig": "Failed package payloads stay until removed.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.choco-lib-bkp",
+      "match": {
+        "path": "%PROGRAMDATA%\\chocolatey\\lib-bkp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Chocolatey upgrade backups",
+      "badge": "safe",
+      "owner": "Chocolatey",
+      "summary": "Backups Chocolatey made during package upgrades; safe once upgrades are done",
+      "whatItIs": "Backups of package folders that Chocolatey takes while upgrading packages.",
+      "whyBig": "One copy of each upgraded package may remain.",
+      "ifDeleted": "Nothing breaks when no upgrade is running.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.scoop",
+      "match": {
+        "path": "%USERPROFILE%\\scoop"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Scoop",
+      "badge": "app",
+      "owner": "Scoop",
+      "summary": "Scoop package manager: installed apps, their data and download cache",
+      "whatItIs": "The Scoop package manager: installed apps (apps), persisted app data (persist), shims and the download cache.",
+      "whyBig": "Apps keep previous versions until 'scoop cleanup' runs; the cache keeps every download.",
+      "ifDeleted": "Every app installed with Scoop stops working.",
+      "saferAlternative": "Run 'scoop cleanup *' and 'scoop cache rm *'.",
+      "action": null
+    },
+    {
+      "id": "dev.scoop-cache",
+      "match": {
+        "path": "%USERPROFILE%\\scoop\\cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Scoop download cache",
+      "badge": "safe",
+      "owner": "Scoop",
+      "summary": "Downloaded installers of Scoop apps; safe to clear",
+      "whatItIs": "Archives and installers that Scoop downloaded.",
+      "whyBig": "Every downloaded version is kept until cleared.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": "Run 'scoop cache rm *'.",
+      "action": {
+        "kind": "command",
+        "label": "Clear Scoop cache",
+        "value": "scoop cache rm *"
+      }
+    },
+    {
+      "id": "dev.scoop-apps",
+      "match": {
+        "path": "%USERPROFILE%\\scoop\\apps"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Scoop apps",
+      "badge": "app",
+      "owner": "Scoop",
+      "summary": "Apps installed with Scoop; old versions are removed with scoop cleanup",
+      "whatItIs": "One folder per installed app, with a subfolder per version and a 'current' link.",
+      "whyBig": "Old versions stay after updates until cleaned up.",
+      "ifDeleted": "Those apps stop working.",
+      "saferAlternative": "Run 'scoop cleanup *' to remove old versions.",
+      "action": {
+        "kind": "command",
+        "label": "Remove old Scoop app versions",
+        "value": "scoop cleanup *"
+      }
+    },
+    {
+      "id": "dev.scoop-persist",
+      "match": {
+        "path": "%USERPROFILE%\\scoop\\persist"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Scoop persisted app data",
+      "badge": "check",
+      "owner": "Scoop",
+      "summary": "Settings and data of Scoop apps, kept across updates",
+      "whatItIs": "Data that Scoop apps keep between versions: settings, profiles and sometimes user files.",
+      "whyBig": "Depends on the apps.",
+      "ifDeleted": "The apps lose their settings and data.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "dev.winget-packages",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\WinGet\\Packages"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "winget portable packages",
+      "badge": "app",
+      "owner": "Windows Package Manager",
+      "summary": "Portable apps installed by winget; uninstall them with winget",
+      "whatItIs": "Portable (zip or single exe) packages that winget installed for your account.",
+      "whyBig": "Each tool's full files.",
+      "ifDeleted": "Those tools stop working, and winget still thinks they are installed.",
+      "saferAlternative": "Run 'winget uninstall <id>'.",
+      "action": null
+    },
+    {
+      "id": "dev.vortex",
+      "match": {
+        "path": "%APPDATA%\\Vortex"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Vortex mod manager data",
+      "badge": "check",
+      "owner": "Nexus Mods",
+      "summary": "Vortex mod archives, staging folders and settings",
+      "whatItIs": "Data of the Vortex mod manager: downloaded mod archives (downloads), per-game staging folders with extracted mods that are linked into the games, and settings.",
+      "whyBig": "Mod archives and extracted copies of large mods often reach tens of GB.",
+      "ifDeleted": "Mods disappear from your games or break them, and archives must be downloaded again (some may no longer be available).",
+      "saferAlternative": "Remove mods from inside Vortex, which removes both archives and deployed files.",
+      "action": null
+    },
+    {
+      "id": "dev.vortex-downloads",
+      "match": {
+        "path": "%APPDATA%\\Vortex\\downloads"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Vortex mod downloads",
+      "badge": "check",
+      "owner": "Nexus Mods",
+      "summary": "Downloaded mod archives; Vortex needs them to reinstall mods",
+      "whatItIs": "Archives of mods downloaded through Vortex, per game.",
+      "whyBig": "Every downloaded mod version is kept.",
+      "ifDeleted": "Installed mods keep working, but reinstalling them needs a new download; removed mods may be gone from Nexus.",
+      "saferAlternative": "Delete archives of mods you uninstalled from inside Vortex.",
+      "action": null
+    },
+    {
+      "id": "unix.npm-cache",
+      "match": {
+        "path": "~/.npm/_cacache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "npm cache",
+      "badge": "safe",
+      "owner": "npm",
+      "summary": "Downloaded npm packages; safe to clear, npm downloads them again",
+      "whatItIs": "npm's content-addressed cache of every package tarball and metadata it downloaded.",
+      "whyBig": "Every package version you have ever installed is kept; npm never trims it automatically.",
+      "ifDeleted": "Nothing breaks; the next install downloads packages again.",
+      "saferAlternative": "Run 'npm cache clean --force'.",
+      "action": {
+        "kind": "command",
+        "label": "Clear npm cache",
+        "value": "npm cache clean --force"
+      }
+    },
+    {
+      "id": "unix.npm-npx",
+      "match": {
+        "path": "~/.npm/_npx"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "npx package cache",
+      "badge": "safe",
+      "owner": "npm",
+      "summary": "Packages downloaded to run with npx; safe to clear",
+      "whatItIs": "Packages that npx downloaded to run tools.",
+      "whyBig": "Each new tool or version adds a full node_modules tree.",
+      "ifDeleted": "Nothing breaks; npx downloads tools again when they run.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.pnpm-store-linux",
+      "match": {
+        "path": "~/.local/share/pnpm/store"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "pnpm store",
+      "badge": "safe",
+      "owner": "pnpm",
+      "summary": "pnpm's shared package store; hard links make its size look doubled",
+      "whatItIs": "pnpm keeps one copy of every package version here and hard-links it into projects.",
+      "whyBig": "Every package version used by any project; hard-linked files are also counted in each node_modules.",
+      "ifDeleted": "Existing projects keep working; the next install downloads again.",
+      "saferAlternative": "Run 'pnpm store prune'.",
+      "action": null
+    },
+    {
+      "id": "unix.cargo-registry",
+      "match": {
+        "path": "~/.cargo/registry"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Cargo registry cache",
+      "badge": "safe",
+      "owner": "Rust (Cargo)",
+      "summary": "Downloaded and extracted Rust crates; downloaded again when needed",
+      "whatItIs": "Crate archives, their extracted sources and the registry index.",
+      "whyBig": "Every crate version any project used is kept.",
+      "ifDeleted": "Nothing is lost; the next build downloads crates again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.cargo-git",
+      "match": {
+        "path": "~/.cargo/git"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Cargo git checkouts",
+      "badge": "safe",
+      "owner": "Rust (Cargo)",
+      "summary": "Git dependencies checked out by Cargo; fetched again when needed",
+      "whatItIs": "Clones and checkouts of git-based Rust dependencies.",
+      "whyBig": "Each git dependency keeps a clone plus checkouts per revision.",
+      "ifDeleted": "Nothing is lost; the next build fetches them again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.rustup",
+      "match": {
+        "path": "~/.rustup"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "rustup toolchains",
+      "badge": "app",
+      "owner": "Rust (rustup)",
+      "summary": "Rust toolchains installed by rustup; remove unused ones with rustup",
+      "whatItIs": "Installed Rust toolchains and their components.",
+      "whyBig": "Each toolchain is 0.5-1.5 GB; nightlies and old versions add up.",
+      "ifDeleted": "Rust stops working until a toolchain is installed again.",
+      "saferAlternative": "Run 'rustup toolchain list' and 'rustup toolchain uninstall <name>'.",
+      "action": null
+    },
+    {
+      "id": "unix.gradle-caches",
+      "match": {
+        "path": "~/.gradle/caches"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Gradle caches",
+      "badge": "safe",
+      "owner": "Gradle",
+      "summary": "Downloaded dependencies and build caches of Gradle; safe to clear",
+      "whatItIs": "Gradle's dependency and build caches.",
+      "whyBig": "Every dependency version and per-Gradle-version caches are kept.",
+      "ifDeleted": "Nothing is lost; the next build downloads again. Run 'gradle --stop' first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.gradle-wrapper",
+      "match": {
+        "path": "~/.gradle/wrapper"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Gradle wrapper distributions",
+      "badge": "safe",
+      "owner": "Gradle",
+      "summary": "Gradle versions downloaded by project wrappers; safe to clear",
+      "whatItIs": "Full Gradle distributions downloaded by gradlew.",
+      "whyBig": "100-200 MB per Gradle version.",
+      "ifDeleted": "Nothing is lost; the wrapper downloads them again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.m2-repository",
+      "match": {
+        "path": "~/.m2/repository"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Maven local repository",
+      "badge": "safe",
+      "owner": "Apache Maven",
+      "summary": "Downloaded Maven artifacts; downloaded again by the next build",
+      "whatItIs": "Every dependency and plugin Maven downloaded.",
+      "whyBig": "Every version is kept and never cleaned.",
+      "ifDeleted": "The next build downloads again; artifacts only installed locally with 'mvn install' are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.go-modcache",
+      "match": {
+        "path": "~/go/pkg/mod"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Go module cache",
+      "badge": "safe",
+      "owner": "Go",
+      "summary": "Downloaded Go modules; clear with go clean -modcache",
+      "whatItIs": "Every module version downloaded by Go builds, read-only.",
+      "whyBig": "Every version of every dependency is kept.",
+      "ifDeleted": "Nothing is lost; modules download again. Files are read-only, so use the Go command.",
+      "saferAlternative": "Run 'go clean -modcache'.",
+      "action": {
+        "kind": "command",
+        "label": "Clear Go module cache",
+        "value": "go clean -modcache"
+      }
+    },
+    {
+      "id": "unix.nuget-packages",
+      "match": {
+        "path": "~/.nuget/packages"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NuGet global packages",
+      "badge": "safe",
+      "owner": "NuGet",
+      "summary": "Packages restored by .NET builds; restored again on the next build",
+      "whatItIs": "NuGet's global packages folder.",
+      "whyBig": "Every version of every package is kept.",
+      "ifDeleted": "Nothing is lost; the next restore downloads again.",
+      "saferAlternative": "Run 'dotnet nuget locals global-packages --clear'.",
+      "action": null
+    },
+    {
+      "id": "unix.huggingface",
+      "match": {
+        "path": "~/.cache/huggingface"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Hugging Face cache",
+      "badge": "safe",
+      "owner": "Hugging Face",
+      "summary": "Downloaded AI models and datasets; downloaded again when needed",
+      "whatItIs": "Models, datasets and Xet storage cached by Hugging Face libraries; your login token is also stored here.",
+      "whyBig": "Each model is downloaded in full; 2-50 GB per model is common.",
+      "ifDeleted": "Models download again when used and the stored login token is removed.",
+      "saferAlternative": "Remove single models with 'hf cache delete'.",
+      "action": null
+    },
+    {
+      "id": "unix.torch-hub",
+      "match": {
+        "path": "~/.cache/torch"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "PyTorch hub cache",
+      "badge": "safe",
+      "owner": "PyTorch",
+      "summary": "Model weights downloaded by PyTorch; downloaded again when needed",
+      "whatItIs": "Pretrained weights downloaded through torch.hub and torchvision.",
+      "whyBig": "Each checkpoint is tens of MB to several GB.",
+      "ifDeleted": "Nothing breaks; weights download again on first use.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.ollama-models",
+      "match": {
+        "path": "~/.ollama/models"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Ollama models",
+      "badge": "check",
+      "owner": "Ollama",
+      "summary": "Language models pulled with Ollama; remove them with ollama rm",
+      "whatItIs": "Model layers and manifests of every model you pulled or created with Ollama.",
+      "whyBig": "Each model is 1-50 GB or more.",
+      "ifDeleted": "Pulled models must be downloaded again; models you created yourself are lost.",
+      "saferAlternative": "Run 'ollama list' and 'ollama rm <name>'.",
+      "action": null
+    },
+    {
+      "id": "unix.lmstudio-models",
+      "match": {
+        "path": "~/.lmstudio/models"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "LM Studio models",
+      "badge": "check",
+      "owner": "LM Studio",
+      "summary": "Language models downloaded in LM Studio",
+      "whatItIs": "Model files downloaded through LM Studio.",
+      "whyBig": "Each model is 1-50 GB or more.",
+      "ifDeleted": "The models must be downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.conda-pkgs",
+      "match": {
+        "path": "~/.conda/pkgs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "conda package cache (user)",
+      "badge": "safe",
+      "owner": "conda",
+      "summary": "Per-user conda package cache; clear with conda clean",
+      "whatItIs": "Package cache conda uses for your account.",
+      "whyBig": "Every package version installed is kept.",
+      "ifDeleted": "Environments keep working; new installs download again.",
+      "saferAlternative": "Run 'conda clean --all'.",
+      "action": null
+    },
+    {
+      "id": "unix.android-avd",
+      "match": {
+        "path": "~/.android/avd"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Android emulator devices",
+      "badge": "check",
+      "owner": "Android SDK",
+      "summary": "Android emulator virtual devices with their data and snapshots",
+      "whatItIs": "Emulator virtual devices with their disks, installed apps and snapshots.",
+      "whyBig": "Each device is 2-15 GB.",
+      "ifDeleted": "The emulators and their contents are gone.",
+      "saferAlternative": "Delete devices in Android Studio > Device Manager.",
+      "action": null
+    },
+    {
+      "id": "unix.bun-cache",
+      "match": {
+        "path": "~/.bun/install/cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Bun package cache",
+      "badge": "safe",
+      "owner": "Bun",
+      "summary": "Downloaded packages of the Bun runtime; safe to clear",
+      "whatItIs": "Global cache of packages installed with bun.",
+      "whyBig": "Every package version used by any project is kept.",
+      "ifDeleted": "Nothing breaks; packages download again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.vscode-server",
+      "match": {
+        "path": "~/.vscode-server"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "VS Code Server",
+      "badge": "check",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "VS Code remote server, its extensions and data on this machine",
+      "whatItIs": "Installed by VS Code Remote (SSH, WSL, containers): server builds (bin or cli), extensions installed on the remote side and their data.",
+      "whyBig": "Every VS Code update installs a new server build, and old ones can stay; remote extensions add more.",
+      "ifDeleted": "VS Code reinstalls the server on the next connection, but remote extensions and their data must be installed again.",
+      "saferAlternative": "Delete old server builds and keep the extensions folder.",
+      "action": null
+    },
+    {
+      "id": "unix.vscode-server-bin",
+      "match": {
+        "path": "~/.vscode-server/bin"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "VS Code Server builds",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Server builds per VS Code version; reinstalled on next connection",
+      "whatItIs": "One server build per VS Code version that connected to this machine.",
+      "whyBig": "Each build is 100-200 MB and old ones accumulate.",
+      "ifDeleted": "Nothing is lost; VS Code installs the server again when it next connects. Disconnect first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.vscode-server-cli",
+      "match": {
+        "path": "~/.vscode-server/cli"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "VS Code Server builds (CLI layout)",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Server builds per VS Code version; reinstalled on next connection",
+      "whatItIs": "Newer VS Code versions keep their remote server builds here.",
+      "whyBig": "Each build is 100-200 MB and old ones accumulate.",
+      "ifDeleted": "Nothing is lost; VS Code installs the server again when it next connects. Disconnect first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "unix.vscode-extensions",
+      "match": {
+        "path": "~/.vscode/extensions"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux",
+        "macos"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "VS Code extensions",
+      "badge": "app",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Installed VS Code extensions; uninstall them from the Extensions view",
+      "whatItIs": "Every installed VS Code extension, one folder per version.",
+      "whyBig": "Language extensions bundle runtimes and language servers.",
+      "ifDeleted": "The extensions disappear and must be reinstalled.",
+      "saferAlternative": null,
+      "action": null
+    }
+  ]
+}

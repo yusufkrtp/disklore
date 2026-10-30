@@ -1,0 +1,960 @@
+{
+  "rules": [
+    {
+      "id": "linux.cache",
+      "match": {
+        "path": "~/.cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Your cache folder (~/.cache)",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Per-user caches of apps (XDG cache); safe to clear, apps rebuild them",
+      "whatItIs": "The XDG cache directory where desktop apps and tools keep non-essential cached data: browser caches, thumbnails, pip, shader caches and more.",
+      "whyBig": "Browsers, package managers and shader caches grow without limit in many apps; several GB is common.",
+      "ifDeleted": "Nothing important is lost; apps rebuild their caches. A few tools also keep downloaded models or login tokens here (for example Hugging Face), which then need downloading or signing in again.",
+      "saferAlternative": "Delete the largest subfolders while the owning apps are closed.",
+      "action": null
+    },
+    {
+      "id": "linux.thumbnails",
+      "match": {
+        "path": "~/.cache/thumbnails"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Thumbnail cache",
+      "badge": "safe",
+      "owner": null,
+      "summary": "File manager thumbnails; rebuilt automatically",
+      "whatItIs": "Thumbnails that file managers (Nautilus, Dolphin, Thunar) create for pictures, videos and documents.",
+      "whyBig": "Every previewed file adds thumbnails in several sizes, and thumbnails of deleted files stay.",
+      "ifDeleted": "Nothing is lost; thumbnails are recreated when folders are opened.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.pip-cache",
+      "match": {
+        "path": "~/.cache/pip"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "pip cache",
+      "badge": "safe",
+      "owner": "pip",
+      "summary": "Downloaded and built Python packages; safe to clear",
+      "whatItIs": "pip's HTTP cache and locally built wheels.",
+      "whyBig": "Large packages (PyTorch, CUDA libraries) are cached at full size.",
+      "ifDeleted": "Nothing breaks; packages are downloaded again.",
+      "saferAlternative": "Run 'pip cache purge'.",
+      "action": {
+        "kind": "command",
+        "label": "Clear pip cache",
+        "value": "pip cache purge"
+      }
+    },
+    {
+      "id": "linux.mesa-shader-cache",
+      "match": {
+        "path": "~/.cache/mesa_shader_cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Mesa shader cache",
+      "badge": "safe",
+      "owner": "Mesa",
+      "summary": "Compiled GPU shaders of the Mesa drivers; safe to clear",
+      "whatItIs": "Shaders compiled by Mesa's open-source graphics drivers (AMD, Intel) for games and apps.",
+      "whyBig": "Each game adds compiled shaders up to Mesa's cache size limit.",
+      "ifDeleted": "Nothing is lost; games recompile shaders and may stutter at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.mesa-shader-cache-db",
+      "match": {
+        "path": "~/.cache/mesa_shader_cache_db"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Mesa shader cache (database)",
+      "badge": "safe",
+      "owner": "Mesa",
+      "summary": "Compiled GPU shaders of newer Mesa drivers; safe to clear",
+      "whatItIs": "Newer Mesa versions keep the shader cache in this database-style folder.",
+      "whyBig": "Each game adds compiled shaders up to the cache size limit.",
+      "ifDeleted": "Nothing is lost; games recompile shaders and may stutter at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.nvidia-glcache",
+      "match": {
+        "path": "~/.cache/nvidia"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "NVIDIA shader cache",
+      "badge": "safe",
+      "owner": "NVIDIA",
+      "summary": "Compiled shaders of the NVIDIA driver; safe to clear",
+      "whatItIs": "Shader caches (GLCache) of the proprietary NVIDIA driver.",
+      "whyBig": "Each game adds compiled shaders.",
+      "ifDeleted": "Nothing is lost; shaders are recompiled with some stutter at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.playwright",
+      "match": {
+        "path": "~/.cache/ms-playwright"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Playwright browsers",
+      "badge": "safe",
+      "owner": "Microsoft Playwright",
+      "summary": "Browsers downloaded by Playwright; re-download with playwright install",
+      "whatItIs": "Browser builds Playwright downloads to run automation and tests.",
+      "whyBig": "Each Playwright version downloads its own builds without removing old ones.",
+      "ifDeleted": "Playwright fails until 'npx playwright install' runs again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.trash",
+      "match": {
+        "path": "~/.local/share/Trash"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Trash",
+      "badge": "check",
+      "owner": null,
+      "summary": "Files you moved to the trash; empty it after checking",
+      "whatItIs": "The desktop trash (freedesktop.org standard): deleted files (files) and their original locations (info).",
+      "whyBig": "Deleted files keep their full size until the trash is emptied.",
+      "ifDeleted": "The files can no longer be restored.",
+      "saferAlternative": "Open the trash in your file manager, restore what you need and choose Empty Trash.",
+      "action": null
+    },
+    {
+      "id": "linux.steam",
+      "match": {
+        "path": "~/.local/share/Steam"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Steam",
+      "badge": "app",
+      "owner": "Valve Steam",
+      "summary": "Steam client, its default library (steamapps) and shader caches",
+      "whatItIs": "The Steam client's home on Linux, with its default library: games, Proton prefixes (compatdata), shader caches and Workshop content.",
+      "whyBig": "Installed games are the bulk; Proton and shader caches add many GB.",
+      "ifDeleted": "Steam and every game in this library stop working.",
+      "saferAlternative": "Uninstall games from Steam or move them in Settings > Storage.",
+      "action": null
+    },
+    {
+      "id": "linux.godot-data",
+      "match": {
+        "path": "~/.local/share/godot"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Godot editor data",
+      "badge": "check",
+      "owner": "Godot Engine",
+      "summary": "Godot export templates and the user data of your projects and games",
+      "whatItIs": "Godot's data folder: export templates and the user:// data of your projects and games (app_userdata).",
+      "whyBig": "Export templates are about 1 GB per Godot version.",
+      "ifDeleted": "Export templates and project save data are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.godot-export-templates",
+      "match": {
+        "path": "~/.local/share/godot/export_templates"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Godot export templates",
+      "badge": "safe",
+      "owner": "Godot Engine",
+      "summary": "Export templates per Godot version; downloaded again from the editor",
+      "whatItIs": "Templates the Godot editor uses to export games, one folder per version.",
+      "whyBig": "About 1 GB per version; old ones stay after upgrading.",
+      "ifDeleted": "Exporting fails until templates are downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.godot-app-userdata",
+      "match": {
+        "path": "~/.local/share/godot/app_userdata"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Godot project and game user data",
+      "badge": "user",
+      "owner": "Godot Engine",
+      "summary": "user:// data of your Godot projects and games, including saves",
+      "whatItIs": "The user:// folders of Godot projects and games.",
+      "whyBig": "Usually small; logs and caches can grow.",
+      "ifDeleted": "Saves and settings of those projects and games are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.containers",
+      "match": {
+        "path": "~/.local/share/containers"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Podman containers and images",
+      "badge": "shrink",
+      "owner": "Podman",
+      "summary": "Rootless Podman images, containers and volumes; prune, do not delete",
+      "whatItIs": "Storage of rootless Podman (and Buildah): images, container layers and volumes.",
+      "whyBig": "Every pulled image, build layer and volume.",
+      "ifDeleted": "All containers, images and volume data are lost, and Podman's storage state may need a reset.",
+      "saferAlternative": "Run 'podman system prune' (add -a for unused images).",
+      "action": {
+        "kind": "command",
+        "label": "Prune unused Podman data",
+        "value": "podman system prune"
+      }
+    },
+    {
+      "id": "linux.flatpak-user",
+      "match": {
+        "path": "~/.local/share/flatpak"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Flatpak apps (per user)",
+      "badge": "app",
+      "owner": "Flatpak",
+      "summary": "Flatpak apps and runtimes installed for your user",
+      "whatItIs": "Apps and runtimes installed with 'flatpak install --user'.",
+      "whyBig": "Each runtime is hundreds of MB, and unused runtimes stay after apps are removed.",
+      "ifDeleted": "Those Flatpak apps stop working.",
+      "saferAlternative": "Run 'flatpak uninstall --unused' to remove unused runtimes.",
+      "action": {
+        "kind": "command",
+        "label": "Remove unused Flatpak runtimes",
+        "value": "flatpak uninstall --unused"
+      }
+    },
+    {
+      "id": "linux.var-app",
+      "match": {
+        "path": "~/.var/app"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Flatpak app data",
+      "badge": "check",
+      "owner": "Flatpak",
+      "summary": "Per-app data, config and caches of your Flatpak apps",
+      "whatItIs": "Each Flatpak app keeps its own config, data and cache here (one folder per app ID).",
+      "whyBig": "Browsers, Steam and messengers installed as Flatpaks keep their whole profile and cache here.",
+      "ifDeleted": "The apps lose their settings and data; caches are rebuilt.",
+      "saferAlternative": "Delete only the cache subfolders, or folders of apps you have uninstalled.",
+      "action": null
+    },
+    {
+      "id": "linux.var-app-cache",
+      "match": {
+        "path": "~/.var/app/*/cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Flatpak app cache",
+      "badge": "safe",
+      "owner": "Flatpak",
+      "summary": "Cache of a Flatpak app; safe to clear",
+      "whatItIs": "The XDG cache folder of one Flatpak app.",
+      "whyBig": "Browsers and media apps cache a lot.",
+      "ifDeleted": "Nothing important is lost; the app rebuilds it. Close the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.snap-user",
+      "match": {
+        "path": "~/snap"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Snap app data",
+      "badge": "check",
+      "owner": "Snapcraft",
+      "summary": "Per-user data of Snap apps, one folder per app and revision",
+      "whatItIs": "Snap apps keep your data for each app here, with folders per revision plus a 'common' folder.",
+      "whyBig": "Browsers and IDEs installed as snaps keep their profiles and caches here.",
+      "ifDeleted": "The apps lose their settings and data.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.home-all",
+      "match": {
+        "path": "/home"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 40,
+      "title": "Home folders",
+      "badge": "user",
+      "owner": "Linux",
+      "summary": "Home folders of the users on this system",
+      "whatItIs": "Each subfolder is one user's home with their files, settings (dot-folders) and caches.",
+      "whyBig": "Personal files plus app data and caches.",
+      "ifDeleted": "Users lose their files and settings.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.home",
+      "match": {
+        "path": "%HOME%"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Your home folder",
+      "badge": "user",
+      "owner": "Linux",
+      "summary": "Your home folder: personal files plus app settings and caches",
+      "whatItIs": "Your home directory. Hidden dot-folders hold settings (~/.config), data (~/.local/share) and caches (~/.cache).",
+      "whyBig": "Personal files plus app data and caches.",
+      "ifDeleted": "Your files and settings are gone.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.apt-archives",
+      "match": {
+        "path": "/var/cache/apt/archives"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "APT package cache",
+      "badge": "safe",
+      "owner": "APT",
+      "summary": "Downloaded .deb packages; clear with apt clean",
+      "whatItIs": "Package files APT downloaded to install or upgrade software.",
+      "whyBig": "Old package versions accumulate unless apt cleans them.",
+      "ifDeleted": "Nothing breaks; packages are downloaded again when needed.",
+      "saferAlternative": "Run 'sudo apt clean' (or 'sudo apt autoclean' to keep current versions).",
+      "action": {
+        "kind": "command",
+        "label": "Clean APT cache",
+        "value": "sudo apt clean"
+      }
+    },
+    {
+      "id": "linux.apt-lists",
+      "match": {
+        "path": "/var/lib/apt/lists"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "APT package lists",
+      "badge": "safe",
+      "owner": "APT",
+      "summary": "Package index files; recreated by apt update",
+      "whatItIs": "Package lists downloaded by 'apt update'.",
+      "whyBig": "Usually a few hundred MB.",
+      "ifDeleted": "apt cannot install anything until you run 'sudo apt update' again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.dnf-cache",
+      "match": {
+        "path": "/var/cache/dnf"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "DNF package cache",
+      "badge": "safe",
+      "owner": "DNF",
+      "summary": "Package metadata and downloads of DNF; clear with dnf clean all",
+      "whatItIs": "Metadata and packages cached by DNF on Fedora and related distributions.",
+      "whyBig": "Metadata for every repository and any kept packages.",
+      "ifDeleted": "Nothing breaks; DNF downloads metadata again.",
+      "saferAlternative": "Run 'sudo dnf clean all'.",
+      "action": {
+        "kind": "command",
+        "label": "Clean DNF cache",
+        "value": "sudo dnf clean all"
+      }
+    },
+    {
+      "id": "linux.pacman-cache",
+      "match": {
+        "path": "/var/cache/pacman/pkg"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "pacman package cache",
+      "badge": "safe",
+      "owner": "pacman",
+      "summary": "Downloaded Arch packages kept for downgrades; trim with paccache",
+      "whatItIs": "Every package version pacman downloaded; Arch keeps them all so you can downgrade.",
+      "whyBig": "It grows with every system update and can reach many GB.",
+      "ifDeleted": "Nothing breaks, but you can no longer downgrade to cached versions offline.",
+      "saferAlternative": "Run 'paccache -r' (pacman-contrib) to keep the last three versions.",
+      "action": null
+    },
+    {
+      "id": "linux.var-cache",
+      "match": {
+        "path": "/var/cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "System caches (/var/cache)",
+      "badge": "check",
+      "owner": "Linux",
+      "summary": "Caches of system services and package managers",
+      "whatItIs": "Cached data of system programs: package managers, font caches, man page indexes and services.",
+      "whyBig": "Package manager caches are the usual large part.",
+      "ifDeleted": "Most caches are rebuilt, but deleting the whole folder can disturb running services; use the package manager's clean command instead.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.var-log",
+      "match": {
+        "path": "/var/log"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "System logs",
+      "badge": "check",
+      "owner": "Linux",
+      "summary": "System and service logs; rotated logs can go, active logs should stay",
+      "whatItIs": "Logs of the system and services, including rotated archives (.1, .gz) and the systemd journal.",
+      "whyBig": "Chatty services, a crash loop or a disabled log rotation can fill it quickly.",
+      "ifDeleted": "Deleting active log files confuses the services writing them; rotated archives can go.",
+      "saferAlternative": "Delete old *.gz and *.1 files, and shrink the journal with journalctl.",
+      "action": null
+    },
+    {
+      "id": "linux.journal",
+      "match": {
+        "path": "/var/log/journal"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "systemd journal",
+      "badge": "shrink",
+      "owner": "systemd",
+      "summary": "Persistent systemd journal; shrink it with journalctl --vacuum-size",
+      "whatItIs": "The systemd journal's persistent log files.",
+      "whyBig": "By default it may use up to 10% of the file system (capped at 4 GB).",
+      "ifDeleted": "Deleting files by hand while journald runs can corrupt the journal; you lose log history.",
+      "saferAlternative": "Run 'sudo journalctl --vacuum-size=500M', and set SystemMaxUse in journald.conf to keep it small.",
+      "action": {
+        "kind": "command",
+        "label": "Shrink the journal to 500 MB",
+        "value": "sudo journalctl --vacuum-size=500M"
+      }
+    },
+    {
+      "id": "linux.coredump",
+      "match": {
+        "path": "/var/lib/systemd/coredump"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Core dumps (systemd)",
+      "badge": "safe",
+      "owner": "systemd",
+      "summary": "Crash dumps of programs; safe to delete",
+      "whatItIs": "Compressed core dumps that systemd-coredump saves when a program crashes.",
+      "whyBig": "Each dump holds the crashed program's memory; repeated crashes add up.",
+      "ifDeleted": "Nothing breaks; those crashes can no longer be debugged.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.var-crash",
+      "match": {
+        "path": "/var/crash"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Crash reports (apport)",
+      "badge": "safe",
+      "owner": "Ubuntu apport",
+      "summary": "Crash reports of Ubuntu's apport; safe to delete",
+      "whatItIs": "Crash reports and dumps collected by apport on Ubuntu.",
+      "whyBig": "Each report can contain a full core dump.",
+      "ifDeleted": "Nothing breaks; unsent reports are not sent.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.docker",
+      "match": {
+        "path": "/var/lib/docker"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Docker data",
+      "badge": "shrink",
+      "owner": "Docker",
+      "summary": "Docker images, containers, volumes and build cache; prune, never delete",
+      "whatItIs": "Docker's data root: image layers (overlay2), containers, volumes and build cache.",
+      "whyBig": "Every pulled image, stopped container, unused volume and build cache layer stays until pruned.",
+      "ifDeleted": "Docker's state is corrupted and all containers, images and volumes (including databases stored in volumes) are lost.",
+      "saferAlternative": "Run 'docker system prune' (add -a for all unused images; add --volumes only if no volume holds data you need).",
+      "action": {
+        "kind": "command",
+        "label": "Prune unused Docker data",
+        "value": "docker system prune"
+      }
+    },
+    {
+      "id": "linux.containerd",
+      "match": {
+        "path": "/var/lib/containerd"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "containerd data",
+      "badge": "shrink",
+      "owner": "containerd",
+      "summary": "Image and container storage of containerd; manage it with its tools",
+      "whatItIs": "Storage of containerd, used by Docker and Kubernetes: image content and snapshots.",
+      "whyBig": "Every pulled image and snapshot.",
+      "ifDeleted": "Container runtimes break and images are lost.",
+      "saferAlternative": "Prune through Docker ('docker system prune') or your Kubernetes tools.",
+      "action": null
+    },
+    {
+      "id": "linux.flatpak",
+      "match": {
+        "path": "/var/lib/flatpak"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Flatpak apps and runtimes",
+      "badge": "app",
+      "owner": "Flatpak",
+      "summary": "System-wide Flatpak apps and runtimes; remove unused runtimes with flatpak",
+      "whatItIs": "Apps and runtimes installed system-wide with Flatpak.",
+      "whyBig": "Runtimes (GNOME, KDE, freedesktop, GPU drivers) are hundreds of MB each, and unused versions remain after updates.",
+      "ifDeleted": "Flatpak apps stop working.",
+      "saferAlternative": "Run 'flatpak uninstall --unused'.",
+      "action": {
+        "kind": "command",
+        "label": "Remove unused Flatpak runtimes",
+        "value": "flatpak uninstall --unused"
+      }
+    },
+    {
+      "id": "linux.snapd",
+      "match": {
+        "path": "/var/lib/snapd"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "snapd data",
+      "badge": "critical",
+      "owner": "Snapcraft",
+      "summary": "Snap packages and snapd state; do not delete by hand",
+      "whatItIs": "State of the snap daemon and the snap package files (snaps) of every installed revision.",
+      "whyBig": "Each snap keeps several revisions (3 by default).",
+      "ifDeleted": "Every snap app (and on Ubuntu, parts of the system) stops working.",
+      "saferAlternative": "Lower kept revisions with 'sudo snap set system refresh.retain=2' and remove disabled revisions with 'snap remove <name> --revision=<rev>'.",
+      "action": null
+    },
+    {
+      "id": "linux.snapd-snaps",
+      "match": {
+        "path": "/var/lib/snapd/snaps"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Snap package files",
+      "badge": "shrink",
+      "owner": "Snapcraft",
+      "summary": "Snap packages, several revisions each; keep fewer revisions with snap set",
+      "whatItIs": "The compressed .snap files of every installed snap revision.",
+      "whyBig": "snapd keeps older revisions for rollback (3 by default), so each app can be counted two or three times.",
+      "ifDeleted": "Deleting files by hand breaks mounted snaps.",
+      "saferAlternative": "Run 'sudo snap set system refresh.retain=2', then remove disabled revisions listed by 'snap list --all'.",
+      "action": null
+    },
+    {
+      "id": "linux.snap-mounts",
+      "match": {
+        "path": "/snap"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Snap mount points",
+      "badge": "critical",
+      "owner": "Snapcraft",
+      "summary": "Mounted snap packages; sizes here duplicate /var/lib/snapd/snaps",
+      "whatItIs": "Each installed snap revision is mounted here read-only from its .snap file.",
+      "whyBig": "These are mounted images, not extra data: the real files are in /var/lib/snapd/snaps, so scanning both counts them twice.",
+      "ifDeleted": "The files are read-only mounts and cannot be deleted; remove snaps with 'snap remove'.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.usr",
+      "match": {
+        "path": "/usr"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "System programs (/usr)",
+      "badge": "critical",
+      "owner": "Linux",
+      "summary": "Installed programs and libraries of the system; manage with your package manager",
+      "whatItIs": "Programs, libraries and shared data installed by the package manager.",
+      "whyBig": "Desktop environments, development tools, kernels' modules and big apps.",
+      "ifDeleted": "The system breaks; it may not boot.",
+      "saferAlternative": "Remove packages with your package manager (for example 'sudo apt autoremove').",
+      "action": null
+    },
+    {
+      "id": "linux.boot",
+      "match": {
+        "path": "/boot"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Boot files (/boot)",
+      "badge": "critical",
+      "owner": "Linux",
+      "summary": "Kernels, initramfs and boot loader files",
+      "whatItIs": "Installed kernels, their initramfs images and the boot loader configuration.",
+      "whyBig": "Old kernels stay after upgrades and can fill a small /boot partition.",
+      "ifDeleted": "The system will not boot.",
+      "saferAlternative": "Remove old kernels with the package manager (for example 'sudo apt autoremove --purge').",
+      "action": null
+    },
+    {
+      "id": "linux.opt",
+      "match": {
+        "path": "/opt"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Optional software (/opt)",
+      "badge": "app",
+      "owner": "Linux",
+      "summary": "Third-party software installed outside the package manager",
+      "whatItIs": "Location for self-contained third-party software (browsers, IDEs, vendor tools).",
+      "whyBig": "Each application keeps its full installation here.",
+      "ifDeleted": "Those applications stop working.",
+      "saferAlternative": "Uninstall with the vendor's uninstaller or package.",
+      "action": null
+    },
+    {
+      "id": "linux.tmp",
+      "match": {
+        "path": "/tmp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Temporary files (/tmp)",
+      "badge": "check",
+      "owner": "Linux",
+      "summary": "Temporary files; cleared at reboot on most systems",
+      "whatItIs": "Shared temporary folder; many distributions mount it in RAM (tmpfs) or clear it at boot.",
+      "whyBig": "Programs that crash or never clean up leave files behind.",
+      "ifDeleted": "Files of running programs (sockets, lock files, X11/Wayland session data) can break your session; old files are harmless to remove.",
+      "saferAlternative": "Reboot, or delete only old files you recognise.",
+      "action": null
+    },
+    {
+      "id": "linux.var-tmp",
+      "match": {
+        "path": "/var/tmp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Persistent temporary files",
+      "badge": "check",
+      "owner": "Linux",
+      "summary": "Temporary files kept across reboots",
+      "whatItIs": "Temporary folder whose contents survive reboots; systemd usually removes files older than 30 days.",
+      "whyBig": "Large temporary files of build tools and installers.",
+      "ifDeleted": "Running programs may lose working files; old files are harmless to remove.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.swapfile",
+      "match": {
+        "path": "/swapfile"
+      },
+      "kind": "file",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Swap file",
+      "badge": "shrink",
+      "owner": "Linux",
+      "summary": "Swap space; turn it off before resizing or removing",
+      "whatItIs": "A file used as swap space (virtual memory).",
+      "whyBig": "Its size was chosen when it was created, often equal to RAM.",
+      "ifDeleted": "Deleting it while active is not possible; removing it without editing /etc/fstab causes boot delays or errors.",
+      "saferAlternative": "Run 'sudo swapoff /swapfile', create a smaller one, and keep /etc/fstab consistent.",
+      "action": null
+    },
+    {
+      "id": "linux.lost-found",
+      "match": {
+        "name": "lost+found"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "lost+found",
+      "badge": "check",
+      "owner": "Linux",
+      "summary": "Recovered file fragments from fsck; the folder itself must exist",
+      "whatItIs": "Folder at the root of each ext file system where fsck puts recovered files.",
+      "whyBig": "Usually empty; after file system repairs it holds orphaned files.",
+      "ifDeleted": "The folder itself is needed by fsck; recovered files inside can be removed after checking them.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.proc",
+      "match": {
+        "path": "/proc"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "/proc (virtual)",
+      "badge": "critical",
+      "owner": "Linux",
+      "summary": "Virtual kernel file system; takes no disk space",
+      "whatItIs": "A virtual file system the kernel creates in memory with process and system information.",
+      "whyBig": "It uses no disk space; /proc/kcore shows the size of the address space (it can look like 128 TB) but is not stored anywhere.",
+      "ifDeleted": "Nothing can be deleted here.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.sys",
+      "match": {
+        "path": "/sys"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "/sys (virtual)",
+      "badge": "critical",
+      "owner": "Linux",
+      "summary": "Virtual kernel file system for devices; takes no disk space",
+      "whatItIs": "A virtual file system with kernel and device information.",
+      "whyBig": "It uses no disk space.",
+      "ifDeleted": "Nothing can be deleted here.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "linux.dev",
+      "match": {
+        "path": "/dev"
+      },
+      "kind": "folder",
+      "platforms": [
+        "linux"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "/dev (devices)",
+      "badge": "critical",
+      "owner": "Linux",
+      "summary": "Device files; takes no disk space",
+      "whatItIs": "Device nodes managed by the kernel and udev, held in memory.",
+      "whyBig": "It uses no disk space.",
+      "ifDeleted": "Deleting device nodes breaks access to hardware until reboot.",
+      "saferAlternative": null,
+      "action": null
+    }
+  ]
+}

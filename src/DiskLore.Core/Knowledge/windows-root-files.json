@@ -1,0 +1,356 @@
+{
+  "rules": [
+    {
+      "id": "win.pagefile",
+      "match": {
+        "name": "pagefile.sys"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Page file (virtual memory)",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Virtual memory file; resize it in Performance Options, never delete it",
+      "whatItIs": "The page file extends RAM: Windows moves rarely used memory pages here, and it is used to write crash dumps.",
+      "whyBig": "Windows sizes it automatically from installed RAM, recent memory use and crash dump settings, often several GB to tens of GB on PCs with a lot of RAM.",
+      "ifDeleted": "It is locked while Windows runs. Turning it off entirely can make programs fail with out-of-memory errors and prevents crash dumps.",
+      "saferAlternative": "System Properties > Advanced > Performance Settings > Advanced > Virtual memory: set a smaller custom size or move it to another drive, then restart.",
+      "action": {
+        "kind": "command",
+        "label": "Open System Properties (Advanced)",
+        "value": "SystemPropertiesAdvanced.exe"
+      }
+    },
+    {
+      "id": "win.hiberfil",
+      "match": {
+        "name": "hiberfil.sys"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Hibernation file",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Saved memory for hibernate and Fast Startup; shrink or turn off with powercfg",
+      "whatItIs": "Holds the contents of memory when the PC hibernates, and the system session saved by Fast Startup at shutdown.",
+      "whyBig": "A full hibernation file is reserved at about 40% of installed RAM by default, so a PC with 32 GB of RAM has a file of roughly 13 GB.",
+      "ifDeleted": "It is locked while Windows runs. Removing it by other means breaks hibernation and Fast Startup.",
+      "saferAlternative": "'powercfg /hibernate off' removes the file but also turns off hibernation and Fast Startup. 'powercfg /h /type reduced' keeps Fast Startup with a smaller file (about 20% of RAM).",
+      "action": {
+        "kind": "command",
+        "label": "Turn off hibernation",
+        "value": "powercfg /hibernate off"
+      }
+    },
+    {
+      "id": "win.swapfile",
+      "match": {
+        "name": "swapfile.sys"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Swap file for Store apps",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Swap file for suspended Store apps; managed together with the page file",
+      "whatItIs": "Windows uses it to swap whole suspended Microsoft Store (packaged) apps out of memory.",
+      "whyBig": "Usually 16-256 MB, sized by Windows.",
+      "ifDeleted": "It is locked while Windows runs, and disappears only when the page file on that drive is turned off.",
+      "saferAlternative": "Leave it; it is small.",
+      "action": null
+    },
+    {
+      "id": "win.dumpstack-tmp",
+      "match": {
+        "name": "DumpStack.log.tmp"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Crash dump stack log (in use)",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Tiny log of the crash dump driver; locked while Windows runs",
+      "whatItIs": "Created at every boot by the crash dump components so they can log problems while writing a crash dump.",
+      "whyBig": "A few KB.",
+      "ifDeleted": "It is in use while Windows runs and recreated at each boot; there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.dumpstack-log",
+      "match": {
+        "name": "DumpStack.log"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Crash dump stack log",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Crash dump stack log from an earlier boot; tiny and safe to delete",
+      "whatItIs": "A log left by the crash dump components from a previous boot.",
+      "whyBig": "A few KB.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.bootmgr",
+      "match": {
+        "name": "bootmgr"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Windows Boot Manager",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Windows Boot Manager; the PC cannot start Windows without it",
+      "whatItIs": "The Windows Boot Manager program loaded by the firmware on BIOS-style boot partitions. UEFI PCs use bootmgfw.efi on the EFI partition instead, and Windows keeps master copies under Windows\\Boot.",
+      "whyBig": "About 400 KB.",
+      "ifDeleted": "The PC can no longer boot Windows from this drive.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.bootnxt",
+      "match": {
+        "name": "BOOTNXT"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Boot helper file (BOOTNXT)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Small boot file that sits next to bootmgr",
+      "whatItIs": "A tiny file used by the Windows boot process on BIOS-style system partitions.",
+      "whyBig": "A few bytes.",
+      "ifDeleted": "Booting may fail on PCs that use it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.ext-dmp",
+      "match": {
+        "extension": ".dmp"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 10,
+      "title": "Memory dump",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Crash or memory dump for debugging; safe to delete unless you need to report a crash",
+      "whatItIs": "A snapshot of a process's or of the system's memory, written when something crashed or when a dump was requested for debugging.",
+      "whyBig": "A dump contains the memory of the crashed process or of the whole system, from a few MB to many GB.",
+      "ifDeleted": "Nothing breaks; the crash it describes can no longer be analysed.",
+      "saferAlternative": "Keep it only if you plan to send it to a developer or support.",
+      "action": null
+    },
+    {
+      "id": "win.ext-hdmp",
+      "match": {
+        "extension": ".hdmp"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 10,
+      "title": "Heap dump (Windows Error Reporting)",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Crash dump with heap memory, written by Windows Error Reporting",
+      "whatItIs": "A crash dump that includes the crashed process's heap, collected by Windows Error Reporting for a crash report.",
+      "whyBig": "Heap dumps contain much of the process's memory, often hundreds of MB.",
+      "ifDeleted": "Nothing breaks; the report can no longer be analysed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.ext-mdmp",
+      "match": {
+        "extension": ".mdmp"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 10,
+      "title": "Minidump",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Small crash dump; safe to delete",
+      "whatItIs": "A small crash dump written by Windows Error Reporting or an application's crash handler.",
+      "whyBig": "Usually a few MB; repeated crashes add up.",
+      "ifDeleted": "Nothing breaks; the crash can no longer be analysed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.ext-etl",
+      "match": {
+        "extension": ".etl"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 10,
+      "title": "Event trace log",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Diagnostic trace from Windows or an app; old traces are safe to delete",
+      "whatItIs": "An Event Tracing for Windows (ETW) log written by Windows components, drivers or tools such as Windows Performance Recorder.",
+      "whyBig": "Some traces run continuously and rotate; performance recordings can be hundreds of MB.",
+      "ifDeleted": "Nothing breaks; traces that are being written are locked. Keep traces you recorded on purpose for analysis.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.ext-evtx",
+      "match": {
+        "extension": ".evtx"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 10,
+      "title": "Windows event log",
+      "badge": "shrink",
+      "owner": "Windows",
+      "summary": "Event Viewer log; clear it or cap its size in Event Viewer",
+      "whatItIs": "A Windows event log file as shown in Event Viewer.",
+      "whyBig": "Each log grows until its configured maximum size; logs set to archive instead of overwrite keep growing.",
+      "ifDeleted": "Active logs are locked while the Event Log service runs; deleting closed or exported logs only loses their history.",
+      "saferAlternative": "In Event Viewer, right-click the log > Properties to lower its maximum size, or choose Clear Log.",
+      "action": {
+        "kind": "command",
+        "label": "Open Event Viewer",
+        "value": "eventvwr.msc"
+      }
+    },
+    {
+      "id": "win.ntuser",
+      "match": {
+        "name": "NTUSER.DAT*"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "User registry hive",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Your personal registry (settings of Windows and apps) and its logs",
+      "whatItIs": "NTUSER.DAT is the registry hive of one user profile; the .LOG, .blf and .regtrans-ms files next to it are its transaction logs.",
+      "whyBig": "Usually a few MB to a few hundred MB; it grows with the settings that apps write.",
+      "ifDeleted": "The profile can no longer sign in properly; Windows signs you in with a temporary profile.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.usrclass",
+      "match": {
+        "name": "UsrClass.dat*"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "User registry hive (classes)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Per-user registry part for file associations and app registrations",
+      "whatItIs": "UsrClass.dat holds the per-user part of the registry for file associations, COM registrations and Store app data, with its log files.",
+      "whyBig": "Usually tens of MB; it can grow with many Store apps.",
+      "ifDeleted": "Start, Store apps and file associations break for this profile.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "win.thumbcache",
+      "match": {
+        "name": "thumbcache_*.db"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Explorer thumbnail cache",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Thumbnail previews File Explorer has cached; rebuilt automatically",
+      "whatItIs": "Database of thumbnail images that File Explorer shows for pictures, videos and documents.",
+      "whyBig": "It grows with every folder of pictures and videos you browse in thumbnail view, and old entries are not always removed.",
+      "ifDeleted": "Nothing breaks; thumbnails are regenerated when folders are opened again. Files in use by Explorer are locked.",
+      "saferAlternative": "Storage settings > Temporary files > Thumbnails clears it cleanly.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "win.iconcache",
+      "match": {
+        "name": "iconcache_*.db"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "Explorer icon cache",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Cached icons used by File Explorer; rebuilt automatically",
+      "whatItIs": "Database of icons extracted from programs and file types, so Explorer does not have to load them again.",
+      "whyBig": "Usually a few MB.",
+      "ifDeleted": "Nothing breaks; icons are rebuilt, and files in use by Explorer are locked.",
+      "saferAlternative": null,
+      "action": null
+    }
+  ]
+}

@@ -1,0 +1,3985 @@
+{
+  "rules": [
+    {
+      "id": "user.profile",
+      "match": {
+        "path": "%USERPROFILE%"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 40,
+      "title": "User profile",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Your profile: personal folders, app settings (AppData) and tool data",
+      "whatItIs": "The home folder of one account: Documents, Downloads, Pictures and the other personal folders, the hidden AppData folder with app settings and caches, and dot-folders created by developer tools.",
+      "whyBig": "Personal files plus the caches and data of every app this account uses.",
+      "ifDeleted": "Deleting the whole profile removes the account's files and settings and breaks its sign-in.",
+      "saferAlternative": "Look inside: personal folders are yours to judge, and caches in AppData are explained one by one.",
+      "action": null
+    },
+    {
+      "id": "user.appdata",
+      "match": {
+        "path": "%USERPROFILE%\\AppData"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "AppData (app settings and data)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Hidden folder where apps keep settings, caches and data for this account",
+      "whatItIs": "Hidden folder with three parts: Local (data that stays on this PC, including caches), LocalLow (data of apps running with low permissions) and Roaming (settings that can follow the account).",
+      "whyBig": "Browser profiles, game launchers, developer tools and app caches; often tens of GB.",
+      "ifDeleted": "Every app loses its settings and data for this account, and some per-user installed apps stop working.",
+      "saferAlternative": "Clean the cache folders inside, which are marked individually.",
+      "action": null
+    },
+    {
+      "id": "user.localappdata",
+      "match": {
+        "path": "%LOCALAPPDATA%"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "AppData\\Local",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Per-user app data that stays on this PC: caches, local installs, app state",
+      "whatItIs": "Data that apps keep for this account on this PC only: caches, temporary files, browser profiles, Store app data and programs installed per user (Programs).",
+      "whyBig": "Usually the largest part of a profile's app data, because caches, shader caches and per-user installs live here.",
+      "ifDeleted": "Apps lose their data and per-user installed programs stop working.",
+      "saferAlternative": "Clean the subfolders marked SAFE; check the others one by one.",
+      "action": null
+    },
+    {
+      "id": "user.roamingappdata",
+      "match": {
+        "path": "%APPDATA%"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "AppData\\Roaming",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "App settings and data for this account (can roam with the account)",
+      "whatItIs": "Settings and data that apps store per account; in a domain with roaming profiles it follows the user between PCs. Many apps also put caches or even program files here.",
+      "whyBig": "Some apps keep caches, downloads or whole installations here (for example Electron apps, mod managers and game launchers).",
+      "ifDeleted": "Apps lose their settings and data, and apps installed here stop working.",
+      "saferAlternative": "Check the subfolders one by one.",
+      "action": null
+    },
+    {
+      "id": "user.locallow",
+      "match": {
+        "path": "%USERPROFILE%\\AppData\\LocalLow"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 60,
+      "title": "AppData\\LocalLow",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Data of sandboxed apps and many games, including Unity game saves",
+      "whatItIs": "Data folder for apps that run with low integrity (sandboxed browsers and plug-ins). Games built with Unity store their saves and settings here under <Company>\\<Game>.",
+      "whyBig": "Game saves are small, but some games and apps cache downloaded content or logs here.",
+      "ifDeleted": "Games lose their saves and settings; apps lose their data.",
+      "saferAlternative": "Check each company or game folder before deleting it.",
+      "action": null
+    },
+    {
+      "id": "user.locallow-temp",
+      "match": {
+        "path": "%USERPROFILE%\\AppData\\LocalLow\\Temp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Low-integrity temporary files",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Temporary files of sandboxed apps; safe to clear",
+      "whatItIs": "Temporary folder for apps running with low integrity.",
+      "whyBig": "Leftover temporary files from apps and games.",
+      "ifDeleted": "Nothing breaks; files in use are locked.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.temp",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Temp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Your temporary files",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Temporary files of your apps and installers; safe to clear, files in use are skipped",
+      "whatItIs": "Your account's temporary folder (%TEMP%). Apps, installers and updaters put working files here and are supposed to remove them.",
+      "whyBig": "Installers extract packages here and many apps never clean up, so it often holds several GB of old extracted setups, logs and downloads.",
+      "ifDeleted": "Nothing breaks; files in use are locked and stay. A few apps keep recovery files here (Blender saves quit.blend and autosaves to the temp folder by default), so check for those if you rely on them.",
+      "saferAlternative": "Use Storage settings > Temporary files, or delete items older than a few days.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "user.temp-winget",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Temp\\WinGet"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "winget download cache",
+      "badge": "safe",
+      "owner": "Windows Package Manager",
+      "summary": "Installers downloaded by winget; safe to delete",
+      "whatItIs": "Installers that the Windows Package Manager (winget) downloaded to install or upgrade apps.",
+      "whyBig": "Each installed or upgraded package leaves its installer here.",
+      "ifDeleted": "Nothing breaks; winget downloads installers again when needed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.inetcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Windows\\INetCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Internet cache (WinINet)",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Web cache of Windows components, Office and older apps; safe to clear",
+      "whatItIs": "The Windows internet cache used by Internet Explorer mode, Office, Outlook (attachment previews in Content.Outlook) and apps that use the Windows web stack.",
+      "whyBig": "Office and apps that download content through Windows can leave hundreds of MB.",
+      "ifDeleted": "Nothing breaks; content is downloaded again. Close Outlook before clearing Content.Outlook, which also holds attachments you opened.",
+      "saferAlternative": "Storage settings > Temporary files > Temporary Internet Files.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "user.explorer-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Windows\\Explorer"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Explorer thumbnail and icon caches",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Thumbnail and icon caches of File Explorer; rebuilt automatically",
+      "whatItIs": "File Explorer's thumbcache_*.db and iconcache_*.db databases with cached thumbnails and icons.",
+      "whyBig": "Browsing large photo and video folders in thumbnail view makes it grow, sometimes to 1 GB or more.",
+      "ifDeleted": "Nothing breaks; thumbnails are recreated when you open folders. Files in use by Explorer are locked.",
+      "saferAlternative": "Storage settings > Temporary files > Thumbnails.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "user.iconcache-db",
+      "match": {
+        "path": "%LOCALAPPDATA%\\IconCache.db"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 100,
+      "title": "Legacy icon cache",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Old-style Explorer icon cache; rebuilt automatically",
+      "whatItIs": "Icon cache file kept by File Explorer for compatibility.",
+      "whyBig": "A few MB at most.",
+      "ifDeleted": "Nothing breaks; Explorer rebuilds it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.webcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Windows\\WebCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows web cache database",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Database of the Windows web stack (history, cookies); locked while in use",
+      "whatItIs": "WebCacheV01.dat and its logs, used by Internet Explorer mode, Explorer and other Windows components to track web history, cookies and downloads.",
+      "whyBig": "Usually tens of MB; it can occasionally grow large.",
+      "ifDeleted": "The files are locked by Windows tasks while you are signed in; forcing removal can reset cookies and history of components that use it.",
+      "saferAlternative": "Clear it through Internet Options > General > Browsing history > Delete.",
+      "action": {
+        "kind": "command",
+        "label": "Open Internet Options",
+        "value": "inetcpl.cpl"
+      }
+    },
+    {
+      "id": "user.fonts",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Windows\\Fonts"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Your installed fonts",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Fonts installed only for your account",
+      "whatItIs": "Fonts installed with 'Install' (not 'Install for all users') land here.",
+      "whyBig": "Font families from design tools and packs can be tens of MB each.",
+      "ifDeleted": "The fonts disappear from your apps, and documents using them fall back to other fonts.",
+      "saferAlternative": "Remove fonts you no longer need in Settings > Personalization > Fonts.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Fonts settings",
+        "value": "ms-settings:fonts"
+      }
+    },
+    {
+      "id": "user.crashdumps",
+      "match": {
+        "path": "%LOCALAPPDATA%\\CrashDumps"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "App crash dumps",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Crash dumps of your apps; safe to delete",
+      "whatItIs": "Memory dumps written by Windows Error Reporting when an app you run crashes.",
+      "whyBig": "Some apps write full dumps of hundreds of MB; repeated crashes fill it quickly.",
+      "ifDeleted": "Nothing breaks; those crashes can no longer be analysed.",
+      "saferAlternative": null,
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "user.d3dscache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\D3DSCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "DirectX shader cache",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Compiled DirectX shaders for games and apps; safe to clear",
+      "whatItIs": "Shaders compiled by Direct3D for your graphics card, so games and apps do not have to compile them at every start.",
+      "whyBig": "Every game adds its compiled shaders, often hundreds of MB.",
+      "ifDeleted": "Nothing breaks; the next launch of each game recompiles shaders, which can cause longer loading or brief stutter.",
+      "saferAlternative": "Storage settings > Temporary files > DirectX Shader Cache.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "user.local-microsoft",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 70,
+      "title": "Microsoft app data (Local)",
+      "badge": "check",
+      "owner": "Microsoft",
+      "summary": "Data of Windows and Microsoft apps for your account: Edge, Office, OneDrive, caches",
+      "whatItIs": "Per-user data of Windows components and Microsoft apps: Edge profiles, OneDrive, Office caches, Visual Studio, Windows caches and app execution aliases.",
+      "whyBig": "Edge profiles and Office or Teams caches are usually the largest parts.",
+      "ifDeleted": "Windows features and Microsoft apps lose their data; some stop working.",
+      "saferAlternative": "Clean the cache folders inside, which are marked individually.",
+      "action": null
+    },
+    {
+      "id": "user.local-microsoft-windows",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Windows"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Windows per-user data (Local)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Windows data for your account: caches, history, notifications, fonts",
+      "whatItIs": "Per-user Windows data: Explorer caches, the internet cache, notifications, per-user fonts, the class registry hive (UsrClass.dat) and more.",
+      "whyBig": "Thumbnail and internet caches are the usual large parts.",
+      "ifDeleted": "Windows features break for your account; UsrClass.dat is part of your registry.",
+      "saferAlternative": "Clean the cache folders inside, which are marked individually.",
+      "action": null
+    },
+    {
+      "id": "user.windowsapps-aliases",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\WindowsApps"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "App execution aliases",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Zero-byte command aliases for Store apps (winget, python, wt); takes no space",
+      "whatItIs": "Small links that let you start packaged apps from a command line, such as winget.exe, wt.exe or the python.exe alias. This folder is on your PATH.",
+      "whyBig": "The entries are zero-byte reparse points; they take no real space.",
+      "ifDeleted": "Commands such as winget and wt stop working from terminals.",
+      "saferAlternative": "Manage aliases in Settings > Apps > Advanced app settings > App execution aliases.",
+      "action": null
+    },
+    {
+      "id": "user.credentials-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Credentials"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Saved credentials (Local)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Encrypted saved credentials of Credential Manager; tiny, never delete",
+      "whatItIs": "Encrypted credentials stored by Windows Credential Manager for this account.",
+      "whyBig": "A few KB.",
+      "ifDeleted": "Saved passwords for network shares, apps and services are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.vault-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Vault"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Windows Vault (Local)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Encrypted web and app credentials of Windows; tiny, never delete",
+      "whatItIs": "Windows Vault storage for web and app credentials saved through Credential Manager.",
+      "whyBig": "A few KB.",
+      "ifDeleted": "Saved web and app credentials are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.roaming-microsoft",
+      "match": {
+        "path": "%APPDATA%\\Microsoft"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Microsoft data (Roaming)",
+      "badge": "check",
+      "owner": "Microsoft",
+      "summary": "Windows and Office settings for your account, including encryption keys",
+      "whatItIs": "Per-account settings of Windows and Microsoft apps: Start menu shortcuts, recent items, Office templates, and the keys that protect your saved passwords (Protect, Crypto, Credentials).",
+      "whyBig": "Usually small; classic Teams and Office add-ins can add caches.",
+      "ifDeleted": "Deleting it can make every password saved with Windows data protection unreadable (browser and Wi-Fi passwords, Credential Manager).",
+      "saferAlternative": "Leave it; clean individual caches inside only.",
+      "action": null
+    },
+    {
+      "id": "user.protect",
+      "match": {
+        "path": "%APPDATA%\\Microsoft\\Protect"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Data protection master keys (DPAPI)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Keys that decrypt your saved passwords; tiny, never delete",
+      "whatItIs": "Master keys of the Windows Data Protection API. Browsers, Wi-Fi, Credential Manager and many apps encrypt saved secrets with them.",
+      "whyBig": "A few KB.",
+      "ifDeleted": "Saved passwords and encrypted app data of this account become permanently unreadable.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.crypto",
+      "match": {
+        "path": "%APPDATA%\\Microsoft\\Crypto"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Certificate private keys",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Private keys of your certificates; tiny, never delete",
+      "whatItIs": "Private keys of certificates installed for this account (for example for VPN, email signing or code signing).",
+      "whyBig": "A few KB.",
+      "ifDeleted": "Certificates lose their private keys and stop working for sign-in, signing or encryption.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.credentials-roaming",
+      "match": {
+        "path": "%APPDATA%\\Microsoft\\Credentials"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Saved credentials (Roaming)",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Encrypted saved credentials of Credential Manager; tiny, never delete",
+      "whatItIs": "Encrypted credentials stored by Windows Credential Manager for this account.",
+      "whyBig": "A few KB.",
+      "ifDeleted": "Saved passwords for network shares, apps and services are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.systemcertificates",
+      "match": {
+        "path": "%APPDATA%\\Microsoft\\SystemCertificates"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Your certificate store",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Certificates installed for your account; tiny, never delete",
+      "whatItIs": "The per-user certificate store (personal certificates, trusted roots you added).",
+      "whyBig": "A few KB to a few MB.",
+      "ifDeleted": "Certificates you installed disappear; sign-in, VPN and signing that rely on them fail.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.start-menu",
+      "match": {
+        "path": "%APPDATA%\\Microsoft\\Windows\\Start Menu"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Your Start menu shortcuts",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Start menu shortcuts installed for your account",
+      "whatItIs": "Shortcuts that per-user installed programs put in your Start menu.",
+      "whyBig": "Tiny; shortcuts only.",
+      "ifDeleted": "Programs disappear from the Start menu but stay installed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.junction-application-data",
+      "match": {
+        "path": "%USERPROFILE%\\Application Data"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Application Data",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to AppData\\Roaming.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.junction-local-settings",
+      "match": {
+        "path": "%USERPROFILE%\\Local Settings"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Local Settings",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to AppData\\Local.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.junction-my-documents",
+      "match": {
+        "path": "%USERPROFILE%\\My Documents"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: My Documents",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to Documents.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.junction-local-application-data",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Application Data"
+      },
+      "kind": "any",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 50,
+      "title": "Compatibility link: Local\\Application Data",
+      "badge": "critical",
+      "owner": "Windows",
+      "summary": "Compatibility link for older programs; takes no disk space",
+      "whatItIs": "A junction (folder link) that Windows keeps so programs written for older Windows versions find their files. It points to AppData\\Local.",
+      "whyBig": "It takes no space; the files it points to are counted in their real location.",
+      "ifDeleted": "Older programs that still use this path fail. The data itself is not affected, so there is nothing to gain.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.documents",
+      "match": {
+        "path": "%USERPROFILE%\\Documents"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Documents",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your documents; apps and games also save files here",
+      "whatItIs": "Your Documents folder. Many apps and games also save projects, settings and saves here (for example My Games, Visual Studio projects, Zoom recordings).",
+      "whyBig": "Whatever you and your apps saved; game saves, recordings and projects can be large.",
+      "ifDeleted": "Your files in it are gone. They go to the Recycle Bin only if you recycle instead of deleting permanently.",
+      "saferAlternative": "Sort by size and look at the largest items; move what you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "user.downloads",
+      "match": {
+        "path": "%USERPROFILE%\\Downloads"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Downloads",
+      "badge": "user",
+      "owner": null,
+      "summary": "Files you downloaded; old installers and archives often pile up",
+      "whatItIs": "Default folder for files downloaded by browsers and apps.",
+      "whyBig": "Installers, archives, ISO images and videos accumulate here and are rarely cleaned up.",
+      "ifDeleted": "Your files in it are gone. They go to the Recycle Bin only if you recycle instead of deleting permanently.",
+      "saferAlternative": "Sort by size and look at the largest items; move what you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "user.desktop",
+      "match": {
+        "path": "%USERPROFILE%\\Desktop"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Desktop",
+      "badge": "user",
+      "owner": null,
+      "summary": "Files and shortcuts on your desktop",
+      "whatItIs": "The files and shortcuts shown on your desktop.",
+      "whyBig": "Whatever was saved to the desktop.",
+      "ifDeleted": "Your files in it are gone. They go to the Recycle Bin only if you recycle instead of deleting permanently.",
+      "saferAlternative": "Sort by size and look at the largest items; move what you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "user.pictures",
+      "match": {
+        "path": "%USERPROFILE%\\Pictures"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Pictures",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your photos, screenshots and images",
+      "whatItIs": "Your Pictures folder, including Screenshots and Camera Roll.",
+      "whyBig": "Photo libraries and screenshots grow over the years; RAW photos are tens of MB each.",
+      "ifDeleted": "Your files in it are gone. They go to the Recycle Bin only if you recycle instead of deleting permanently.",
+      "saferAlternative": "Sort by size and look at the largest items; move what you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "user.videos",
+      "match": {
+        "path": "%USERPROFILE%\\Videos"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Videos",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your videos and screen recordings",
+      "whatItIs": "Your Videos folder. Xbox Game Bar (Captures), OBS and other recorders save here by default.",
+      "whyBig": "Screen and gameplay recordings are often several GB each.",
+      "ifDeleted": "Your files in it are gone. They go to the Recycle Bin only if you recycle instead of deleting permanently.",
+      "saferAlternative": "Sort by size and look at the largest items; move what you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "user.music",
+      "match": {
+        "path": "%USERPROFILE%\\Music"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Music",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your music and audio files",
+      "whatItIs": "Your Music folder.",
+      "whyBig": "Music libraries, recordings and audio projects.",
+      "ifDeleted": "Your files in it are gone. They go to the Recycle Bin only if you recycle instead of deleting permanently.",
+      "saferAlternative": "Sort by size and look at the largest items; move what you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "user.saved-games",
+      "match": {
+        "path": "%USERPROFILE%\\Saved Games"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Saved Games",
+      "badge": "user",
+      "owner": null,
+      "summary": "Game saves and settings",
+      "whatItIs": "Folder where many games store saves, profiles and settings.",
+      "whyBig": "Saves are usually small; some games also keep replays or screenshots here.",
+      "ifDeleted": "Your files in it are gone. They go to the Recycle Bin only if you recycle instead of deleting permanently.",
+      "saferAlternative": "Sort by size and look at the largest items; move what you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "user.favorites",
+      "match": {
+        "path": "%USERPROFILE%\\Favorites"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Favorites",
+      "badge": "user",
+      "owner": null,
+      "summary": "Internet Explorer favorites (legacy)",
+      "whatItIs": "Favorites (bookmarks) of Internet Explorer and apps that use them.",
+      "whyBig": "Usually tiny.",
+      "ifDeleted": "Your files in it are gone. They go to the Recycle Bin only if you recycle instead of deleting permanently.",
+      "saferAlternative": "Sort by size and look at the largest items; move what you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "user.videos-captures",
+      "match": {
+        "path": "%USERPROFILE%\\Videos\\Captures"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Game Bar captures",
+      "badge": "user",
+      "owner": null,
+      "summary": "Clips and screenshots from Xbox Game Bar",
+      "whatItIs": "Recordings and screenshots made with Xbox Game Bar (Win+Alt+R, Win+Alt+PrtScn).",
+      "whyBig": "Gameplay clips are large, and 'record what happened' can save many of them.",
+      "ifDeleted": "Your files in it are gone. They go to the Recycle Bin only if you recycle instead of deleting permanently.",
+      "saferAlternative": "Sort by size and look at the largest items; move what you want to keep to another drive or cloud storage.",
+      "action": null
+    },
+    {
+      "id": "user.onedrive",
+      "match": {
+        "path": "%USERPROFILE%\\OneDrive"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "OneDrive",
+      "badge": "user",
+      "owner": "Microsoft OneDrive",
+      "summary": "Your OneDrive files; online-only files show their size but use no disk",
+      "whatItIs": "Your OneDrive folder, synced with the cloud. With Files On-Demand, files can be online-only (cloud icon), locally available, or always kept on this device.",
+      "whyBig": "The size shown here counts online-only files at their full size even though they take no disk space; only locally available files really use space.",
+      "ifDeleted": "Deleting files here deletes them from OneDrive and every synced device too (they stay in the OneDrive recycle bin for a while).",
+      "saferAlternative": "To free space without deleting, right-click a folder > Free up space, or turn on Storage Sense to make unused files online-only.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Storage settings",
+        "value": "ms-settings:storagesense"
+      }
+    },
+    {
+      "id": "user.onedrive-business",
+      "match": {
+        "path": "%USERPROFILE%\\OneDrive - *"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "OneDrive for work or school",
+      "badge": "user",
+      "owner": "Microsoft OneDrive",
+      "summary": "Work or school OneDrive; online-only files show their size but use no disk",
+      "whatItIs": "Your work or school OneDrive folder, synced with your organization's cloud. Files can be online-only, locally available or always kept on this device.",
+      "whyBig": "Online-only files are counted at full size although they use no disk; only locally available files really use space.",
+      "ifDeleted": "Deleting files here deletes them from the organization's OneDrive as well.",
+      "saferAlternative": "Right-click a folder > Free up space to make it online-only instead of deleting.",
+      "action": null
+    },
+    {
+      "id": "user.onedrive-app",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\OneDrive"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "OneDrive app",
+      "badge": "app",
+      "owner": "Microsoft OneDrive",
+      "summary": "The OneDrive app, its logs and sync settings for your account",
+      "whatItIs": "Program files of OneDrive when installed per user, plus its logs and sync settings.",
+      "whyBig": "Each update keeps a version folder for a while; logs are usually modest.",
+      "ifDeleted": "OneDrive stops syncing; files already in your OneDrive folder stay.",
+      "saferAlternative": "Uninstall or reset OneDrive from Installed apps if you do not use it.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "user.packages",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Store app data",
+      "badge": "app",
+      "owner": "Windows",
+      "summary": "Data of Microsoft Store and packaged apps, one folder per app",
+      "whatItIs": "Every packaged app (Store apps and parts of Windows) has a folder here with LocalState, LocalCache, TempState, RoamingState and Settings.",
+      "whyBig": "Messengers, media apps and games with local downloads or caches can each use GBs.",
+      "ifDeleted": "The app loses its data and settings and may stop working until it is reset or reinstalled.",
+      "saferAlternative": "Use Settings > Apps > Installed apps > (app) > Advanced options > Reset to clear an app's data properly.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "user.packages-tempstate",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\*\\TempState"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Store app temporary files",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Temporary files of a Store app; safe to clear",
+      "whatItIs": "A packaged app's temporary folder, which Windows may clear at any time.",
+      "whyBig": "Apps that process media or downloads can leave files here.",
+      "ifDeleted": "Nothing breaks; quit the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.packages-inetcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\*\\AC\\INetCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Store app web cache",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Web cache of a Store app; safe to clear",
+      "whatItIs": "The internet cache of a packaged app's sandbox.",
+      "whyBig": "Apps that display web content cache images and pages here.",
+      "ifDeleted": "Nothing breaks; content is downloaded again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.packages-actemp",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\*\\AC\\Temp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Store app sandbox temporary files",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Temporary files in a Store app's sandbox; safe to clear",
+      "whatItIs": "Temporary folder inside a packaged app's sandbox (AppContainer).",
+      "whyBig": "Leftover temporary files of the app.",
+      "ifDeleted": "Nothing breaks; quit the app first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.packages-localcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\*\\LocalCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Store app local cache",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Store app data that is not backed up; despite the name, not always a cache",
+      "whatItIs": "A packaged app's LocalCache folder. Some apps keep real caches here, but others store real data, for example the Microsoft Store version of Python keeps pip-installed packages here.",
+      "whyBig": "Media and messenger apps cache downloads here.",
+      "ifDeleted": "Depends on the app: caches are rebuilt, but installed packages or offline content are lost.",
+      "saferAlternative": "Prefer the app's own 'clear cache' option or Reset in Settings.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "user.packages-localstate",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\*\\LocalState"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Store app local data",
+      "badge": "app",
+      "owner": "Windows",
+      "summary": "The Store app's own local data (databases, downloads, settings)",
+      "whatItIs": "A packaged app's main data folder: its databases, downloaded content and local settings.",
+      "whyBig": "Messengers, note apps and media apps store their libraries and databases here.",
+      "ifDeleted": "The app loses its local data, such as chat history, downloaded media or offline content.",
+      "saferAlternative": "Reset the app from Settings > Apps > Installed apps > Advanced options if you want to start over.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "user.pkg-teams-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\MSTeams_8wekyb3d8bbwe\\LocalCache\\Microsoft\\MSTeams"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 110,
+      "title": "Microsoft Teams cache",
+      "badge": "safe",
+      "owner": "Microsoft Teams",
+      "summary": "Cache of the new Microsoft Teams; safe to clear while Teams is closed",
+      "whatItIs": "Cache and local state of the new Teams app. Microsoft's own troubleshooting steps clear this folder.",
+      "whyBig": "Teams caches images, files, web resources and logs, often 1 GB or more.",
+      "ifDeleted": "Nothing is lost on the server; Teams downloads what it needs and may ask you to sign in again. Quit Teams first.",
+      "saferAlternative": "Settings > Apps > Installed apps > Microsoft Teams > Advanced options > Reset does the same.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "user.pkg-teams",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\MSTeams_8wekyb3d8bbwe"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Microsoft Teams (new) data",
+      "badge": "app",
+      "owner": "Microsoft Teams",
+      "summary": "Data of the new Microsoft Teams app",
+      "whatItIs": "Local data of the new Teams client (the packaged app that replaced classic Teams).",
+      "whyBig": "Its cache (LocalCache\\Microsoft\\MSTeams) is the large part.",
+      "ifDeleted": "Teams loses its local state and signs you out; chats and files stay in the cloud.",
+      "saferAlternative": "Use Reset in Settings rather than deleting the folder.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "user.pkg-whatsapp",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "WhatsApp Desktop data",
+      "badge": "check",
+      "owner": "WhatsApp",
+      "summary": "WhatsApp Desktop: local chat database and downloaded media",
+      "whatItIs": "Local data of WhatsApp Desktop: the local message database, downloaded photos, videos and documents, and caches.",
+      "whyBig": "Media you receive in busy chats and groups is downloaded here and adds up to many GB.",
+      "ifDeleted": "You are logged out and media that is no longer on your phone may be lost.",
+      "saferAlternative": "Remove media per chat in WhatsApp (Settings > Storage), or turn off automatic media download.",
+      "action": null
+    },
+    {
+      "id": "user.pkg-spotify",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Spotify (Store version) data",
+      "badge": "app",
+      "owner": "Spotify",
+      "summary": "Spotify data: streaming cache and downloaded songs",
+      "whatItIs": "Local data of the Microsoft Store version of Spotify, including its streaming cache and songs downloaded for offline listening.",
+      "whyBig": "The cache can grow to several GB, plus any downloaded playlists.",
+      "ifDeleted": "You are signed out, offline downloads are lost and the cache is rebuilt while streaming.",
+      "saferAlternative": "In Spotify, use Settings > Storage to clear the cache or remove downloads.",
+      "action": null
+    },
+    {
+      "id": "user.pkg-telegram",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\TelegramMessengerLLP.TelegramDesktop_t4vj0pshhgkwm"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Telegram Desktop (Store) data",
+      "badge": "check",
+      "owner": "Telegram",
+      "summary": "Telegram Desktop: session data and media cache",
+      "whatItIs": "Local data of the Microsoft Store version of Telegram Desktop: your session and the cache of media you viewed.",
+      "whyBig": "Media from channels and groups is cached and can grow to many GB.",
+      "ifDeleted": "You are logged out of this device; cloud chats stay, but cached media must be downloaded again.",
+      "saferAlternative": "In Telegram, use Settings > Advanced > Manage local storage to clear the cache or set a limit.",
+      "action": null
+    },
+    {
+      "id": "user.pkg-python",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Packages\\PythonSoftwareFoundation.Python.*"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Python (Microsoft Store) data",
+      "badge": "app",
+      "owner": "Python Software Foundation",
+      "summary": "Microsoft Store Python: packages installed with pip --user live here",
+      "whatItIs": "Data of the Microsoft Store version of Python. Packages installed with 'pip install --user' and their scripts live in LocalCache\\local-packages.",
+      "whyBig": "Machine learning and data science packages can be GBs.",
+      "ifDeleted": "Installed user packages disappear and scripts that need them fail.",
+      "saferAlternative": "Remove packages with 'pip uninstall', or reset the Python app in Settings.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "user.nvidia-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\NVIDIA"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "NVIDIA user data",
+      "badge": "check",
+      "owner": "NVIDIA",
+      "summary": "NVIDIA driver data for your account, mainly shader caches",
+      "whatItIs": "Data kept by the NVIDIA graphics driver for your account, mostly the DirectX and OpenGL shader caches.",
+      "whyBig": "Shader caches grow with every game you play.",
+      "ifDeleted": "The caches are rebuilt; games may stutter or load longer at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.nvidia-dxcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\NVIDIA\\DXCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NVIDIA DirectX shader cache",
+      "badge": "safe",
+      "owner": "NVIDIA",
+      "summary": "Compiled DirectX shaders from the NVIDIA driver; safe to clear",
+      "whatItIs": "Shaders the NVIDIA driver compiled for DirectX games.",
+      "whyBig": "Each game adds compiled shaders; the driver keeps the cache up to a size limit set in the NVIDIA Control Panel.",
+      "ifDeleted": "Nothing breaks; games recompile shaders on their next launch, which can cause longer loading or stutter at first.",
+      "saferAlternative": "Change 'Shader Cache Size' in NVIDIA Control Panel > Manage 3D settings to limit it.",
+      "action": null
+    },
+    {
+      "id": "user.nvidia-glcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\NVIDIA\\GLCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NVIDIA OpenGL/Vulkan shader cache",
+      "badge": "safe",
+      "owner": "NVIDIA",
+      "summary": "Compiled OpenGL and Vulkan shaders from the NVIDIA driver; safe to clear",
+      "whatItIs": "Shaders the NVIDIA driver compiled for OpenGL and Vulkan apps and games.",
+      "whyBig": "Each game and 3D app adds compiled shaders.",
+      "ifDeleted": "Nothing breaks; shaders are recompiled, which can cause stutter at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.nvidia-perdriver",
+      "match": {
+        "path": "%USERPROFILE%\\AppData\\LocalLow\\NVIDIA\\PerDriverVersion"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "NVIDIA shader caches (per driver)",
+      "badge": "safe",
+      "owner": "NVIDIA",
+      "summary": "Shader caches of newer NVIDIA drivers; safe to clear",
+      "whatItIs": "Newer NVIDIA drivers keep their DirectX and OpenGL shader caches here, separated by driver version.",
+      "whyBig": "Each game adds compiled shaders, and caches of older driver versions may remain.",
+      "ifDeleted": "Nothing breaks; games recompile shaders on their next launch, with longer loading or stutter at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.nvidia-corp-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\NVIDIA Corporation"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "NVIDIA app data",
+      "badge": "app",
+      "owner": "NVIDIA",
+      "summary": "Data of the NVIDIA app or GeForce Experience and NVIDIA SDK components",
+      "whatItIs": "Per-user data of NVIDIA software: the NVIDIA app or GeForce Experience, overlay and SDK components used by games.",
+      "whyBig": "Usually modest; logs and downloaded components can grow.",
+      "ifDeleted": "NVIDIA software loses its settings; games using NVIDIA SDK features may recreate their data.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.amd-local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\AMD"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "AMD user data",
+      "badge": "check",
+      "owner": "AMD",
+      "summary": "AMD Software data for your account, including shader caches",
+      "whatItIs": "Data kept by AMD Software (Adrenalin) and the AMD graphics driver: settings, logs and shader caches.",
+      "whyBig": "Shader caches grow with every game you play.",
+      "ifDeleted": "Caches are rebuilt; AMD Software may lose its settings.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.amd-dxcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\AMD\\DxCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "AMD DirectX shader cache",
+      "badge": "safe",
+      "owner": "AMD",
+      "summary": "Compiled DirectX shaders from the AMD driver; safe to clear",
+      "whatItIs": "Shaders the AMD driver compiled for DirectX games.",
+      "whyBig": "Each game adds compiled shaders.",
+      "ifDeleted": "Nothing breaks; games recompile shaders, which can cause stutter at first.",
+      "saferAlternative": "AMD Software > Gaming > Graphics > Reset Shader Cache clears it.",
+      "action": null
+    },
+    {
+      "id": "user.amd-dxccache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\AMD\\DxcCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "AMD DirectX 12 shader cache",
+      "badge": "safe",
+      "owner": "AMD",
+      "summary": "Compiled DirectX 12 shaders from the AMD driver; safe to clear",
+      "whatItIs": "Shaders the AMD driver compiled for DirectX 12 games.",
+      "whyBig": "Each DirectX 12 game adds compiled shaders.",
+      "ifDeleted": "Nothing breaks; games recompile shaders, which can cause stutter at first.",
+      "saferAlternative": "AMD Software > Gaming > Graphics > Reset Shader Cache clears it.",
+      "action": null
+    },
+    {
+      "id": "user.amd-vkcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\AMD\\VkCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "AMD Vulkan shader cache",
+      "badge": "safe",
+      "owner": "AMD",
+      "summary": "Compiled Vulkan shaders from the AMD driver; safe to clear",
+      "whatItIs": "Shaders the AMD driver compiled for Vulkan games and apps.",
+      "whyBig": "Each Vulkan game adds compiled shaders.",
+      "ifDeleted": "Nothing breaks; games recompile shaders, which can cause stutter at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.amd-glcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\AMD\\GLCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "AMD OpenGL shader cache",
+      "badge": "safe",
+      "owner": "AMD",
+      "summary": "Compiled OpenGL shaders from the AMD driver; safe to clear",
+      "whatItIs": "Shaders the AMD driver compiled for OpenGL apps and games.",
+      "whyBig": "Each OpenGL app adds compiled shaders.",
+      "ifDeleted": "Nothing breaks; shaders are recompiled.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.intel-shadercache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Intel\\ShaderCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Intel graphics shader cache",
+      "badge": "safe",
+      "owner": "Intel",
+      "summary": "Compiled shaders from the Intel graphics driver; safe to clear",
+      "whatItIs": "Shaders the Intel graphics driver compiled for games and apps.",
+      "whyBig": "Each game adds compiled shaders.",
+      "ifDeleted": "Nothing breaks; shaders are recompiled, with stutter at first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.chrome.user-data",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Google\\Chrome\\User Data"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Chrome profiles (User Data)",
+      "badge": "app",
+      "owner": "Google Chrome",
+      "summary": "Browser profiles: history, passwords, extensions, cookies and caches",
+      "whatItIs": "All Chrome profiles (Default, Profile 1, ...) with bookmarks, history, saved passwords, cookies, extensions and site data, plus shared components and caches.",
+      "whyBig": "Caches, site storage (IndexedDB, service workers) and downloaded browser components such as on-device AI models make up most of it.",
+      "ifDeleted": "Every profile is reset: you are signed out of all sites, and history, passwords and extensions not synced to an account are lost.",
+      "saferAlternative": "Clear browsing data from the browser (Settings > Privacy and security > Delete browsing data) or delete only the cache folders inside a profile.",
+      "action": null
+    },
+    {
+      "id": "browser.chrome.cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Google\\Chrome\\User Data\\*\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Chrome web cache",
+      "badge": "safe",
+      "owner": "Google Chrome",
+      "summary": "Cached web pages, images and scripts; safe to clear",
+      "whatItIs": "The HTTP cache of one Chrome profile: copies of pages, images, video segments and scripts from sites you visited.",
+      "whyBig": "The browser fills it up to a size limit it picks from free disk space, which can be several GB.",
+      "ifDeleted": "Nothing breaks; sites load a little slower until the cache refills. Close the browser first, as the files are in use.",
+      "saferAlternative": "Clear 'Cached images and files' in the browser (Settings > Privacy and security > Delete browsing data).",
+      "action": null
+    },
+    {
+      "id": "browser.chrome.code-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Google\\Chrome\\User Data\\*\\Code Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Chrome compiled script cache",
+      "badge": "safe",
+      "owner": "Google Chrome",
+      "summary": "Compiled JavaScript and WebAssembly from visited sites; safe to clear",
+      "whatItIs": "Compiled versions of scripts from sites you visit, so they start faster next time.",
+      "whyBig": "It grows with the number of script-heavy sites and web apps you use, often hundreds of MB.",
+      "ifDeleted": "Nothing breaks; scripts are compiled again on the next visit. Close the browser first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.chrome.gpucache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Google\\Chrome\\User Data\\*\\GPUCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Chrome GPU shader cache",
+      "badge": "safe",
+      "owner": "Google Chrome",
+      "summary": "Compiled graphics shaders; safe to clear",
+      "whatItIs": "Shaders the browser compiled for your graphics card.",
+      "whyBig": "Usually small; it is rebuilt as needed.",
+      "ifDeleted": "Nothing breaks; shaders are compiled again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.chrome.sw-cachestorage",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Google\\Chrome\\User Data\\*\\Service Worker\\CacheStorage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Chrome offline site storage (service workers)",
+      "badge": "safe",
+      "owner": "Google Chrome",
+      "summary": "Offline copies stored by web apps; sites download them again",
+      "whatItIs": "Files that web apps (for example WhatsApp Web, Teams, Office and YouTube Music) store through service workers so they work offline and start fast.",
+      "whyBig": "Some web apps store hundreds of MB each and rarely clean up.",
+      "ifDeleted": "Sites download their files again on the next visit; offline use of those web apps stops until they do. Close the browser first.",
+      "saferAlternative": "To clear it per site, use the browser's site settings (Cookies and site data).",
+      "action": null
+    },
+    {
+      "id": "browser.chrome.indexeddb",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Google\\Chrome\\User Data\\*\\IndexedDB"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Chrome site databases (IndexedDB)",
+      "badge": "check",
+      "owner": "Google Chrome",
+      "summary": "Databases that websites store locally; may hold offline data",
+      "whatItIs": "Local databases that websites and web apps create, such as offline mail, drafts, chat history of web messengers, or web game saves.",
+      "whyBig": "Web apps that work offline can store hundreds of MB to GBs.",
+      "ifDeleted": "Sites lose their local data; anything not saved on the site's server (offline drafts, local saves) is lost.",
+      "saferAlternative": "Remove data per site in the browser's site settings instead of deleting the whole folder.",
+      "action": null
+    },
+    {
+      "id": "browser.chrome.ondevice-model",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Google\\Chrome\\User Data\\OptGuideOnDeviceModel"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Chrome on-device AI model",
+      "badge": "safe",
+      "owner": "Google Chrome",
+      "summary": "Chrome's built-in AI model (Gemini Nano); Chrome re-downloads it if the feature is on",
+      "whatItIs": "Chrome downloads a local AI model here for built-in AI features such as writing help and scam detection.",
+      "whyBig": "The model is several GB and is downloaded automatically on capable PCs.",
+      "ifDeleted": "Nothing breaks, but Chrome downloads it again while on-device AI features are enabled.",
+      "saferAlternative": "To keep it gone, turn off on-device AI in Chrome's settings (Settings > System), then delete the folder.",
+      "action": null
+    },
+    {
+      "id": "browser.edge.user-data",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Edge\\User Data"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Edge profiles (User Data)",
+      "badge": "app",
+      "owner": "Microsoft Edge",
+      "summary": "Browser profiles: history, passwords, extensions, cookies and caches",
+      "whatItIs": "All Edge profiles (Default, Profile 1, ...) with bookmarks, history, saved passwords, cookies, extensions and site data, plus shared components and caches.",
+      "whyBig": "Caches, site storage (IndexedDB, service workers) and downloaded browser components such as on-device AI models make up most of it.",
+      "ifDeleted": "Every profile is reset: you are signed out of all sites, and history, passwords and extensions not synced to an account are lost.",
+      "saferAlternative": "Clear browsing data from the browser (Settings > Privacy, search, and services > Clear browsing data) or delete only the cache folders inside a profile.",
+      "action": null
+    },
+    {
+      "id": "browser.edge.cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Edge\\User Data\\*\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Edge web cache",
+      "badge": "safe",
+      "owner": "Microsoft Edge",
+      "summary": "Cached web pages, images and scripts; safe to clear",
+      "whatItIs": "The HTTP cache of one Edge profile: copies of pages, images, video segments and scripts from sites you visited.",
+      "whyBig": "The browser fills it up to a size limit it picks from free disk space, which can be several GB.",
+      "ifDeleted": "Nothing breaks; sites load a little slower until the cache refills. Close the browser first, as the files are in use.",
+      "saferAlternative": "Clear 'Cached images and files' in the browser (Settings > Privacy, search, and services > Clear browsing data).",
+      "action": null
+    },
+    {
+      "id": "browser.edge.code-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Edge\\User Data\\*\\Code Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Edge compiled script cache",
+      "badge": "safe",
+      "owner": "Microsoft Edge",
+      "summary": "Compiled JavaScript and WebAssembly from visited sites; safe to clear",
+      "whatItIs": "Compiled versions of scripts from sites you visit, so they start faster next time.",
+      "whyBig": "It grows with the number of script-heavy sites and web apps you use, often hundreds of MB.",
+      "ifDeleted": "Nothing breaks; scripts are compiled again on the next visit. Close the browser first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.edge.gpucache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Edge\\User Data\\*\\GPUCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Edge GPU shader cache",
+      "badge": "safe",
+      "owner": "Microsoft Edge",
+      "summary": "Compiled graphics shaders; safe to clear",
+      "whatItIs": "Shaders the browser compiled for your graphics card.",
+      "whyBig": "Usually small; it is rebuilt as needed.",
+      "ifDeleted": "Nothing breaks; shaders are compiled again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.edge.sw-cachestorage",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Edge\\User Data\\*\\Service Worker\\CacheStorage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Edge offline site storage (service workers)",
+      "badge": "safe",
+      "owner": "Microsoft Edge",
+      "summary": "Offline copies stored by web apps; sites download them again",
+      "whatItIs": "Files that web apps (for example WhatsApp Web, Teams, Office and YouTube Music) store through service workers so they work offline and start fast.",
+      "whyBig": "Some web apps store hundreds of MB each and rarely clean up.",
+      "ifDeleted": "Sites download their files again on the next visit; offline use of those web apps stops until they do. Close the browser first.",
+      "saferAlternative": "To clear it per site, use the browser's site settings (Cookies and site data).",
+      "action": null
+    },
+    {
+      "id": "browser.edge.indexeddb",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Edge\\User Data\\*\\IndexedDB"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Edge site databases (IndexedDB)",
+      "badge": "check",
+      "owner": "Microsoft Edge",
+      "summary": "Databases that websites store locally; may hold offline data",
+      "whatItIs": "Local databases that websites and web apps create, such as offline mail, drafts, chat history of web messengers, or web game saves.",
+      "whyBig": "Web apps that work offline can store hundreds of MB to GBs.",
+      "ifDeleted": "Sites lose their local data; anything not saved on the site's server (offline drafts, local saves) is lost.",
+      "saferAlternative": "Remove data per site in the browser's site settings instead of deleting the whole folder.",
+      "action": null
+    },
+    {
+      "id": "browser.brave.user-data",
+      "match": {
+        "path": "%LOCALAPPDATA%\\BraveSoftware\\Brave-Browser\\User Data"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Brave profiles (User Data)",
+      "badge": "app",
+      "owner": "Brave",
+      "summary": "Browser profiles: history, passwords, extensions, cookies and caches",
+      "whatItIs": "All Brave profiles (Default, Profile 1, ...) with bookmarks, history, saved passwords, cookies, extensions and site data, plus shared components and caches.",
+      "whyBig": "Caches, site storage (IndexedDB, service workers) and downloaded browser components such as on-device AI models make up most of it.",
+      "ifDeleted": "Every profile is reset: you are signed out of all sites, and history, passwords and extensions not synced to an account are lost.",
+      "saferAlternative": "Clear browsing data from the browser (Settings > Privacy and security > Delete browsing data) or delete only the cache folders inside a profile.",
+      "action": null
+    },
+    {
+      "id": "browser.brave.cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Brave web cache",
+      "badge": "safe",
+      "owner": "Brave",
+      "summary": "Cached web pages, images and scripts; safe to clear",
+      "whatItIs": "The HTTP cache of one Brave profile: copies of pages, images, video segments and scripts from sites you visited.",
+      "whyBig": "The browser fills it up to a size limit it picks from free disk space, which can be several GB.",
+      "ifDeleted": "Nothing breaks; sites load a little slower until the cache refills. Close the browser first, as the files are in use.",
+      "saferAlternative": "Clear 'Cached images and files' in the browser (Settings > Privacy and security > Delete browsing data).",
+      "action": null
+    },
+    {
+      "id": "browser.brave.code-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Code Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Brave compiled script cache",
+      "badge": "safe",
+      "owner": "Brave",
+      "summary": "Compiled JavaScript and WebAssembly from visited sites; safe to clear",
+      "whatItIs": "Compiled versions of scripts from sites you visit, so they start faster next time.",
+      "whyBig": "It grows with the number of script-heavy sites and web apps you use, often hundreds of MB.",
+      "ifDeleted": "Nothing breaks; scripts are compiled again on the next visit. Close the browser first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.brave.gpucache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\BraveSoftware\\Brave-Browser\\User Data\\*\\GPUCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Brave GPU shader cache",
+      "badge": "safe",
+      "owner": "Brave",
+      "summary": "Compiled graphics shaders; safe to clear",
+      "whatItIs": "Shaders the browser compiled for your graphics card.",
+      "whyBig": "Usually small; it is rebuilt as needed.",
+      "ifDeleted": "Nothing breaks; shaders are compiled again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.brave.sw-cachestorage",
+      "match": {
+        "path": "%LOCALAPPDATA%\\BraveSoftware\\Brave-Browser\\User Data\\*\\Service Worker\\CacheStorage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Brave offline site storage (service workers)",
+      "badge": "safe",
+      "owner": "Brave",
+      "summary": "Offline copies stored by web apps; sites download them again",
+      "whatItIs": "Files that web apps (for example WhatsApp Web, Teams, Office and YouTube Music) store through service workers so they work offline and start fast.",
+      "whyBig": "Some web apps store hundreds of MB each and rarely clean up.",
+      "ifDeleted": "Sites download their files again on the next visit; offline use of those web apps stops until they do. Close the browser first.",
+      "saferAlternative": "To clear it per site, use the browser's site settings (Cookies and site data).",
+      "action": null
+    },
+    {
+      "id": "browser.brave.indexeddb",
+      "match": {
+        "path": "%LOCALAPPDATA%\\BraveSoftware\\Brave-Browser\\User Data\\*\\IndexedDB"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Brave site databases (IndexedDB)",
+      "badge": "check",
+      "owner": "Brave",
+      "summary": "Databases that websites store locally; may hold offline data",
+      "whatItIs": "Local databases that websites and web apps create, such as offline mail, drafts, chat history of web messengers, or web game saves.",
+      "whyBig": "Web apps that work offline can store hundreds of MB to GBs.",
+      "ifDeleted": "Sites lose their local data; anything not saved on the site's server (offline drafts, local saves) is lost.",
+      "saferAlternative": "Remove data per site in the browser's site settings instead of deleting the whole folder.",
+      "action": null
+    },
+    {
+      "id": "browser.vivaldi.user-data",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Vivaldi\\User Data"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Vivaldi profiles (User Data)",
+      "badge": "app",
+      "owner": "Vivaldi",
+      "summary": "Browser profiles: history, passwords, extensions, cookies and caches",
+      "whatItIs": "All Vivaldi profiles (Default, Profile 1, ...) with bookmarks, history, saved passwords, cookies, extensions and site data, plus shared components and caches.",
+      "whyBig": "Caches, site storage (IndexedDB, service workers) and downloaded browser components such as on-device AI models make up most of it.",
+      "ifDeleted": "Every profile is reset: you are signed out of all sites, and history, passwords and extensions not synced to an account are lost.",
+      "saferAlternative": "Clear browsing data from the browser (Settings > Privacy and Security > Clear browsing data) or delete only the cache folders inside a profile.",
+      "action": null
+    },
+    {
+      "id": "browser.vivaldi.cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Vivaldi\\User Data\\*\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Vivaldi web cache",
+      "badge": "safe",
+      "owner": "Vivaldi",
+      "summary": "Cached web pages, images and scripts; safe to clear",
+      "whatItIs": "The HTTP cache of one Vivaldi profile: copies of pages, images, video segments and scripts from sites you visited.",
+      "whyBig": "The browser fills it up to a size limit it picks from free disk space, which can be several GB.",
+      "ifDeleted": "Nothing breaks; sites load a little slower until the cache refills. Close the browser first, as the files are in use.",
+      "saferAlternative": "Clear 'Cached images and files' in the browser (Settings > Privacy and Security > Clear browsing data).",
+      "action": null
+    },
+    {
+      "id": "browser.vivaldi.code-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Vivaldi\\User Data\\*\\Code Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Vivaldi compiled script cache",
+      "badge": "safe",
+      "owner": "Vivaldi",
+      "summary": "Compiled JavaScript and WebAssembly from visited sites; safe to clear",
+      "whatItIs": "Compiled versions of scripts from sites you visit, so they start faster next time.",
+      "whyBig": "It grows with the number of script-heavy sites and web apps you use, often hundreds of MB.",
+      "ifDeleted": "Nothing breaks; scripts are compiled again on the next visit. Close the browser first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.vivaldi.gpucache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Vivaldi\\User Data\\*\\GPUCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Vivaldi GPU shader cache",
+      "badge": "safe",
+      "owner": "Vivaldi",
+      "summary": "Compiled graphics shaders; safe to clear",
+      "whatItIs": "Shaders the browser compiled for your graphics card.",
+      "whyBig": "Usually small; it is rebuilt as needed.",
+      "ifDeleted": "Nothing breaks; shaders are compiled again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.vivaldi.sw-cachestorage",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Vivaldi\\User Data\\*\\Service Worker\\CacheStorage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Vivaldi offline site storage (service workers)",
+      "badge": "safe",
+      "owner": "Vivaldi",
+      "summary": "Offline copies stored by web apps; sites download them again",
+      "whatItIs": "Files that web apps (for example WhatsApp Web, Teams, Office and YouTube Music) store through service workers so they work offline and start fast.",
+      "whyBig": "Some web apps store hundreds of MB each and rarely clean up.",
+      "ifDeleted": "Sites download their files again on the next visit; offline use of those web apps stops until they do. Close the browser first.",
+      "saferAlternative": "To clear it per site, use the browser's site settings (Cookies and site data).",
+      "action": null
+    },
+    {
+      "id": "browser.vivaldi.indexeddb",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Vivaldi\\User Data\\*\\IndexedDB"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Vivaldi site databases (IndexedDB)",
+      "badge": "check",
+      "owner": "Vivaldi",
+      "summary": "Databases that websites store locally; may hold offline data",
+      "whatItIs": "Local databases that websites and web apps create, such as offline mail, drafts, chat history of web messengers, or web game saves.",
+      "whyBig": "Web apps that work offline can store hundreds of MB to GBs.",
+      "ifDeleted": "Sites lose their local data; anything not saved on the site's server (offline drafts, local saves) is lost.",
+      "saferAlternative": "Remove data per site in the browser's site settings instead of deleting the whole folder.",
+      "action": null
+    },
+    {
+      "id": "browser.opera.profile",
+      "match": {
+        "path": "%APPDATA%\\Opera Software"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Opera profiles",
+      "badge": "app",
+      "owner": "Opera",
+      "summary": "Opera and Opera GX profiles: history, passwords, extensions and settings",
+      "whatItIs": "Opera's profile data (Opera Stable, Opera GX Stable) with bookmarks, history, passwords, cookies and extensions.",
+      "whyBig": "Site data and extensions grow with use; the web cache is kept separately in AppData\\Local.",
+      "ifDeleted": "The browser is reset: you are signed out of sites and unsynced data is lost.",
+      "saferAlternative": "Clear browsing data from Opera's settings.",
+      "action": null
+    },
+    {
+      "id": "browser.opera.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Opera Software"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Opera local data",
+      "badge": "app",
+      "owner": "Opera",
+      "summary": "Opera's local data, mostly caches",
+      "whatItIs": "Opera keeps its web cache and other local data for each edition (Opera Stable, Opera GX Stable) here.",
+      "whyBig": "The web cache grows to a size limit chosen by the browser.",
+      "ifDeleted": "Caches are rebuilt; close Opera first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.opera.cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Opera Software\\**\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Opera web cache",
+      "badge": "safe",
+      "owner": "Opera",
+      "summary": "Cached web pages and images of Opera; safe to clear",
+      "whatItIs": "Opera's HTTP cache: copies of pages, images, video segments and scripts from sites you visited.",
+      "whyBig": "It fills up to a size limit the browser picks, which can be several GB.",
+      "ifDeleted": "Nothing breaks; sites load a bit slower until the cache refills. Close Opera first.",
+      "saferAlternative": "Clear 'Cached images and files' from Opera's settings.",
+      "action": null
+    },
+    {
+      "id": "browser.firefox.profiles",
+      "match": {
+        "path": "%APPDATA%\\Mozilla\\Firefox\\Profiles"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Firefox profiles",
+      "badge": "app",
+      "owner": "Mozilla Firefox",
+      "summary": "Firefox profiles: bookmarks, history, passwords, extensions and site data",
+      "whatItIs": "Each subfolder is a Firefox profile with bookmarks, history, saved logins, cookies, extensions and site storage.",
+      "whyBig": "Site storage (the storage folder) and history databases grow with use; the web cache lives separately in AppData\\Local.",
+      "ifDeleted": "Firefox starts with a blank profile; bookmarks, passwords and extensions not synced to a Mozilla account are lost.",
+      "saferAlternative": "Clear site data in Firefox (Settings > Privacy & Security > Cookies and Site Data) instead.",
+      "action": null
+    },
+    {
+      "id": "browser.firefox.storage",
+      "match": {
+        "path": "%APPDATA%\\Mozilla\\Firefox\\Profiles\\*\\storage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Firefox site storage",
+      "badge": "check",
+      "owner": "Mozilla Firefox",
+      "summary": "Data that websites store in Firefox (IndexedDB, offline caches)",
+      "whatItIs": "Local storage of websites: IndexedDB databases, offline caches of web apps and service worker data.",
+      "whyBig": "Web apps with offline support can store hundreds of MB to GBs.",
+      "ifDeleted": "Sites lose their local data; anything only saved locally (offline drafts, local web game saves) is lost.",
+      "saferAlternative": "Use Settings > Privacy & Security > Cookies and Site Data > Manage Data to remove data per site.",
+      "action": null
+    },
+    {
+      "id": "browser.firefox.cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Mozilla\\Firefox\\Profiles"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Firefox cache",
+      "badge": "safe",
+      "owner": "Mozilla Firefox",
+      "summary": "Firefox's disk cache and other rebuildable data; safe to clear",
+      "whatItIs": "The local half of each Firefox profile: the web cache (cache2), start-up cache, thumbnails and safe-browsing lists. Your real profile is in AppData\\Roaming.",
+      "whyBig": "The web cache grows to a size limit Firefox picks from free disk space, often 1 GB or more.",
+      "ifDeleted": "Nothing breaks; Firefox rebuilds it. Close Firefox first.",
+      "saferAlternative": "Settings > Privacy & Security > Cookies and Site Data > Clear Data > Cached Web Content.",
+      "action": null
+    },
+    {
+      "id": "browser.firefox.crashes",
+      "match": {
+        "path": "%APPDATA%\\Mozilla\\Firefox\\Crash Reports"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Firefox crash reports",
+      "badge": "safe",
+      "owner": "Mozilla Firefox",
+      "summary": "Crash reports of Firefox; safe to delete",
+      "whatItIs": "Crash reports Firefox created, sent or pending.",
+      "whyBig": "Each report can include a minidump of a few MB.",
+      "ifDeleted": "Nothing breaks; unsent reports are not sent.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "browser.zen.profiles",
+      "match": {
+        "path": "%APPDATA%\\zen\\Profiles"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Zen Browser profiles",
+      "badge": "app",
+      "owner": "Zen Browser",
+      "summary": "Zen Browser profiles: bookmarks, history, passwords, extensions and site data",
+      "whatItIs": "Zen is based on Firefox; each subfolder is a profile with bookmarks, history, saved logins, cookies, extensions and site storage.",
+      "whyBig": "Site storage and history grow with use; the web cache lives in AppData\\Local\\zen.",
+      "ifDeleted": "Zen starts with a blank profile; unsynced bookmarks, passwords and extensions are lost.",
+      "saferAlternative": "Clear site data from Zen's settings instead.",
+      "action": null
+    },
+    {
+      "id": "browser.zen.cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\zen\\Profiles"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Zen Browser cache",
+      "badge": "safe",
+      "owner": "Zen Browser",
+      "summary": "Zen Browser's disk cache; safe to clear",
+      "whatItIs": "The local half of each Zen profile: web cache, start-up cache and thumbnails, as in Firefox.",
+      "whyBig": "The web cache grows to a size limit picked from free disk space.",
+      "ifDeleted": "Nothing breaks; the browser rebuilds it. Close Zen first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.discord.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Discord"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Discord program files",
+      "badge": "app",
+      "owner": "Discord",
+      "summary": "Discord app files; one app-* folder per installed version",
+      "whatItIs": "Discord installs per user here: Update.exe, app-<version> folders and downloaded update packages.",
+      "whyBig": "Each update adds a new app-<version> folder; older ones are usually removed after an update.",
+      "ifDeleted": "Discord stops working until reinstalled; your account data is on Discord's servers.",
+      "saferAlternative": "Uninstall from Installed apps if you do not use it.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "app.discord.roaming",
+      "match": {
+        "path": "%APPDATA%\\discord"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Discord data and caches",
+      "badge": "app",
+      "owner": "Discord",
+      "summary": "Discord settings, caches and downloaded modules",
+      "whatItIs": "Discord's settings, local storage, caches and the native modules it downloads after updates.",
+      "whyBig": "The web cache and code cache grow with images, videos and emojis you see.",
+      "ifDeleted": "You are signed out and the app downloads its modules and caches again.",
+      "saferAlternative": "Clear only the Cache and Code Cache folders while Discord is closed.",
+      "action": null
+    },
+    {
+      "id": "app.discord.cache",
+      "match": {
+        "path": "%APPDATA%\\discord\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Discord web cache",
+      "badge": "safe",
+      "owner": "Discord",
+      "summary": "Cached images and files of the Discord app; safe to clear",
+      "whatItIs": "The HTTP cache of the Discord desktop app, which is built on Chromium: images, attachments previews and web resources it downloaded.",
+      "whyBig": "It grows with use, often to hundreds of MB or more.",
+      "ifDeleted": "Nothing breaks; content is downloaded again. Quit Discord first, as the files are in use.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.discord.code-cache",
+      "match": {
+        "path": "%APPDATA%\\discord\\Code Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Discord compiled script cache",
+      "badge": "safe",
+      "owner": "Discord",
+      "summary": "Compiled JavaScript of the Discord app; safe to clear",
+      "whatItIs": "Compiled scripts that the Discord app keeps so it starts faster.",
+      "whyBig": "Usually tens to hundreds of MB, and it can keep data from old app versions.",
+      "ifDeleted": "Nothing breaks; the app compiles its scripts again. Quit Discord first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.discord.sw-cachestorage",
+      "match": {
+        "path": "%APPDATA%\\discord\\Service Worker\\CacheStorage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Discord service worker cache",
+      "badge": "safe",
+      "owner": "Discord",
+      "summary": "Offline web content cached by the Discord app; safe to clear",
+      "whatItIs": "Files cached through service workers by the web views inside Discord.",
+      "whyBig": "It can grow to hundreds of MB over time.",
+      "ifDeleted": "Nothing breaks; the content is downloaded again. Quit Discord first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.slack.roaming",
+      "match": {
+        "path": "%APPDATA%\\Slack"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Slack data and caches",
+      "badge": "app",
+      "owner": "Slack",
+      "summary": "Slack settings, local data and caches",
+      "whatItIs": "Settings, local storage and Chromium caches of the Slack desktop app.",
+      "whyBig": "Caches of images and files from workspaces grow with use.",
+      "ifDeleted": "You are signed out of all workspaces; messages stay on Slack's servers.",
+      "saferAlternative": "Use Help > Troubleshooting > Clear Cache in Slack, or delete only the cache folders.",
+      "action": null
+    },
+    {
+      "id": "app.slack.cache",
+      "match": {
+        "path": "%APPDATA%\\Slack\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Slack web cache",
+      "badge": "safe",
+      "owner": "Slack",
+      "summary": "Cached images and files of the Slack app; safe to clear",
+      "whatItIs": "The HTTP cache of the Slack desktop app, which is built on Chromium: images, attachments previews and web resources it downloaded.",
+      "whyBig": "It grows with use, often to hundreds of MB or more.",
+      "ifDeleted": "Nothing breaks; content is downloaded again. Quit Slack first, as the files are in use.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.slack.code-cache",
+      "match": {
+        "path": "%APPDATA%\\Slack\\Code Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Slack compiled script cache",
+      "badge": "safe",
+      "owner": "Slack",
+      "summary": "Compiled JavaScript of the Slack app; safe to clear",
+      "whatItIs": "Compiled scripts that the Slack app keeps so it starts faster.",
+      "whyBig": "Usually tens to hundreds of MB, and it can keep data from old app versions.",
+      "ifDeleted": "Nothing breaks; the app compiles its scripts again. Quit Slack first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.slack.sw-cachestorage",
+      "match": {
+        "path": "%APPDATA%\\Slack\\Service Worker\\CacheStorage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Slack service worker cache",
+      "badge": "safe",
+      "owner": "Slack",
+      "summary": "Offline web content cached by the Slack app; safe to clear",
+      "whatItIs": "Files cached through service workers by the web views inside Slack.",
+      "whyBig": "It can grow to hundreds of MB over time.",
+      "ifDeleted": "Nothing breaks; the content is downloaded again. Quit Slack first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "app.teams-classic.roaming",
+      "match": {
+        "path": "%APPDATA%\\Microsoft\\Teams"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Microsoft Teams classic data",
+      "badge": "safe",
+      "owner": "Microsoft Teams",
+      "summary": "Cache and settings of classic Teams, which Microsoft has retired; safe to clear",
+      "whatItIs": "Caches, logs and settings of classic Microsoft Teams. Microsoft retired classic Teams in favour of the new Teams app, and its cache-clearing guidance deletes this folder's contents.",
+      "whyBig": "Caches of images, files and web resources, often several hundred MB, left behind after moving to the new Teams.",
+      "ifDeleted": "Classic Teams, if still installed, signs you out and rebuilds its cache. Chats and files stay in the cloud.",
+      "saferAlternative": "Uninstall 'Microsoft Teams classic' from Installed apps if it is still there.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "app.teams-classic.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Teams"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Microsoft Teams classic program files",
+      "badge": "app",
+      "owner": "Microsoft Teams",
+      "summary": "Program files of classic Teams (retired); uninstall it from Installed apps",
+      "whatItIs": "The per-user installation of classic Microsoft Teams (current and previous versions, Update.exe).",
+      "whyBig": "Classic Teams kept the current and the previous version side by side.",
+      "ifDeleted": "Classic Teams stops working; it has been replaced by the new Teams.",
+      "saferAlternative": "Uninstall 'Microsoft Teams classic' from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "app.spotify.roaming",
+      "match": {
+        "path": "%APPDATA%\\Spotify"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Spotify program files",
+      "badge": "app",
+      "owner": "Spotify",
+      "summary": "Spotify desktop app files (non-Store install)",
+      "whatItIs": "The desktop version of Spotify installs its program files per user here.",
+      "whyBig": "The program itself is a few hundred MB.",
+      "ifDeleted": "Spotify stops working until reinstalled.",
+      "saferAlternative": "Uninstall from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "app.spotify.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Spotify"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Spotify local data",
+      "badge": "check",
+      "owner": "Spotify",
+      "summary": "Spotify's streaming cache and offline downloads",
+      "whatItIs": "Local data of the Spotify desktop app: its streaming cache (Storage) and songs downloaded for offline listening (Data).",
+      "whyBig": "The streaming cache can grow to many GB unless limited in Spotify's settings, plus offline downloads.",
+      "ifDeleted": "Cached songs stream again; offline downloads are lost and must be downloaded again.",
+      "saferAlternative": "In Spotify, use Settings > Storage to clear the cache or remove downloads.",
+      "action": null
+    },
+    {
+      "id": "app.spotify.storage",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Spotify\\Storage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Spotify streaming cache",
+      "badge": "safe",
+      "owner": "Spotify",
+      "summary": "Spotify's streaming cache; safe to clear",
+      "whatItIs": "Pieces of songs and podcasts Spotify cached while streaming.",
+      "whyBig": "Spotify fills it up to a limit you can set in its settings, often several GB.",
+      "ifDeleted": "Nothing breaks; songs stream again. Quit Spotify first.",
+      "saferAlternative": "In Spotify, use Settings > Storage > Clear cache.",
+      "action": null
+    },
+    {
+      "id": "app.spotify.data",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Spotify\\Data"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Spotify offline downloads",
+      "badge": "check",
+      "owner": "Spotify",
+      "summary": "Songs and podcasts downloaded for offline listening",
+      "whatItIs": "Encrypted copies of the playlists, albums and podcasts you downloaded in Spotify.",
+      "whyBig": "Every downloaded playlist adds its songs at full quality.",
+      "ifDeleted": "Downloads are lost and must be downloaded again; nothing else breaks.",
+      "saferAlternative": "Remove downloads in Spotify (Settings > Storage > Remove all downloads).",
+      "action": null
+    },
+    {
+      "id": "app.zoom",
+      "match": {
+        "path": "%APPDATA%\\Zoom"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Zoom app and data",
+      "badge": "app",
+      "owner": "Zoom",
+      "summary": "Zoom installs per user here: program files, settings and local chat data",
+      "whatItIs": "Zoom Workplace installs its program files (bin) per user here, together with settings, logs and local data.",
+      "whyBig": "The program plus logs and local data; recordings are saved to Documents\\Zoom instead.",
+      "ifDeleted": "Zoom stops working until reinstalled and local settings are lost.",
+      "saferAlternative": "Uninstall from Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "app.telegram",
+      "match": {
+        "path": "%APPDATA%\\Telegram Desktop"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Telegram Desktop",
+      "badge": "app",
+      "owner": "Telegram",
+      "summary": "Telegram Desktop program, session and media cache",
+      "whatItIs": "The Telegram Desktop installer puts the program here; tdata holds your session and the cache of media you viewed.",
+      "whyBig": "Media from channels and groups is cached and can grow to many GB.",
+      "ifDeleted": "Telegram stops working and you are logged out of this device; cloud chats stay.",
+      "saferAlternative": "In Telegram, use Settings > Advanced > Manage local storage to clear the cache or set a limit.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "app.telegram.cache",
+      "match": {
+        "path": "%APPDATA%\\Telegram Desktop\\tdata\\user_data"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Telegram media cache",
+      "badge": "check",
+      "owner": "Telegram",
+      "summary": "Cached photos, videos and files from Telegram chats",
+      "whatItIs": "Media Telegram Desktop downloaded while you browsed chats and channels.",
+      "whyBig": "Videos and files from busy channels add up quickly unless a cache limit is set.",
+      "ifDeleted": "Media from cloud chats is downloaded again when opened; media from secret chats is not recoverable.",
+      "saferAlternative": "Use Settings > Advanced > Manage local storage instead of deleting by hand. Quit Telegram first.",
+      "action": null
+    },
+    {
+      "id": "app.obs",
+      "match": {
+        "path": "%APPDATA%\\obs-studio"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "OBS Studio settings",
+      "badge": "app",
+      "owner": "OBS Project",
+      "summary": "OBS scenes, profiles, plugins and logs",
+      "whatItIs": "Settings of OBS Studio: scene collections, profiles, plugin data, logs and crash reports. Recordings are saved to Videos by default.",
+      "whyBig": "Usually small; logs and crash reports accumulate.",
+      "ifDeleted": "OBS loses your scenes and profiles.",
+      "saferAlternative": "Delete old files in the logs and crashes subfolders if needed.",
+      "action": null
+    },
+    {
+      "id": "game.steam.htmlcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Steam\\htmlcache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Steam web cache",
+      "badge": "safe",
+      "owner": "Valve Steam",
+      "summary": "Cache of the Steam client's built-in browser; safe to clear",
+      "whatItIs": "Cache of the web pages shown inside the Steam client (store, community, library).",
+      "whyBig": "Store images and videos fill it over time, often hundreds of MB.",
+      "ifDeleted": "Nothing breaks; Steam downloads the content again. Quit Steam first.",
+      "saferAlternative": "Steam > Settings > In Game/Web Browser > Delete Web Browser Data does the same.",
+      "action": null
+    },
+    {
+      "id": "game.epic.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\EpicGamesLauncher"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Epic Games Launcher data",
+      "badge": "app",
+      "owner": "Epic Games",
+      "summary": "Epic Games Launcher settings, logs and web cache",
+      "whatItIs": "Per-user data of the Epic Games Launcher: settings, logs and the cache of its built-in web views.",
+      "whyBig": "The web cache and logs grow over time.",
+      "ifDeleted": "The launcher loses its settings and you may need to sign in again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.epic.webcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\EpicGamesLauncher\\Saved\\webcache*"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Epic Games Launcher web cache",
+      "badge": "safe",
+      "owner": "Epic Games",
+      "summary": "Web cache of the Epic Games Launcher; safe to clear",
+      "whatItIs": "Cache of the store and library pages shown in the Epic Games Launcher.",
+      "whyBig": "Store images and videos fill it over time.",
+      "ifDeleted": "Nothing breaks; Epic's support guidance clears it to fix launcher problems. Quit the launcher first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.epic.logs",
+      "match": {
+        "path": "%LOCALAPPDATA%\\EpicGamesLauncher\\Saved\\Logs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Epic Games Launcher logs",
+      "badge": "safe",
+      "owner": "Epic Games",
+      "summary": "Launcher logs; safe to delete",
+      "whatItIs": "Log files of the Epic Games Launcher.",
+      "whyBig": "Logs accumulate over time.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.battlenet.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Battle.net"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Battle.net app data",
+      "badge": "app",
+      "owner": "Blizzard Entertainment",
+      "summary": "Battle.net app settings, caches and logs",
+      "whatItIs": "Per-user data of the Battle.net app: account settings, browser caches and logs.",
+      "whyBig": "Browser caches and logs grow over time.",
+      "ifDeleted": "The app loses its local settings and signs you out.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.battlenet.cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Battle.net\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Battle.net cache",
+      "badge": "safe",
+      "owner": "Blizzard Entertainment",
+      "summary": "Cache of the Battle.net app; safe to clear",
+      "whatItIs": "Cached data of the Battle.net app. Blizzard's troubleshooting steps delete it.",
+      "whyBig": "It grows with store content and updates.",
+      "ifDeleted": "Nothing breaks; the app rebuilds it. Quit Battle.net first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.battlenet.browsercaches",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Battle.net\\BrowserCaches"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Battle.net browser cache",
+      "badge": "safe",
+      "owner": "Blizzard Entertainment",
+      "summary": "Web cache of the Battle.net app; safe to clear",
+      "whatItIs": "Cache of the web pages shown inside the Battle.net app.",
+      "whyBig": "Store images and videos fill it over time.",
+      "ifDeleted": "Nothing breaks; the content is downloaded again. Quit Battle.net first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.battlenet.logs",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Battle.net\\Logs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Battle.net logs",
+      "badge": "safe",
+      "owner": "Blizzard Entertainment",
+      "summary": "Battle.net app logs; safe to delete",
+      "whatItIs": "Log files of the Battle.net app.",
+      "whyBig": "Logs accumulate over time.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.ea.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Electronic Arts"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "EA app data",
+      "badge": "app",
+      "owner": "Electronic Arts",
+      "summary": "EA app settings, logs and caches",
+      "whatItIs": "Per-user data of the EA app (formerly Origin): settings, logs and caches.",
+      "whyBig": "Logs and caches grow over time.",
+      "ifDeleted": "The EA app loses its settings and may ask you to sign in again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.ubisoft.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Ubisoft Game Launcher"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Ubisoft Connect data",
+      "badge": "app",
+      "owner": "Ubisoft",
+      "summary": "Ubisoft Connect per-user logs and data",
+      "whatItIs": "Per-user data of Ubisoft Connect: logs and local state. Games and cached saves are in the launcher's install folder.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Ubisoft Connect loses local state; games are not affected.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.riot.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Riot Games"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Riot Client data",
+      "badge": "app",
+      "owner": "Riot Games",
+      "summary": "Riot Client settings, logs and data",
+      "whatItIs": "Per-user data of the Riot Client: settings, logs and cached data.",
+      "whyBig": "Logs accumulate over time.",
+      "ifDeleted": "The Riot Client loses its settings and signs you out.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "game.minecraft",
+      "match": {
+        "path": "%APPDATA%\\.minecraft"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Minecraft Java Edition",
+      "badge": "check",
+      "owner": "Mojang",
+      "summary": "Minecraft Java: game files, mods, worlds (saves) and screenshots",
+      "whatItIs": "The Minecraft Java Edition folder: game versions, libraries and assets downloaded by the launcher, plus your worlds (saves), mods, resource packs and screenshots.",
+      "whyBig": "Every game version, modpack and world adds data; large worlds can be GBs.",
+      "ifDeleted": "Worlds and screenshots are lost; game files are downloaded again by the launcher.",
+      "saferAlternative": "Back up the saves folder; you can delete old versions in the versions folder.",
+      "action": null
+    },
+    {
+      "id": "game.minecraft.saves",
+      "match": {
+        "path": "%APPDATA%\\.minecraft\\saves"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Minecraft worlds",
+      "badge": "user",
+      "owner": "Mojang",
+      "summary": "Your Minecraft single-player worlds",
+      "whatItIs": "Each subfolder is a single-player world.",
+      "whyBig": "Worlds grow as you explore; large ones are GBs.",
+      "ifDeleted": "The worlds are gone for good unless backed up.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "adobe.roaming",
+      "match": {
+        "path": "%APPDATA%\\Adobe"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Adobe app data (Roaming)",
+      "badge": "check",
+      "owner": "Adobe",
+      "summary": "Settings and caches of Adobe apps",
+      "whatItIs": "Settings, presets and caches of Adobe apps (Creative Cloud, Premiere Pro, After Effects, Photoshop, Acrobat).",
+      "whyBig": "Media caches of video apps (Common\\Media Cache Files) are usually the large part.",
+      "ifDeleted": "Adobe apps lose their settings and presets.",
+      "saferAlternative": "Clear media caches from inside the app (Premiere Pro: Settings > Media Cache > Delete).",
+      "action": null
+    },
+    {
+      "id": "adobe.media-cache-files",
+      "match": {
+        "path": "%APPDATA%\\Adobe\\Common\\Media Cache Files"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Adobe media cache files",
+      "badge": "safe",
+      "owner": "Adobe",
+      "summary": "Conformed audio and indexed media from Premiere/After Effects; safe to clear",
+      "whatItIs": "Files that Premiere Pro, After Effects and Media Encoder create when importing media: conformed audio (.cfa), indexes and accelerator files.",
+      "whyBig": "Every imported clip adds cache files, and they are never removed automatically unless you enable cleanup; tens of GB is common.",
+      "ifDeleted": "Nothing is lost from your projects; the apps rebuild what they need when media is next opened, which takes time.",
+      "saferAlternative": "In Premiere Pro, use Settings > Media Cache > Delete and turn on automatic deletion of old cache files.",
+      "action": null
+    },
+    {
+      "id": "adobe.media-cache",
+      "match": {
+        "path": "%APPDATA%\\Adobe\\Common\\Media Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Adobe media cache database",
+      "badge": "safe",
+      "owner": "Adobe",
+      "summary": "Database that tracks Adobe media cache files; safe to clear with the cache",
+      "whatItIs": "The database Premiere Pro and After Effects use to track media cache files.",
+      "whyBig": "It grows with the number of imported clips.",
+      "ifDeleted": "Nothing is lost from your projects; the apps re-index media.",
+      "saferAlternative": "Clear it together with the media cache files from the app's Media Cache settings.",
+      "action": null
+    },
+    {
+      "id": "adobe.peak-files",
+      "match": {
+        "path": "%APPDATA%\\Adobe\\Common\\Peak Files"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Adobe audio waveform cache",
+      "badge": "safe",
+      "owner": "Adobe",
+      "summary": "Audio waveform (peak) files of Adobe video and audio apps; safe to clear",
+      "whatItIs": "Waveform data (.pek) that Premiere Pro and Audition generate to draw audio waveforms.",
+      "whyBig": "One file per imported audio stream.",
+      "ifDeleted": "Nothing is lost; waveforms are regenerated.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "adobe.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Adobe"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Adobe app data (Local)",
+      "badge": "check",
+      "owner": "Adobe",
+      "summary": "Local data and caches of Adobe apps",
+      "whatItIs": "Local caches, logs and data of Adobe apps and Creative Cloud.",
+      "whyBig": "Font, library and app caches.",
+      "ifDeleted": "Adobe apps rebuild caches but may lose local state.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "adobe.lr-previews",
+      "match": {
+        "name": "* Previews.lrdata"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "Lightroom previews",
+      "badge": "safe",
+      "owner": "Adobe Lightroom Classic",
+      "summary": "Lightroom Classic preview cache; rebuilt when needed",
+      "whatItIs": "Standard and 1:1 previews Lightroom Classic renders for your catalog.",
+      "whyBig": "1:1 previews of large RAW photos are several MB each, so a big catalog can have tens of GB.",
+      "ifDeleted": "No photos or edits are lost; Lightroom re-renders previews, which takes time. Close Lightroom first.",
+      "saferAlternative": "In Lightroom, use Library > Previews > Discard 1:1 Previews, and set automatic discarding in Catalog Settings.",
+      "action": null
+    },
+    {
+      "id": "adobe.lr-smart-previews",
+      "match": {
+        "name": "* Smart Previews.lrdata"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 70,
+      "title": "Lightroom smart previews",
+      "badge": "check",
+      "owner": "Adobe Lightroom Classic",
+      "summary": "Smart Previews let you edit photos whose originals are offline",
+      "whatItIs": "Compressed DNG copies of photos that let you edit in Lightroom Classic when the originals are not connected.",
+      "whyBig": "Each smart preview is around 1 MB; large catalogs add up.",
+      "ifDeleted": "Photos whose originals are on a disconnected drive can no longer be edited until the drive is back.",
+      "saferAlternative": "In Lightroom, use Library > Previews > Discard Smart Previews for photos you do not need offline.",
+      "action": null
+    },
+    {
+      "id": "outlook.ost",
+      "match": {
+        "extension": ".ost"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 20,
+      "title": "Outlook offline mailbox (OST)",
+      "badge": "check",
+      "owner": "Microsoft Outlook",
+      "summary": "Offline copy of a mailbox; Outlook downloads it again from the server",
+      "whatItIs": "An offline cache of an Exchange, Microsoft 365 or IMAP mailbox in classic Outlook.",
+      "whyBig": "It holds as much of the mailbox as the 'download email for the past' setting allows, often many GB.",
+      "ifDeleted": "Outlook rebuilds it from the server, which takes time. Items that were not synced yet (for example drafts created offline) are lost.",
+      "saferAlternative": "Reduce the offline period in Account Settings > Change > 'Download email for the past'.",
+      "action": null
+    },
+    {
+      "id": "outlook.pst",
+      "match": {
+        "extension": ".pst"
+      },
+      "kind": "file",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 20,
+      "title": "Outlook data file (PST)",
+      "badge": "user",
+      "owner": "Microsoft Outlook",
+      "summary": "Outlook archive or mailbox file; often the only copy of that mail",
+      "whatItIs": "An Outlook data file with mail, contacts and calendar items, used for archives and POP accounts.",
+      "whyBig": "Archives grow with every year of mail and attachments.",
+      "ifDeleted": "The mail in it is gone; PST files are often the only copy.",
+      "saferAlternative": "Open it in Outlook, delete or export what you do not need, then use File > Account Settings > Data Files > Settings > Compact Now.",
+      "action": null
+    },
+    {
+      "id": "office.filecache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\Office\\16.0\\OfficeFileCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Office document cache",
+      "badge": "check",
+      "owner": "Microsoft Office",
+      "summary": "Office's cache of cloud documents; may hold edits not yet uploaded",
+      "whatItIs": "Cache that Office uses to open and sync documents stored in OneDrive and SharePoint.",
+      "whyBig": "Every cloud document you open adds a cached copy.",
+      "ifDeleted": "Edits that were not uploaded yet can be lost; otherwise documents are downloaded again.",
+      "saferAlternative": "In an Office app, use File > Options > Save > 'Delete cached files' after everything is synced.",
+      "action": null
+    },
+    {
+      "id": "jetbrains.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\JetBrains"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 70,
+      "title": "JetBrains system folders",
+      "badge": "check",
+      "owner": "JetBrains",
+      "summary": "JetBrains IDE caches, indexes, logs and Toolbox installs",
+      "whatItIs": "System folders of JetBrains IDEs (one per product and version, with caches, indexes, logs and local history) and, if used, Toolbox App installs.",
+      "whyBig": "Indexes of large projects, plus folders left from previous IDE versions after upgrades.",
+      "ifDeleted": "Caches and indexes are rebuilt, but local history is lost, and Toolbox-installed IDEs stop working.",
+      "saferAlternative": "Delete folders of IDE versions you no longer use; recent IDEs also offer to clean up old directories themselves.",
+      "action": null
+    },
+    {
+      "id": "jetbrains.toolbox",
+      "match": {
+        "path": "%LOCALAPPDATA%\\JetBrains\\Toolbox"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "JetBrains Toolbox and installed IDEs",
+      "badge": "app",
+      "owner": "JetBrains",
+      "summary": "Toolbox App and the IDEs it installed; uninstall IDEs from Toolbox",
+      "whatItIs": "The JetBrains Toolbox App and the IDEs it installed (apps), with their downloads and logs.",
+      "whyBig": "Each IDE is 1-3 GB, and Toolbox can keep previous versions for rollback.",
+      "ifDeleted": "The IDEs installed through Toolbox stop working.",
+      "saferAlternative": "Uninstall IDEs or disable keeping previous versions in Toolbox's settings.",
+      "action": null
+    },
+    {
+      "id": "jetbrains.installations",
+      "match": {
+        "path": "%LOCALAPPDATA%\\JetBrains\\Installations"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "JetBrains per-user installs (ReSharper)",
+      "badge": "app",
+      "owner": "JetBrains",
+      "summary": "Per-user JetBrains installs such as ReSharper and dotUltimate tools",
+      "whatItIs": "Per-user installations of JetBrains tools such as ReSharper and other .NET tools.",
+      "whyBig": "Each installed version is hundreds of MB.",
+      "ifDeleted": "Those tools stop working.",
+      "saferAlternative": "Uninstall them with the JetBrains installer or Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "jetbrains.version",
+      "match": {
+        "path": "%LOCALAPPDATA%\\JetBrains\\*"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "JetBrains IDE system folder",
+      "badge": "check",
+      "owner": "JetBrains",
+      "summary": "Caches, indexes and local history of one JetBrains IDE version",
+      "whatItIs": "The system folder of one IDE version (for example Rider2025.3): caches, indexes, logs, local history and temporary files.",
+      "whyBig": "Indexes grow with the size of the projects you open; folders of old IDE versions stay after upgrades.",
+      "ifDeleted": "The IDE rebuilds caches and indexes (slow on large projects), but its Local History is lost.",
+      "saferAlternative": "Delete whole folders of versions you no longer use; for the current one, use File > Invalidate Caches.",
+      "action": null
+    },
+    {
+      "id": "jetbrains.caches",
+      "match": {
+        "path": "%LOCALAPPDATA%\\JetBrains\\*\\caches"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "JetBrains IDE caches",
+      "badge": "safe",
+      "owner": "JetBrains",
+      "summary": "IDE caches; rebuilt automatically",
+      "whatItIs": "Caches of a JetBrains IDE.",
+      "whyBig": "They grow with the projects you open.",
+      "ifDeleted": "Nothing is lost; the IDE rebuilds them on next start. Close the IDE first.",
+      "saferAlternative": "Use File > Invalidate Caches in the IDE.",
+      "action": null
+    },
+    {
+      "id": "jetbrains.index",
+      "match": {
+        "path": "%LOCALAPPDATA%\\JetBrains\\*\\index"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "JetBrains IDE indexes",
+      "badge": "safe",
+      "owner": "JetBrains",
+      "summary": "Code indexes of a JetBrains IDE; rebuilt automatically",
+      "whatItIs": "Indexes the IDE builds for code navigation and search.",
+      "whyBig": "They grow with the size of the projects and SDKs you open.",
+      "ifDeleted": "Nothing is lost; the IDE re-indexes, which can take a while on large projects. Close the IDE first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "jetbrains.log",
+      "match": {
+        "path": "%LOCALAPPDATA%\\JetBrains\\*\\log"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "JetBrains IDE logs",
+      "badge": "safe",
+      "owner": "JetBrains",
+      "summary": "IDE logs; safe to delete",
+      "whatItIs": "Log files of a JetBrains IDE.",
+      "whyBig": "Logs accumulate over time.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "jetbrains.roaming",
+      "match": {
+        "path": "%APPDATA%\\JetBrains"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "JetBrains IDE settings and plugins",
+      "badge": "app",
+      "owner": "JetBrains",
+      "summary": "IDE settings, plugins and scratch files",
+      "whatItIs": "Configuration folders of JetBrains IDEs (one per product and version): settings, installed plugins, keymaps and scratch files.",
+      "whyBig": "Plugins are the large part; old version folders stay after upgrades.",
+      "ifDeleted": "IDEs lose their settings, plugins and scratch files.",
+      "saferAlternative": "Delete folders of IDE versions you no longer use.",
+      "action": null
+    },
+    {
+      "id": "vs.local",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\VisualStudio"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 90,
+      "title": "Visual Studio user data",
+      "badge": "check",
+      "owner": "Microsoft Visual Studio",
+      "summary": "Visual Studio settings, extensions and caches for your account",
+      "whatItIs": "Per-user data of each Visual Studio instance: settings, per-user extensions, MEF component cache and logs.",
+      "whyBig": "Extensions and caches grow with use; folders for old Visual Studio versions remain.",
+      "ifDeleted": "Visual Studio loses settings and per-user extensions.",
+      "saferAlternative": "Clear only ComponentModelCache, or folders of Visual Studio versions you removed.",
+      "action": null
+    },
+    {
+      "id": "vs.componentmodelcache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\VisualStudio\\*\\ComponentModelCache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Visual Studio component cache",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio",
+      "summary": "Visual Studio's extension composition cache; safe to clear",
+      "whatItIs": "The MEF component cache Visual Studio builds from installed extensions. Clearing it is a standard fix for extension load errors.",
+      "whyBig": "Usually tens of MB.",
+      "ifDeleted": "Nothing is lost; Visual Studio rebuilds it at next start. Close Visual Studio first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vs.appinsights",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\VSApplicationInsights"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Visual Studio telemetry buffer",
+      "badge": "safe",
+      "owner": "Microsoft",
+      "summary": "Buffered telemetry of Visual Studio and VS Code tools; safe to delete",
+      "whatItIs": "Telemetry events that Microsoft developer tools buffer before sending.",
+      "whyBig": "Usually small; it can grow when sending fails.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vs.typescript",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Microsoft\\TypeScript"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "TypeScript typings cache",
+      "badge": "safe",
+      "owner": "Microsoft",
+      "summary": "Type definitions downloaded for editor IntelliSense; safe to clear",
+      "whatItIs": "Type definition packages that editors (VS Code, Visual Studio) download automatically to provide IntelliSense for JavaScript libraries.",
+      "whyBig": "One folder per TypeScript version with downloaded @types packages.",
+      "ifDeleted": "Nothing breaks; the editor downloads them again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vscode.roaming",
+      "match": {
+        "path": "%APPDATA%\\Code"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "VS Code user data",
+      "badge": "app",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "VS Code settings, workspace state, extension data and caches",
+      "whatItIs": "User data of Visual Studio Code: settings and keybindings (User), state of every opened workspace, extension data, backups of unsaved files and Chromium caches.",
+      "whyBig": "workspaceStorage grows with every folder you open, and extension data and caches add more.",
+      "ifDeleted": "VS Code loses settings, unsaved-file backups, local history and extension data. Settings Sync can restore settings.",
+      "saferAlternative": "Clear the cache folders (Cache, CachedData, CachedExtensionVSIXs, logs) and old workspaceStorage entries.",
+      "action": null
+    },
+    {
+      "id": "vscode.cache",
+      "match": {
+        "path": "%APPDATA%\\Code\\Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "VS Code web cache",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Cached images and files of the VS Code app; safe to clear",
+      "whatItIs": "The HTTP cache of the VS Code desktop app, which is built on Chromium: images, attachments previews and web resources it downloaded.",
+      "whyBig": "It grows with use, often to hundreds of MB or more.",
+      "ifDeleted": "Nothing breaks; content is downloaded again. Quit VS Code first, as the files are in use.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vscode.code-cache",
+      "match": {
+        "path": "%APPDATA%\\Code\\Code Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "VS Code compiled script cache",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Compiled JavaScript of the VS Code app; safe to clear",
+      "whatItIs": "Compiled scripts that the VS Code app keeps so it starts faster.",
+      "whyBig": "Usually tens to hundreds of MB, and it can keep data from old app versions.",
+      "ifDeleted": "Nothing breaks; the app compiles its scripts again. Quit VS Code first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vscode.sw-cachestorage",
+      "match": {
+        "path": "%APPDATA%\\Code\\Service Worker\\CacheStorage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "VS Code service worker cache",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Offline web content cached by the VS Code app; safe to clear",
+      "whatItIs": "Files cached through service workers by the web views inside VS Code.",
+      "whyBig": "It can grow to hundreds of MB over time.",
+      "ifDeleted": "Nothing breaks; the content is downloaded again. Quit VS Code first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vscode.cacheddata",
+      "match": {
+        "path": "%APPDATA%\\Code\\CachedData"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "VS Code compiled code cache",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Compiled code of current and previous VS Code versions; safe to clear",
+      "whatItIs": "Compiled JavaScript that VS Code caches per version to start faster.",
+      "whyBig": "Folders from previous VS Code versions stay after updates.",
+      "ifDeleted": "Nothing breaks; VS Code rebuilds it on next start. Close VS Code first.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vscode.cachedvsix",
+      "match": {
+        "path": "%APPDATA%\\Code\\CachedExtensionVSIXs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "VS Code extension package cache",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Downloaded extension packages kept after install; safe to clear",
+      "whatItIs": "Extension packages (.vsix) that VS Code downloaded; installed extensions do not need them.",
+      "whyBig": "One package per installed or updated extension version.",
+      "ifDeleted": "Nothing breaks; packages are downloaded again when needed.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vscode.logs",
+      "match": {
+        "path": "%APPDATA%\\Code\\logs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "VS Code logs",
+      "badge": "safe",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "VS Code and extension logs; safe to delete",
+      "whatItIs": "Log files of VS Code sessions and extensions.",
+      "whyBig": "One folder per session; some extensions log heavily.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vscode.workspacestorage",
+      "match": {
+        "path": "%APPDATA%\\Code\\User\\workspaceStorage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "VS Code workspace state",
+      "badge": "check",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Per-folder state of VS Code and its extensions, including chat history",
+      "whatItIs": "One subfolder per folder or workspace you have opened, with editor state and extension data such as AI chat sessions, language server indexes and git data.",
+      "whyBig": "It grows with every folder you open and is not cleaned when those folders are deleted; some extensions store large indexes here.",
+      "ifDeleted": "VS Code forgets per-workspace state; extensions lose per-workspace data, for example chat history.",
+      "saferAlternative": "Delete subfolders of workspaces you no longer use (each contains a workspace.json naming its folder).",
+      "action": null
+    },
+    {
+      "id": "vscode.globalstorage",
+      "match": {
+        "path": "%APPDATA%\\Code\\User\\globalStorage"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "VS Code extension data",
+      "badge": "check",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Data that extensions store globally (downloads, indexes, sign-ins)",
+      "whatItIs": "Global storage of VS Code extensions: downloaded tools and language servers, caches, databases and state.",
+      "whyBig": "Some extensions download runtimes or models here.",
+      "ifDeleted": "Extensions lose their data and may download it again or need to be set up again.",
+      "saferAlternative": "Remove data of extensions you uninstalled.",
+      "action": null
+    },
+    {
+      "id": "vscode.history",
+      "match": {
+        "path": "%APPDATA%\\Code\\User\\History"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "VS Code local history",
+      "badge": "check",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Saved versions of files you edited (Timeline local history)",
+      "whatItIs": "VS Code's local history: earlier versions of files you edited, shown in the Timeline view.",
+      "whyBig": "Every save of every file adds an entry, up to the configured limits.",
+      "ifDeleted": "You lose the ability to restore earlier versions from the Timeline.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "vscode.backups",
+      "match": {
+        "path": "%APPDATA%\\Code\\Backups"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "VS Code unsaved file backups",
+      "badge": "check",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Backups of unsaved editors (hot exit); may be your only copy",
+      "whatItIs": "Backups of files and untitled editors with unsaved changes, restored when VS Code starts again.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Unsaved changes and untitled editors are lost.",
+      "saferAlternative": "Open VS Code and save or discard the restored editors instead.",
+      "action": null
+    },
+    {
+      "id": "vscode.extensions",
+      "match": {
+        "path": "%USERPROFILE%\\.vscode\\extensions"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "VS Code extensions",
+      "badge": "app",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "Installed VS Code extensions; uninstall them from the Extensions view",
+      "whatItIs": "Every installed VS Code extension, one folder per extension version.",
+      "whyBig": "Language extensions bundle runtimes and language servers (C++, Python, Java tools are hundreds of MB), and old versions can stay after updates.",
+      "ifDeleted": "The extensions disappear; VS Code can reinstall them from the Marketplace.",
+      "saferAlternative": "Uninstall unused extensions in VS Code's Extensions view.",
+      "action": null
+    },
+    {
+      "id": "vscode.dotvscode",
+      "match": {
+        "path": "%USERPROFILE%\\.vscode"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "VS Code extensions folder",
+      "badge": "app",
+      "owner": "Microsoft Visual Studio Code",
+      "summary": "VS Code's extensions and start-up arguments",
+      "whatItIs": "Holds installed extensions and argv.json (start-up options) of VS Code.",
+      "whyBig": "Extensions are the large part.",
+      "ifDeleted": "Extensions and start-up options are lost.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "cursor.roaming",
+      "match": {
+        "path": "%APPDATA%\\Cursor"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Cursor user data",
+      "badge": "app",
+      "owner": "Cursor",
+      "summary": "Cursor editor settings, workspace state and caches",
+      "whatItIs": "User data of the Cursor editor (a VS Code fork): settings, workspace state, extension data and caches.",
+      "whyBig": "Workspace state and caches grow with use.",
+      "ifDeleted": "Cursor loses settings and per-workspace data.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "cursor.extensions",
+      "match": {
+        "path": "%USERPROFILE%\\.cursor\\extensions"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 90,
+      "title": "Cursor extensions",
+      "badge": "app",
+      "owner": "Cursor",
+      "summary": "Installed Cursor extensions",
+      "whatItIs": "Extensions installed in the Cursor editor.",
+      "whyBig": "Language extensions bundle runtimes and language servers.",
+      "ifDeleted": "Extensions disappear and must be reinstalled.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.programs",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Programs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Per-user installed programs",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Programs installed only for your account (no admin rights needed)",
+      "whatItIs": "Default location for programs installed per user, for example VS Code, Python, Ollama, Obsidian and many Electron apps.",
+      "whyBig": "Each program's full installation lives here.",
+      "ifDeleted": "Those programs stop working; uninstall them properly instead.",
+      "saferAlternative": "Uninstall programs from Settings > Apps > Installed apps.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "user.package-cache",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Package Cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 100,
+      "title": "Per-user installer package cache",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Cached installers needed to modify, repair or uninstall some programs",
+      "whatItIs": "Installer bundles (WiX Burn) cache their setup packages here for per-user installs, so the program can be repaired, changed or uninstalled later.",
+      "whyBig": "Each cached bundle keeps its packages, often tens to hundreds of MB.",
+      "ifDeleted": "The programs keep running, but repairing, upgrading or uninstalling them may fail or ask for the original installer.",
+      "saferAlternative": "Uninstall programs you do not need; their cached packages go with them.",
+      "action": {
+        "kind": "settingsUri",
+        "label": "Open Installed apps",
+        "value": "ms-settings:appsfeatures"
+      }
+    },
+    {
+      "id": "user.connecteddevicesplatform",
+      "match": {
+        "path": "%LOCALAPPDATA%\\ConnectedDevicesPlatform"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Connected Devices Platform data",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Windows data for activity history and cross-device features",
+      "whatItIs": "Data of the Windows Connected Devices Platform service, used for activity history and features that link your PC with phones and other devices.",
+      "whyBig": "Usually small; activity databases can grow.",
+      "ifDeleted": "Activity history and device links reset; Windows recreates the folder.",
+      "saferAlternative": "Clear activity history in Settings > Privacy & security > Activity history.",
+      "action": null
+    },
+    {
+      "id": "user.comms",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Comms"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Windows Mail and Calendar data",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Local data of the old Windows Mail and Calendar apps",
+      "whatItIs": "Local store (Unistore) of the Windows Mail and Calendar apps and related contact features.",
+      "whyBig": "Downloaded mail and attachments of accounts set up in the Mail app.",
+      "ifDeleted": "The Mail and Calendar apps lose their local data and re-sync accounts.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.virtualstore",
+      "match": {
+        "path": "%LOCALAPPDATA%\\VirtualStore"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "VirtualStore (redirected writes)",
+      "badge": "check",
+      "owner": "Windows",
+      "summary": "Files old programs tried to write into Program Files or Windows",
+      "whatItIs": "When an older program without admin rights writes to Program Files or Windows, Windows silently redirects the write here (UAC virtualization).",
+      "whyBig": "Settings, saves or logs of old programs and games.",
+      "ifDeleted": "Those programs lose the settings or saves they think are in their install folder.",
+      "saferAlternative": "Check which program each subfolder belongs to before deleting it.",
+      "action": null
+    },
+    {
+      "id": "user.placeholdertilelogo",
+      "match": {
+        "path": "%LOCALAPPDATA%\\PlaceholderTileLogoFolder"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Start menu tile placeholders",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Placeholder logos for Start menu entries; tiny",
+      "whatItIs": "Placeholder images Windows uses for Start menu tiles and app entries.",
+      "whyBig": "Tiny.",
+      "ifDeleted": "Nothing breaks; Windows recreates it.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.publishers",
+      "match": {
+        "path": "%LOCALAPPDATA%\\Publishers"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Shared Store app publisher data",
+      "badge": "app",
+      "owner": "Windows",
+      "summary": "Data shared between Store apps from the same publisher",
+      "whatItIs": "Shared storage that packaged apps from the same publisher use to exchange data.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Apps that share data through it may lose that data.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.toastnotification",
+      "match": {
+        "path": "%LOCALAPPDATA%\\ToastNotificationManagerCompat"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Notification app icons",
+      "badge": "safe",
+      "owner": "Windows",
+      "summary": "Icons cached for desktop app notifications; tiny",
+      "whatItIs": "Icons that desktop apps register for their Windows notifications.",
+      "whyBig": "Tiny.",
+      "ifDeleted": "Nothing breaks; apps register their icons again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.squirreltemp",
+      "match": {
+        "path": "%LOCALAPPDATA%\\SquirrelTemp"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "Squirrel installer temp",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Temporary files of Squirrel-based installers (Discord, Slack, GitHub Desktop)",
+      "whatItIs": "Working folder of the Squirrel installer used by many Electron apps.",
+      "whyBig": "Interrupted installs and updates leave packages behind.",
+      "ifDeleted": "Nothing breaks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.electron-updaters",
+      "match": {
+        "path": "%LOCALAPPDATA%\\*-updater"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 60,
+      "title": "App updater download cache",
+      "badge": "safe",
+      "owner": null,
+      "summary": "Update installer downloaded by an Electron app; safe to delete",
+      "whatItIs": "Electron apps that use electron-updater (for example Obsidian, Notion, Bitwarden, Unity Hub) download their next update installer into a '<app>-updater' folder.",
+      "whyBig": "It holds one full installer, often 100-300 MB, sometimes left after the update was installed.",
+      "ifDeleted": "Nothing breaks; the app downloads the update again when it next checks.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.packagemanagement",
+      "match": {
+        "path": "%LOCALAPPDATA%\\PackageManagement"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "PowerShell package providers",
+      "badge": "app",
+      "owner": "Microsoft PowerShell",
+      "summary": "Package providers for PowerShell (for example the NuGet provider)",
+      "whatItIs": "Provider assemblies used by PowerShell's Install-Module and Install-Package commands.",
+      "whyBig": "Tiny.",
+      "ifDeleted": "PowerShell asks to install the NuGet provider again.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.dotcache",
+      "match": {
+        "path": "%USERPROFILE%\\.cache"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Cross-platform tool caches (.cache)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Caches of developer and AI tools that use the Unix-style .cache folder",
+      "whatItIs": "Folder used by cross-platform tools (Hugging Face, PyTorch, Puppeteer, pre-commit and others) for their caches, following the Unix XDG convention.",
+      "whyBig": "Downloaded AI models and browser builds are the usual large parts.",
+      "ifDeleted": "Most contents are re-downloaded when needed; some tools also keep login tokens here.",
+      "saferAlternative": "Check the subfolders; the known ones are explained individually.",
+      "action": null
+    },
+    {
+      "id": "user.dotconfig",
+      "match": {
+        "path": "%USERPROFILE%\\.config"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Cross-platform tool settings (.config)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Settings of developer tools that use the Unix-style .config folder",
+      "whatItIs": "Configuration folder of cross-platform tools (Git helpers, CLIs, editors) following the Unix XDG convention.",
+      "whyBig": "Usually small.",
+      "ifDeleted": "Tools lose their settings and sometimes stored logins.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.dotlocal",
+      "match": {
+        "path": "%USERPROFILE%\\.local"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Cross-platform tool data (.local)",
+      "badge": "check",
+      "owner": null,
+      "summary": "Programs and data of tools that use the Unix-style .local folder",
+      "whatItIs": "Folder used by cross-platform tools for installed binaries (.local\\bin) and data (.local\\share), following the Unix convention.",
+      "whyBig": "Tools installed here, such as some command-line apps, plus their data.",
+      "ifDeleted": "Tools installed here stop working.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.ssh",
+      "match": {
+        "path": "%USERPROFILE%\\.ssh"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "SSH keys and settings",
+      "badge": "user",
+      "owner": null,
+      "summary": "Your SSH keys and known hosts; tiny, deleting locks you out of servers",
+      "whatItIs": "Your SSH private and public keys, client config and the list of known hosts.",
+      "whyBig": "A few KB.",
+      "ifDeleted": "You lose access to servers and Git hosts that use these keys unless you have copies.",
+      "saferAlternative": null,
+      "action": null
+    },
+    {
+      "id": "user.claude",
+      "match": {
+        "path": "%USERPROFILE%\\.claude"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": false,
+      "priority": 80,
+      "title": "Claude Code data",
+      "badge": "check",
+      "owner": "Anthropic",
+      "summary": "Claude Code settings, memory, plugins and session transcripts",
+      "whatItIs": "Data of the Claude Code CLI: settings, instructions, installed plugins and skills, and transcripts of past sessions (projects).",
+      "whyBig": "Session transcripts in the projects folder accumulate with every session.",
+      "ifDeleted": "Claude Code loses settings, plugins and the ability to resume old sessions.",
+      "saferAlternative": "Delete old session transcripts in the projects folder if they are not needed.",
+      "action": null
+    },
+    {
+      "id": "user.virtualbox-vms",
+      "match": {
+        "path": "%USERPROFILE%\\VirtualBox VMs"
+      },
+      "kind": "folder",
+      "platforms": [
+        "windows"
+      ],
+      "inherit": true,
+      "priority": 80,
+      "title": "VirtualBox virtual machines",
+      "badge": "check",
+      "owner": "Oracle VirtualBox",
+      "summary": "VirtualBox VMs: their disks, snapshots and settings",
+      "whatItIs": "Default folder for VirtualBox virtual machines: disk images (.vdi, .vmdk), snapshots and logs.",
+      "whyBig": "Each VM disk grows to the data stored inside it; snapshots add differencing disks.",
+      "ifDeleted": "The virtual machines and everything inside them are lost.",
+      "saferAlternative": "Remove VMs in VirtualBox (Remove > Delete all files) and delete old snapshots there.",
+      "action": null
+    }
+  ]
+}
