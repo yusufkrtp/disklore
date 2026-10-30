@@ -26,7 +26,9 @@ src/DiskLore.Core/            no UI, cross-platform; Windows code behind Operati
   Rules/                      RuleSet, RuleLoader, PathPattern, rule DTOs
   Knowledge/*.json            embedded rule files (EmbeddedResource)
   Snapshots/                  SnapshotStore, Snapshot, SnapshotDiff
-  Ai/                         ClaudeCliExplainer, AiCache, AiRequestItem, AiResponseParser
+  Ai/                         AiExplainer, AiCoordinator, AiCache, AiRequestItem, AiResponseParser
+  Ai/Providers/               IAiProvider, AiProviders, Claude Code / Codex / Gemini CLI, Anthropic, OpenAI-compatible
+  Security/                   ISecretStore, SecretStore (DPAPI / Keychain / libsecret / 0600 file)
   Platform/                   IPlatformServices, PlatformServices.Create(), Windows/, Unix/
   Programs/                   InstalledProgram, IInstalledProgramProvider, ProgramMatcher, LeftoverHeuristic
 src/DiskLore.App/             Avalonia app (exe name: DiskLore)
@@ -348,12 +350,12 @@ public sealed class AiCache
     public int Count { get; }
 }
 
-public sealed class ClaudeCliExplainer
+public sealed class AiExplainer
 {
-    public ClaudeCliExplainer(AiCache cache, string model = "sonnet");
-    public bool IsAvailable { get; }                    // `claude` found on PATH
-    // Batches of up to 5 items per `claude -p --output-format json --model <model>` call.
-    // Returns full path -> explanation. Writes every answer to the cache.
+    public AiExplainer(AiCache cache, IAiProvider provider);
+    public bool IsAvailable { get; }                    // provider.IsReady
+    public string ProviderName { get; }                 // provider.Info.DisplayName
+    // Batches of up to 5 items per provider call. Returns full path -> explanation. Writes every answer to the cache.
     public Task<IReadOnlyDictionary<string, Explanation>> ExplainAsync(IReadOnlyList<(ScanNode Node, AiRequestItem Item)> items, CancellationToken ct);
 }
 ```
@@ -361,19 +363,89 @@ public sealed class ClaudeCliExplainer
 ```csharp
 public sealed class AiCoordinator
 {
-    public AiCoordinator(ClaudeCliExplainer explainer, ExplanationService explanations);
+    public AiCoordinator(AiExplainer explainer, ExplanationService explanations);
     public bool IsAvailable { get; }
     // Unknown (Source.None) folders and files with Size >= thresholdBytes, largest first, at most maxItems.
     public IReadOnlyList<ScanNode> SelectCandidates(ScanNode root, long thresholdBytes, int maxItems);
-    // Builds AiRequestItems, asks Claude in batches, calls ExplanationService.Invalidate on answered nodes.
+    // Builds AiRequestItems, asks the provider in batches, calls ExplanationService.Invalidate on answered nodes.
     public Task<int> ExplainAsync(IReadOnlyList<ScanNode> nodes, IProgress<string>? status, CancellationToken ct);
 }
 ```
 
 The app runs `SelectCandidates(root, settings.AiThresholdBytes, settings.AiMaxCallsPerScan * 5)` then
-`ExplainAsync` after each scan when auto mode is on, and `ExplainAsync([node])` for the "Ask Claude" button.
+`ExplainAsync` after each scan when auto mode is on, and `ExplainAsync([node])` for the "Ask AI" button.
 
 `SizeFormat.Format(long)` / `SizeFormat.FormatDelta(long)` in `DiskLore.Core.Model` is the only size formatter; every view uses it.
+
+### AI providers
+
+The user picks one provider in Settings. Three kinds:
+
+| Id | Name | Kind | How it connects |
+|---|---|---|---|
+| `claude-code` | Claude Code (Claude Pro/Max) | SubscriptionCli | `claude -p` (existing flags) |
+| `codex-cli` | Codex CLI (ChatGPT Plus/Pro) | SubscriptionCli | `codex exec` non-interactive, read-only sandbox |
+| `gemini-cli` | Gemini CLI (Google account) | SubscriptionCli | `gemini -p` / piped stdin, JSON output |
+| `anthropic-api` | Anthropic API | ApiKey | `POST https://api.anthropic.com/v1/messages` |
+| `openai-api` | OpenAI API | ApiKey | OpenAI-compatible, base `https://api.openai.com/v1` |
+| `gemini-api` | Google Gemini API | ApiKey | OpenAI-compatible, base `https://generativelanguage.googleapis.com/v1beta/openai` |
+| `openrouter-api` | OpenRouter | ApiKey | OpenAI-compatible, base `https://openrouter.ai/api/v1` |
+| `ollama` | Ollama (local) | Local | OpenAI-compatible, base `http://localhost:11434/v1`, no key |
+| `lmstudio` | LM Studio (local) | Local | OpenAI-compatible, base `http://localhost:1234/v1`, no key |
+| `openai-compatible` | Custom (OpenAI-compatible) | ApiKey | user base URL, optional key |
+
+```csharp
+namespace DiskLore.Core.Ai.Providers;
+
+public enum AiProviderKind { SubscriptionCli, ApiKey, Local }
+
+public sealed record AiProviderInfo(
+    string Id, string DisplayName, AiProviderKind Kind, string Description,
+    string? DefaultModel,                       // null = the CLI's/server's own default, or the user must pick
+    IReadOnlyList<string> SuggestedModels,
+    bool NeedsApiKey, bool ApiKeyOptional, bool NeedsBaseUrl, string? DefaultBaseUrl,
+    string? SetupUrl);                          // install / get-a-key page
+
+public sealed record AiProviderSettings(string? Model, string? BaseUrl);
+
+public sealed record AiTestResult(bool Ok, string Message, TimeSpan Elapsed);
+
+public interface IAiProvider
+{
+    AiProviderInfo Info { get; }
+    bool IsReady { get; }                       // CLI found / key stored / model + base URL set
+    string StatusText { get; }                  // "Found: C:\...\claude.exe", "Not installed", "No API key saved", ...
+    Task<string> CompleteAsync(string systemPrompt, string userPrompt, CancellationToken ct);   // raw model text
+    Task<IReadOnlyList<string>> ListModelsAsync(CancellationToken ct);  // GET /models for HTTP providers; SuggestedModels for CLIs
+    Task<AiTestResult> TestAsync(CancellationToken ct);                 // tiny prompt, reports latency or the error
+}
+
+public static class AiProviders
+{
+    public static IReadOnlyList<AiProviderInfo> All { get; }
+    public static AiProviderInfo Get(string id);
+    public static IAiProvider Create(string id, AiProviderSettings settings, ISecretStore secrets);
+    public static string? DetectDefault();      // first installed CLI in order claude-code, codex-cli, gemini-cli; else null
+}
+```
+
+```csharp
+namespace DiskLore.Core.Security;
+
+public interface ISecretStore
+{
+    string BackendName { get; }                 // "Windows DPAPI", "macOS Keychain", "libsecret", "File (0600)"
+    bool IsSecure { get; }                      // false only for the 0600 file fallback
+    string? Get(string name);                   // name: "apikey:<providerId>"
+    void Set(string name, string value);
+    void Remove(string name);
+}
+
+public static class SecretStore { public static ISecretStore Create(string appDataDirectory); }
+```
+
+API keys never go into `settings.json`, logs, exceptions or the AI cache.
+Settings keeps only the provider id and per-provider `{ model, baseUrl }`.
 
 **Safety clamp:** an AI explanation can never carry `Critical` or `Shrink`, and
 an item under the Windows directory, Program Files or the system root files is
