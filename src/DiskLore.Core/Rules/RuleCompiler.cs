@@ -69,7 +69,7 @@ internal static class RuleCompiler
 
     public static bool AppliesToThisPlatform(RuleDto dto)
     {
-        // A rule without explicit platforms but with a Windows-style path is Windows-only.
+        // A rule without explicit platforms but with a Windows token or drive path is Windows-only.
         if (dto.Platforms == null || dto.Platforms.Count == 0)
             return OperatingSystem.IsWindows() || !(IsWindowsPattern(dto.Match?.Path) || IsWindowsPattern(dto.Match?.Under));
         string current = OperatingSystem.IsWindows() ? "windows" : OperatingSystem.IsMacOS() ? "macos" : "linux";
@@ -81,7 +81,8 @@ internal static class RuleCompiler
 
     internal static bool IsWindowsPattern(string? pattern) =>
         !string.IsNullOrEmpty(pattern)
-        && (pattern.Contains('\\') || WindowsOnlyTokens.Any(t => pattern.Contains(t, StringComparison.OrdinalIgnoreCase)));
+        && ((pattern.Length >= 3 && char.IsAsciiLetter(pattern[0]) && pattern[1] == ':' && pattern[2] is '\\' or '/')
+            || WindowsOnlyTokens.Any(t => pattern.Contains(t, StringComparison.OrdinalIgnoreCase)));
 
     // Returns null when the rule is invalid (error set) or does not apply to this platform (error null).
     public static CompiledRule? Compile(RuleDto dto, out string? error)

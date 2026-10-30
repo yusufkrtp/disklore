@@ -104,6 +104,7 @@ public class KnowledgeBaseTests
     [InlineData(@"%LOCALAPPDATA%/pip", true)]
     [InlineData(@"C:\Riot Games", true)]
     [InlineData("~/.cache", false)]
+    [InlineData(@"**\node_modules", false)]
     [InlineData("%HOME%/Library/Caches", false)]
     [InlineData(null, false)]
     public void WindowsPatterns_AreDetected(string? pattern, bool windows) =>
