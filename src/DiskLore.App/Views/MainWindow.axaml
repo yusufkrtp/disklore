@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="using:DiskLore.App.Views"
+        xmlns:t="using:DiskLore.App.Views.Tabs"
+        x:Class="DiskLore.App.Views.MainWindow"
+        Title="DiskLore" Width="1280" Height="800"
+        Background="{DynamicResource App.Background}">
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Background="{DynamicResource App.Surface}"
+            BorderBrush="{DynamicResource App.Border}" BorderThickness="0,0,0,1" Padding="12,8">
+      <TextBlock Text="Toolbar" Foreground="{DynamicResource App.TextMuted}" />
+    </Border>
+    <Border DockPanel.Dock="Bottom" Background="{DynamicResource App.Surface}"
+            BorderBrush="{DynamicResource App.Border}" BorderThickness="0,1,0,0" Padding="12,4">
+      <TextBlock Text="Ready" Foreground="{DynamicResource App.TextMuted}" />
+    </Border>
+    <Panel>
+      <v:StartView x:Name="Start" IsVisible="False" />
+      <TabControl x:Name="Tabs">
+        <TabItem Header="Tree">
+          <Grid ColumnDefinitions="2*,Auto,*">
+            <v:DiskTreeView x:Name="TreeTab" Grid.Column="0" />
+            <GridSplitter Grid.Column="1" Width="5" />
+            <v:DetailPanel x:Name="Detail" Grid.Column="2" />
+          </Grid>
+        </TabItem>
+        <TabItem Header="Largest files"><t:LargestFilesView x:Name="LargestFilesTab" /></TabItem>
+        <TabItem Header="File types"><t:FileTypesView x:Name="FileTypesTab" /></TabItem>
+        <TabItem Header="Treemap"><t:TreemapView x:Name="TreemapTab" /></TabItem>
+        <TabItem Header="Changes"><t:ChangesView x:Name="ChangesTab" /></TabItem>
+      </TabControl>
+    </Panel>
+  </DockPanel>
+</Window>

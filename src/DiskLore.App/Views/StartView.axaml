@@ -1,0 +1,6 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="DiskLore.App.Views.StartView">
+  <TextBlock Text="Pick a drive or folder to scan" HorizontalAlignment="Center" VerticalAlignment="Center"
+             Foreground="{DynamicResource App.TextMuted}" />
+</UserControl>
