@@ -1,0 +1,21 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <SolidColorBrush x:Key="App.Background" Color="#16181D" />
+  <SolidColorBrush x:Key="App.Surface" Color="#1E2128" />
+  <SolidColorBrush x:Key="App.SurfaceAlt" Color="#262A33" />
+  <SolidColorBrush x:Key="App.Border" Color="#343944" />
+  <SolidColorBrush x:Key="App.Text" Color="#E6E8EC" />
+  <SolidColorBrush x:Key="App.TextMuted" Color="#9AA1AF" />
+  <SolidColorBrush x:Key="App.Accent" Color="#60A5FA" />
+  <SolidColorBrush x:Key="App.Bar" Color="#3B82F6" />
+  <SolidColorBrush x:Key="App.BarTrack" Color="#2C313B" />
+
+  <SolidColorBrush x:Key="Badge.Critical" Color="#F87171" />
+  <SolidColorBrush x:Key="Badge.Shrink" Color="#FBBF24" />
+  <SolidColorBrush x:Key="Badge.App" Color="#60A5FA" />
+  <SolidColorBrush x:Key="Badge.Check" Color="#A78BFA" />
+  <SolidColorBrush x:Key="Badge.Safe" Color="#4ADE80" />
+  <SolidColorBrush x:Key="Badge.Leftover" Color="#FB923C" />
+  <SolidColorBrush x:Key="Badge.User" Color="#2DD4BF" />
+  <SolidColorBrush x:Key="Badge.Unknown" Color="#9CA3AF" />
+</ResourceDictionary>
