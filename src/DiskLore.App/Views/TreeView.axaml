@@ -106,7 +106,8 @@
             <ctl:BadgePill Grid.Column="3" Margin="8,0,0,0" Badge="{Binding Badge}" IsVisible="{Binding ShowBadge}" />
 
             <TextBlock Grid.Column="4" Text="{Binding Summary}" Classes="muted" Margin="8,0,8,0" VerticalAlignment="Center"
-                       TextTrimming="CharacterEllipsis" IsVisible="{Binding IsNode}" />
+                       TextTrimming="CharacterEllipsis" IsVisible="{Binding IsNode}"
+                       ToolTip.Tip="{Binding SummaryTip}" />
 
             <TextBlock Grid.Column="5" Text="{Binding ChangedText}" Classes="muted small" VerticalAlignment="Center"
                        IsVisible="{Binding $parent[v:DiskTreeView].((vm:MainViewModel)DataContext).ShowLastChanged}" />

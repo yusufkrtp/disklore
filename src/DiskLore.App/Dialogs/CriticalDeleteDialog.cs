@@ -14,6 +14,9 @@ public class CriticalDeleteDialog : Window
 {
     public CriticalDeleteDialog() : this(null, null) { }
 
+    /// <summary>The "Delete permanently" button turns on only for the exact, case-sensitive item name.</summary>
+    public static bool NameMatches(string? typed, string name) => string.Equals(typed, name, StringComparison.Ordinal);
+
     public CriticalDeleteDialog(ScanNode? node, Explanation? e)
     {
         DialogUi.StyleWindow(this, 520, "Delete permanently");
@@ -33,8 +36,11 @@ public class CriticalDeleteDialog : Window
         info.Children.Add(DialogUi.Text(SizeFormat.Format(node.Size), 12, color: "App.TextMuted"));
         body.Children.Add(DialogUi.Card(info));
 
-        body.Children.Add(DialogUi.Text("If deleted", 12, bold: true, color: "Badge.Critical"));
-        body.Children.Add(DialogUi.Text(e.IfDeleted, 13));
+        if (!string.IsNullOrWhiteSpace(e.IfDeleted))
+        {
+            body.Children.Add(DialogUi.Text("If deleted", 12, bold: true, color: "Badge.Critical"));
+            body.Children.Add(DialogUi.Text(e.IfDeleted, 13));
+        }
 
         if (!string.IsNullOrWhiteSpace(e.SaferAlternative))
         {
@@ -51,7 +57,7 @@ public class CriticalDeleteDialog : Window
         var cancel = DialogUi.MakeButton("Cancel");
         var ok = DialogUi.MakeButton("Delete permanently", accentKey: "Badge.Critical");
         ok.IsEnabled = false;
-        input.TextChanged += (_, _) => ok.IsEnabled = string.Equals(input.Text, node.Name, StringComparison.Ordinal);
+        input.TextChanged += (_, _) => ok.IsEnabled = NameMatches(input.Text, node.Name);
         cancel.Click += (_, _) => Close(false);
         ok.Click += (_, _) =>
         {

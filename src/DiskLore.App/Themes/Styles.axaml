@@ -10,6 +10,15 @@
     <StreamGeometry x:Key="Icon.Drive">M1.5,6 L3.5,2.5 L12.5,2.5 L14.5,6 L14.5,12.5 L1.5,12.5 Z M1.5,6 L14.5,6 M11,9.5 L12.5,9.5</StreamGeometry>
   </Styles.Resources>
 
+  <!-- Plain-text tooltips wrap instead of running off the screen. -->
+  <Style Selector="ToolTip">
+    <Setter Property="ContentTemplate">
+      <DataTemplate x:DataType="x:String">
+        <TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="440" />
+      </DataTemplate>
+    </Setter>
+  </Style>
+
   <Style Selector="Window">
     <Setter Property="FontSize" Value="13" />
     <Setter Property="Foreground" Value="{DynamicResource App.Text}" />
