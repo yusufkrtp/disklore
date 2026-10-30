@@ -8,7 +8,7 @@ namespace DiskLore.Core.Rules;
 //   **  zero or more segments
 // Tokens (%WINDIR%, ~, ...) are expanded at construction. Profile-relative tokens also match
 // other user profiles: <users-root>\*\<rest>. Paths are compared as segment lists, so
-// "C:\Users\Alice" is ["C:", "Users", "Yusuf"] and "/home/y" is ["home", "y"].
+// "C:\Users\Alice" is ["C:", "Users", "Alice"] and "/home/y" is ["home", "y"].
 public sealed class PathPattern
 {
     private static readonly bool IgnoreCase = !OperatingSystem.IsLinux();
