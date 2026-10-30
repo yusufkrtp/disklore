@@ -5,7 +5,11 @@
     <RootNamespace>DiskLore.App</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <ApplicationIcon>Assets\disklore.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" Exclude="Assets\**\*.icns" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Desktop" />
@@ -16,4 +20,5 @@
   <ItemGroup>
     <ProjectReference Include="..\DiskLore.Core\DiskLore.Core.csproj" />
   </ItemGroup>
+  <Import Project="../../build/Publish.props" />
 </Project>
