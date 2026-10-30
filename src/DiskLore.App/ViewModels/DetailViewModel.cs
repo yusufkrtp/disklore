@@ -7,6 +7,7 @@ using DiskLore.App.Converters;
 using DiskLore.App.Views;
 using DiskLore.Core.Explanations;
 using DiskLore.Core.Model;
+using DiskLore.Core.Platform;
 using DiskLore.Core.Scanning;
 
 namespace DiskLore.App.ViewModels;
@@ -62,6 +63,9 @@ public sealed partial class DetailViewModel : ObservableObject
     // ---- header ------------------------------------------------------------------------------
 
     public bool HasSelection => _node != null;
+    public string UnknownHint => IsFile
+        ? "No built-in rule matches it. Claude can take a look at the name and size and write an explanation."
+        : "No built-in rule matches it. The facts below still show what is inside; Claude can take a look and write an explanation.";
     public bool IsUnknownEmpty => _node != null && _e is { Badge: Badge.Unknown, Source: ExplanationSource.None } && !_node.AccessDenied && !_node.IsReparsePoint;
     public bool ShowDetails => _node != null && !IsUnknownEmpty;
     public ScanNode? Node => _node;
@@ -101,6 +105,47 @@ public sealed partial class DetailViewModel : ObservableObject
     public string Owner => _e?.Owner ?? "";
     public bool HasOwner => !string.IsNullOrWhiteSpace(_e?.Owner);
     public string FullPath => _node?.FullPath ?? "";
+    // Zero-width spaces after every separator: the path wraps between folders, never inside "C:" or a name.
+    public string PathDisplay => BreakablePath(FullPath);
+    public bool IsFile => _node is { IsDirectory: false };
+    public string TypeText
+    {
+        get
+        {
+            if (_node is not { IsDirectory: false }) return "";
+            var ext = _node.Extension;
+            return string.IsNullOrEmpty(ext) ? "No extension" : (ext.StartsWith('.') ? ext : "." + ext).ToLowerInvariant();
+        }
+    }
+    public string ParentName => _node?.Parent == null ? "" : LastSegment(_node.Parent.Name);
+    public string ParentPath => _node?.Parent?.FullPath ?? "";
+
+    internal const char WordJoiner = '\u2060';
+    internal const char ZeroWidthSpace = '\u200B';
+
+    internal static string BreakablePath(string path)
+    {
+        if (path.Length == 0) return path;
+        var sb = new System.Text.StringBuilder(path.Length + 16);
+        for (var i = 0; i < path.Length; i++)
+        {
+            var ch = path[i];
+            sb.Append(ch);
+            // The word joiner keeps "C:" glued to the first separator.
+            if (ch == ':' && i + 1 < path.Length && path[i + 1] is '\\' or '/') sb.Append(WordJoiner);
+            else if (ch is '\\' or '/') sb.Append(ZeroWidthSpace);
+            else if (ch == '-') sb.Append(WordJoiner);   // no break inside names like c--Users-Alice
+        }
+        return sb.ToString();
+    }
+
+    private static string LastSegment(string path)
+    {
+        var trimmed = path.TrimEnd('\\', '/');
+        if (trimmed.Length == 0) return path;
+        var i = trimmed.LastIndexOfAny(['\\', '/']);
+        return i >= 0 ? trimmed[(i + 1)..] : trimmed;
+    }
     public string SizeText => _node == null ? "" : SizeFormat.Format(_node.Size);
     public string FilesText => _node == null ? "" : _node.IsDirectory ? $"{_node.FileCount:N0}" : "";
     public string FoldersText => _node is { IsDirectory: true } ? $"{_node.FolderCount:N0}" : "";
@@ -252,20 +297,7 @@ public sealed partial class DetailViewModel : ObservableObject
         IReadOnlyList<string> procs = Array.Empty<string>();
         try
         {
-            var found = await Task.Run(() =>
-            {
-                var paths = node.IsDirectory
-                    ? SubtreeAnalyzer.LargestFiles(node, 2000).Select(f => f.FullPath).ToList()
-                    : new List<string> { node.FullPath };
-                return _main.Platform.FindLockingProcesses(paths);
-            });
-            procs = found
-                .GroupBy(p => p.Pid)
-                .Select(g => g.First())
-                .Select(p => string.IsNullOrWhiteSpace(p.AppName) || p.AppName == p.Name
-                    ? $"{p.Name} (PID {p.Pid})"
-                    : $"{p.AppName} · {p.Name} (PID {p.Pid})")
-                .ToList();
+            procs = await Task.Run(() => FindLockers(_main.Platform, node));
             result = procs.Count == 0
                 ? "Nothing is using these files."
                 : procs.Count == 1 ? "1 program is using these files:" : $"{procs.Count} programs are using these files:";
@@ -280,6 +312,21 @@ public sealed partial class DetailViewModel : ObservableObject
         _lockResult = result;
         _lockProcesses = procs;
         OnPropertyChanged(string.Empty);
+    }
+
+    // What "Check in use" runs: the Restart Manager on the node (or its 2000 largest files), one line per process.
+    public static IReadOnlyList<string> FindLockers(IPlatformServices platform, ScanNode node)
+    {
+        var paths = node.IsDirectory
+            ? SubtreeAnalyzer.LargestFiles(node, 2000).Select(f => f.FullPath).ToList()
+            : new List<string> { node.FullPath };
+        return platform.FindLockingProcesses(paths)
+            .GroupBy(p => p.Pid)
+            .Select(g => g.First())
+            .Select(p => string.IsNullOrWhiteSpace(p.AppName) || p.AppName == p.Name
+                ? $"{p.Name} (PID {p.Pid})"
+                : $"{p.AppName} · {p.Name} (PID {p.Pid})")
+            .ToList();
     }
 
     [RelayCommand]

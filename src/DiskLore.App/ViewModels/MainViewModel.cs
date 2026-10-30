@@ -79,7 +79,7 @@ public partial class MainViewModel : ObservableObject, IAppContext
     // ---- services ----------------------------------------------------------------------------
 
     public SettingsStore Settings { get; }
-    public IPlatformServices Platform { get; }
+    public IPlatformServices Platform { get; internal set; }
     public SnapshotStore Snapshots { get; }
     public ExplanationService Explanations => _explanations;
     public TreeModel Tree { get; } = new();
@@ -161,6 +161,9 @@ public partial class MainViewModel : ObservableObject, IAppContext
             _coordinator = new AiCoordinator(explainer, _explanations);
         }
         catch (Exception) { _coordinator = null; }
+#if DEBUG
+        if (DebugShots.NoAi) _coordinator = null;
+#endif
 
         var coordinator = _coordinator;
         Task.Run(() =>
@@ -184,17 +187,20 @@ public partial class MainViewModel : ObservableObject, IAppContext
         if (coordinator == null || !_asking.Add(node)) return;
         AskingChanged?.Invoke(this, EventArgs.Empty);
         AiStatus = $"Claude is explaining {node.Name}…";
+        var finished = false;
         try
         {
-            var status = new Progress<string>(s => { if (!string.IsNullOrWhiteSpace(s)) AiStatus = s; });
+            var status = new Progress<string>(s => { if (!finished && !string.IsNullOrWhiteSpace(s)) AiStatus = s; });
             var answered = await Task.Run(() => coordinator.ExplainAsync(new[] { node }, status, CancellationToken.None));
+            finished = true;
             AiStatus = answered > 0 ? $"Claude explained {node.Name}" : "Claude had no answer for this one";
             Tree.RefreshExplanation(node);
             if (ReferenceEquals(node, _selected)) Detail.Refresh();
         }
         catch (Exception ex)
         {
-            AiStatus = "Claude is unavailable: " + ex.Message;
+            finished = true;
+            AiStatus = UnavailableText(ex);
         }
         finally
         {
@@ -203,12 +209,29 @@ public partial class MainViewModel : ObservableObject, IAppContext
         }
     }
 
+    internal static string UnavailableText(Exception ex)
+    {
+        var reason = ex.Message.Split('\n', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()?.Trim() ?? "";
+        if (reason.Length == 0) reason = ex.GetType().Name;
+        if (reason.Length > 80) reason = reason[..79] + "…";
+        return "Claude unavailable: " + reason;
+    }
+
+    internal static string ExplainedText(int count)
+        => count == 1 ? "Claude explained 1 item" : $"Claude explained {count:N0} items";
+
     private async Task RunAutoAiAsync(ScanResult result)
     {
         _aiCts?.Cancel();
         var cts = _aiCts = new CancellationTokenSource();
         var coordinator = _coordinator;
         if (!Settings.AiAuto || coordinator == null) return;
+#if DEBUG
+        if (DebugShots.NoAutoAi) return;
+#endif
+        // Progress callbacks are posted to the UI thread and can arrive after the run ends; they must not overwrite
+        // the final status.
+        var finished = false;
         try
         {
             var available = await Task.Run(() => coordinator.IsAvailable);
@@ -220,16 +243,27 @@ public partial class MainViewModel : ObservableObject, IAppContext
 
             var label = candidates.Count == 1 ? "1 folder" : $"{candidates.Count} folders";
             AiStatus = $"Claude is explaining {label}…";
-            var status = new Progress<string>(s => { if (!string.IsNullOrWhiteSpace(s) && !cts.IsCancellationRequested) AiStatus = s; });
+            var status = new Progress<string>(s =>
+            {
+                if (!finished && !string.IsNullOrWhiteSpace(s) && !cts.IsCancellationRequested) AiStatus = s;
+            });
             var answered = await Task.Run(() => coordinator.ExplainAsync(candidates, status, cts.Token));
+            finished = true;
             if (cts.IsCancellationRequested) return;
-            AiStatus = answered == 1 ? "Claude explained 1 folder" : $"Claude explained {answered} folders";
+            AiStatus = answered > 0 ? ExplainedText(answered) : "Claude unavailable: no usable answer";
+            Tree.RefreshAllExplanations();
             Detail.Refresh();
         }
-        catch (OperationCanceledException) { }
-        catch (Exception)
+        catch (OperationCanceledException)
         {
-            if (!cts.IsCancellationRequested) AiStatus = "";
+            finished = true;
+            // A newer scan resets the status itself; only a cancel of the current run lands here.
+            if (ReferenceEquals(_aiCts, cts)) AiStatus = "Claude cancelled";
+        }
+        catch (Exception ex)
+        {
+            finished = true;
+            if (!cts.IsCancellationRequested) AiStatus = UnavailableText(ex);
         }
     }
 
@@ -412,6 +446,7 @@ public partial class MainViewModel : ObservableObject, IAppContext
     {
         _scanCts?.Cancel();
         _aiCts?.Cancel();
+        _aiCts = null;
         var cts = _scanCts = new CancellationTokenSource();
 
         try { path = Path.GetFullPath(path); } catch (Exception) { }
@@ -450,7 +485,7 @@ public partial class MainViewModel : ObservableObject, IAppContext
 
             StopScanTimer();
             LoadResult(result);
-            SaveSnapshotInBackground(result);
+            SnapshotTask = SaveSnapshotInBackground(result);
             _ = RunAutoAiAsync(result);
         }
         catch (OperationCanceledException)
@@ -477,14 +512,14 @@ public partial class MainViewModel : ObservableObject, IAppContext
         }
     }
 
-    private void SaveSnapshotInBackground(ScanResult result)
-    {
-        if (!result.IsDriveRoot) return;
-        Task.Run(() =>
+    // Every finished scan is saved (drive or folder); the store keeps the newest 10 per root.
+    public Task SnapshotTask { get; private set; } = Task.CompletedTask;
+
+    private Task SaveSnapshotInBackground(ScanResult result)
+        => Task.Run(() =>
         {
             try { Snapshots.Save(result); } catch (Exception) { }
         });
-    }
 
     private void StartScanTimer()
     {

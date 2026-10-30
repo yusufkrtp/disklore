@@ -48,10 +48,9 @@ public static class DeleteFlow
         // 4. Delete off the UI thread.
         long size = node.Size;
         var result = await WithProgress(owner, permanent ? "Deleting..." : "Moving to " + trashName + "...",
-            () => permanent ? platform.DeletePermanently(path) : platform.MoveToTrash(path));
+            () => DeleteOnDisk(platform, path, permanent));
 
-        bool gone = !File.Exists(path) && !Directory.Exists(path);
-        if (!result.Success && !gone)
+        if (!result.Success)
         {
             await new MessageDialog("Some items could not be deleted",
                 (result.Error ?? "The delete failed.") +
@@ -60,9 +59,24 @@ public static class DeleteFlow
         }
 
         // 5. Update the tree and log.
-        ScanTree.Remove(node);
-        AppendLog(platform.AppDataDirectory, permanent ? "permanent" : "trash", size, e.Badge, path);
+        Commit(platform, node, permanent, size, e.Badge);
         return true;
+    }
+
+    // The platform delete. Success also covers "the item is gone anyway" (partly failed but nothing is left).
+    public static DeleteResult DeleteOnDisk(IPlatformServices platform, string path, bool permanent)
+    {
+        var result = permanent ? platform.DeletePermanently(path) : platform.MoveToTrash(path);
+        if (!result.Success && !File.Exists(path) && !Directory.Exists(path)) return new DeleteResult(true, null);
+        return result;
+    }
+
+    // Removes the node from the scan tree (sizes of every ancestor drop, no rescan) and logs the action.
+    public static void Commit(IPlatformServices platform, ScanNode node, bool permanent, long size, Badge badge)
+    {
+        var path = node.FullPath;
+        ScanTree.Remove(node);
+        AppendLog(platform.AppDataDirectory, permanent ? "permanent" : "trash", size, badge, path);
     }
 
     private static bool IsProtected(ScanNode node, string path, IAppContext ctx)

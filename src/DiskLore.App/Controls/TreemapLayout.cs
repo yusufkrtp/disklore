@@ -27,6 +27,7 @@ public sealed class TreemapCell
     internal int TypeIndex = -1;
     internal FormattedText? Label;
     internal bool LabelBuilt;
+    internal Color LabelColor;
 }
 
 // Squarified treemap layout (Bruls, Huizing, van Wijk), kept free of UI state so it can be tested.

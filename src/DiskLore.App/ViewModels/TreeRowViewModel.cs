@@ -127,6 +127,9 @@ public sealed class TreeRowViewModel : ObservableObject
         }
     }
 
+    // Full summary for the row tooltip; null (no tooltip) when there is nothing to show.
+    public string? SummaryTip => Summary.Length > 0 ? Summary : null;
+
     // Called after an AI answer or other change; row text is recomputed on next read.
     public void InvalidateExplanation()
     {
@@ -134,6 +137,7 @@ public sealed class TreeRowViewModel : ObservableObject
         OnPropertyChanged(nameof(Explanation));
         OnPropertyChanged(nameof(Badge));
         OnPropertyChanged(nameof(Summary));
+        OnPropertyChanged(nameof(SummaryTip));
     }
 
     // Called after sizes changed (delete).

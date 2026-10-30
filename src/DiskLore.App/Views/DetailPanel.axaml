@@ -39,8 +39,8 @@
 
         <!-- Path -->
         <Grid ColumnDefinitions="*,Auto" Margin="0,12,0,0">
-          <SelectableTextBlock Text="{Binding FullPath}" Classes="small" TextWrapping="Wrap"
-                               VerticalAlignment="Center" />
+          <SelectableTextBlock Text="{Binding PathDisplay}" Classes="small" TextWrapping="Wrap"
+                               VerticalAlignment="Center" ToolTip.Tip="{Binding FullPath}" />
           <Button Grid.Column="1" Classes="ghost" Content="Copy" Command="{Binding CopyPathCommand}" Margin="8,0,0,0"
                   VerticalAlignment="Top" MinHeight="24" FontSize="12" />
         </Grid>
@@ -59,6 +59,15 @@
             <StackPanel Grid.Column="2" IsVisible="{Binding IsDirectory}">
               <TextBlock Text="Folders" Classes="stat-label" />
               <TextBlock Text="{Binding FoldersText}" Classes="stat-value" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" IsVisible="{Binding IsFile}">
+              <TextBlock Text="Type" Classes="stat-label" />
+              <TextBlock Text="{Binding TypeText}" Classes="stat-value" TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" IsVisible="{Binding IsFile}" Margin="0,0,8,0">
+              <TextBlock Text="In folder" Classes="stat-label" />
+              <TextBlock Text="{Binding ParentName}" Classes="stat-value" TextTrimming="CharacterEllipsis"
+                         ToolTip.Tip="{Binding ParentPath}" />
             </StackPanel>
             <StackPanel Grid.Column="3">
               <TextBlock Text="Last changed" Classes="stat-label" />
@@ -107,8 +116,7 @@
         <Border IsVisible="{Binding IsUnknownEmpty}" Classes="card" Padding="16" Margin="0,18,0,0">
           <StackPanel Spacing="8">
             <TextBlock Text="DiskLore doesn't know this one yet." FontWeight="SemiBold" FontSize="15" />
-            <TextBlock Classes="muted body"
-                       Text="No built-in rule matches it. The facts below still show what is inside; Claude can take a look and write an explanation." />
+            <TextBlock Classes="muted body" TextWrapping="Wrap" Text="{Binding UnknownHint}" />
             <Button Content="Ask Claude" Classes="primary" Command="{Binding AskClaudeCommand}" HorizontalAlignment="Left"
                     IsVisible="{Binding CanAsk}" IsEnabled="{Binding CanAskNow}" Margin="0,4,0,0" />
           </StackPanel>
