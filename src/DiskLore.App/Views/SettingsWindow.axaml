@@ -53,20 +53,95 @@
         </StackPanel>
 
         <StackPanel Spacing="6">
-          <TextBlock Text="Claude explanations" Classes="title" FontSize="15" />
+          <TextBlock Text="AI explanations" Classes="title" FontSize="15" />
           <Border Classes="card" Padding="12,10">
             <StackPanel Spacing="8">
-              <TextBlock Text="{Binding AiAvailabilityText}" Classes="muted small" TextWrapping="Wrap" />
+              <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" HorizontalAlignment="Stretch">
+                <ComboBox.Styles>
+                  <Style Selector="ComboBoxItem" x:DataType="vm:ProviderChoice">
+                    <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
+                  </Style>
+                </ComboBox.Styles>
+                <ComboBox.ItemTemplate>
+                  <DataTemplate x:DataType="vm:ProviderChoice">
+                    <Grid>
+                      <TextBlock Text="{Binding Name}" IsVisible="{Binding IsNormal}" />
+                      <TextBlock Text="{Binding Name}" IsVisible="{Binding IsHeader}" Classes="muted small"
+                                 FontWeight="SemiBold" Margin="0,4,0,0" />
+                    </Grid>
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+
+              <TextBlock Text="{Binding Description}" Classes="muted small" TextWrapping="Wrap" />
+
+              <StackPanel IsVisible="{Binding HasProvider}" Spacing="8">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                  <TextBlock Text="●" Foreground="{DynamicResource Badge.Safe}" IsVisible="{Binding StatusIsReady}" VerticalAlignment="Center" />
+                  <TextBlock Text="●" Foreground="{DynamicResource App.Warning}" IsVisible="{Binding StatusIsProblem}" VerticalAlignment="Center" />
+                  <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxWidth="440" />
+                </StackPanel>
+
+                <!-- Subscription CLI -->
+                <StackPanel IsVisible="{Binding IsCli}" Spacing="2">
+                  <TextBlock Text="{Binding CliHint}" Classes="muted small" TextWrapping="Wrap" />
+                  <Button Content="{Binding SetupLinkLabel}" Command="{Binding OpenSetupUrlCommand}" Classes="link"
+                          HorizontalAlignment="Left" Margin="-4,0,0,0" />
+                </StackPanel>
+
+                <!-- API key -->
+                <StackPanel IsVisible="{Binding UsesKey}" Spacing="4">
+                  <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="6">
+                    <TextBox Text="{Binding ApiKeyInput}" PasswordChar="●" PlaceholderText="{Binding KeyPlaceholder}" />
+                    <Button Grid.Column="1" Content="Save" Command="{Binding SaveKeyCommand}" IsEnabled="{Binding CanSaveKey}" />
+                    <Button Grid.Column="2" Content="Remove" Command="{Binding RemoveKeyCommand}" IsVisible="{Binding HasStoredKey}" />
+                  </Grid>
+                  <TextBlock Text="{Binding KeyStorageNote}" Classes="muted small" TextWrapping="Wrap" />
+                  <TextBlock Text="{Binding KeyMessage}" Classes="muted small" TextWrapping="Wrap"
+                             IsVisible="{Binding KeyMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                  <Button Content="{Binding SetupLinkLabel}" Command="{Binding OpenSetupUrlCommand}" Classes="link"
+                          IsVisible="{Binding HasSetupUrl}" HorizontalAlignment="Left" Margin="-4,0,0,0" />
+                </StackPanel>
+
+                <!-- Local model: only the link; the base URL and model rows below do the rest -->
+                <Button Content="{Binding SetupLinkLabel}" Command="{Binding OpenSetupUrlCommand}" Classes="link"
+                        IsVisible="{Binding ShowLocalLink}" HorizontalAlignment="Left" Margin="-4,0,0,0" />
+
+                <Grid ColumnDefinitions="90,*" RowDefinitions="Auto,Auto" RowSpacing="6">
+                  <TextBlock Grid.Row="0" Text="Base URL" VerticalAlignment="Center" IsVisible="{Binding ShowBaseUrl}" />
+                  <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding BaseUrl}" PlaceholderText="{Binding BaseUrlPlaceholder}"
+                           IsVisible="{Binding ShowBaseUrl}" />
+                  <TextBlock Grid.Row="1" Text="Model" VerticalAlignment="Center" />
+                  <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                    <ComboBox IsEditable="True" ItemsSource="{Binding ModelOptions}" Text="{Binding Model}"
+                              PlaceholderText="{Binding ModelPlaceholder}" HorizontalAlignment="Stretch" />
+                    <Button Grid.Column="1" Content="Load models" Command="{Binding LoadModelsCommand}"
+                            IsEnabled="{Binding CanLoadModels}" IsVisible="{Binding !IsCli}" />
+                  </Grid>
+                </Grid>
+                <TextBlock Text="{Binding ModelsText}" Classes="muted small" TextWrapping="Wrap"
+                           IsVisible="{Binding ModelsText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                  <Button Content="Test connection" Command="{Binding TestCommand}" IsEnabled="{Binding CanTest}" />
+                  <TextBlock Text="{Binding TestText}" IsVisible="{Binding TestShowOk}" VerticalAlignment="Center"
+                             TextWrapping="Wrap" MaxWidth="330" Classes="small" Foreground="{DynamicResource Badge.Safe}" />
+                  <TextBlock Text="{Binding TestText}" IsVisible="{Binding TestShowBad}" VerticalAlignment="Center"
+                             TextWrapping="Wrap" MaxWidth="330" Classes="small" Foreground="{DynamicResource App.Warning}" />
+                  <TextBlock Text="{Binding TestText}" IsVisible="{Binding IsTesting}" VerticalAlignment="Center"
+                             Classes="muted small" />
+                </StackPanel>
+              </StackPanel>
+
+              <Border Height="1" Background="{DynamicResource App.Border}" Margin="0,2" />
+
               <CheckBox IsChecked="{Binding AiAuto}" Content="Explain big unknown folders automatically after a scan" />
-              <Grid ColumnDefinitions="*,140" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+              <Grid ColumnDefinitions="*,140" RowDefinitions="Auto,Auto" RowSpacing="6">
                 <TextBlock Grid.Row="0" Text="Only items at least this big (GB)" VerticalAlignment="Center" />
                 <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding ThresholdGb}" Minimum="0" Maximum="1024"
                                Increment="0.5" FormatString="0.##" />
-                <TextBlock Grid.Row="1" Text="Model" VerticalAlignment="Center" />
-                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Models}" SelectedItem="{Binding Model}"
-                          HorizontalAlignment="Stretch" />
-                <TextBlock Grid.Row="2" Text="Max Claude calls per scan" VerticalAlignment="Center" />
-                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding MaxCalls}" Minimum="0" Maximum="100"
+                <TextBlock Grid.Row="1" Text="Max AI calls per scan" VerticalAlignment="Center" />
+                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding MaxCalls}" Minimum="0" Maximum="100"
                                Increment="1" FormatString="0" />
               </Grid>
               <Button Content="{Binding ClearCacheLabel}" Command="{Binding ClearCacheCommand}" HorizontalAlignment="Left" />

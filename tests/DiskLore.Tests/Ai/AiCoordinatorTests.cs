@@ -27,7 +27,7 @@ public class AiCoordinatorTests
     private static Explanation Unknown(ScanNode n) => new(n.Name, Badge.Unknown, null, "", "", "", "", null, null, ExplanationSource.None, 0, null);
 
     private static AiCoordinator Make(Func<ScanNode, Explanation> explain)
-        => new(new ClaudeCliExplainer(new AiCache(Path.Combine(Path.GetTempPath(), "unused-cache.json"))), explain, _ => { });
+        => new(new AiExplainer(new AiCache(Path.Combine(Path.GetTempPath(), "unused-cache.json")), new FakeProvider()), explain, _ => { });
 
     [Fact]
     public void Selects_unknown_nodes_at_or_above_threshold_largest_first()

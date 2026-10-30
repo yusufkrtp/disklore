@@ -225,10 +225,10 @@ public class PolishTests : IDisposable
     [Fact]
     public void AiStatusTexts()
     {
-        Assert.Equal("Claude explained 1 item", MainViewModel.ExplainedText(1));
-        Assert.Equal("Claude explained 8 items", MainViewModel.ExplainedText(8));
-        Assert.Equal("Claude unavailable: boom", MainViewModel.UnavailableText(new InvalidOperationException("boom\nsecond line")));
-        Assert.True(MainViewModel.UnavailableText(new TimeoutException(new string('x', 300))).Length < 110);
+        Assert.Equal("Claude Code explained 1 item", MainViewModel.ExplainedText(1, "Claude Code"));
+        Assert.Equal("Codex CLI explained 8 items", MainViewModel.ExplainedText(8, "Codex CLI"));
+        Assert.Equal("Claude Code unavailable: boom", MainViewModel.UnavailableText(new InvalidOperationException("boom\nsecond line"), "Claude Code"));
+        Assert.True(MainViewModel.UnavailableText(new TimeoutException(new string((char)120, 300)), "Ollama").Length < 110);
     }
 
     [Fact]

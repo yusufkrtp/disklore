@@ -468,7 +468,7 @@ public interface IAppContext
     SnapshotStore Snapshots { get; }
     void Navigate(ScanNode node);                    // select + expand path in the tree tab and switch to it
     Task<bool> DeleteAsync(ScanNode node, bool permanent);   // runs DeleteFlow, updates tree, raises CurrentChanged
-    Task AskClaudeAsync(ScanNode node);              // manual "Ask Claude"
+    Task AskAiAsync(ScanNode node);                  // manual "Ask AI" (opens Settings when no provider is ready)
 }
 ```
 

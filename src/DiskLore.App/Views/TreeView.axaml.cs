@@ -185,8 +185,8 @@ public partial class DiskTreeView : UserControl
 
         MenuItem Find(string name) => menu.Items.OfType<MenuItem>().First(m => m.Name == name);
         var node = row.Node;
-        Find("MiAsk").IsVisible = vm.AiAvailable && !node.IsReparsePoint;
-        Find("MiAsk").Header = row.Explanation?.Source == DiskLore.Core.Explanations.ExplanationSource.AI ? "Re-ask Claude" : "Ask Claude";
+        Find("MiAsk").IsVisible = !node.IsReparsePoint;
+        Find("MiAsk").Header = row.Explanation?.Source == DiskLore.Core.Explanations.ExplanationSource.AI ? "Re-ask AI" : "Ask AI";
         Find("MiLock").IsVisible = vm.Platform.SupportsLockDetection;
         Find("MiRecycle").Header = OperatingSystem.IsWindows() ? "Move to Recycle Bin" : "Move to Trash";
         var deletable = node.Parent != null;
@@ -213,7 +213,7 @@ public partial class DiskTreeView : UserControl
 
     private async void OnMenuAsk(object? sender, RoutedEventArgs e)
     {
-        if (MenuRow(sender)?.Node is { } n && Vm != null) await Vm.AskClaudeAsync(n);
+        if (MenuRow(sender)?.Node is { } n && Vm != null) await Vm.AskAiAsync(n);
     }
 
     private void OnMenuLock(object? sender, RoutedEventArgs e)

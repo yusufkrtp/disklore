@@ -1,26 +1,27 @@
+using DiskLore.Core.Ai.Providers;
 using DiskLore.Core.Explanations;
 using DiskLore.Core.Model;
 using DiskLore.Core.Scanning;
 
 namespace DiskLore.Core.Ai;
 
-// Picks unexplained items worth asking Claude about and feeds the answers back into ExplanationService.
+// Picks unexplained items worth ask the AI and feeds the answers back into ExplanationService.
 public sealed class AiCoordinator
 {
     private const int BatchSize = 5;
     private const int MaxSampleNames = 30;
 
-    private readonly ClaudeCliExplainer _explainer;
+    private readonly AiExplainer _explainer;
     private readonly Func<ScanNode, Explanation> _explain;
     private readonly Action<ScanNode> _invalidate;
 
-    public AiCoordinator(ClaudeCliExplainer explainer, ExplanationService explanations)
+    public AiCoordinator(AiExplainer explainer, ExplanationService explanations)
         : this(explainer, explanations.Explain, explanations.Invalidate)
     {
     }
 
     // Test seam: lets tests supply explanations without the real service.
-    internal AiCoordinator(ClaudeCliExplainer explainer, Func<ScanNode, Explanation> explain, Action<ScanNode> invalidate)
+    internal AiCoordinator(AiExplainer explainer, Func<ScanNode, Explanation> explain, Action<ScanNode> invalidate)
     {
         _explainer = explainer;
         _explain = explain;
@@ -28,6 +29,8 @@ public sealed class AiCoordinator
     }
 
     public bool IsAvailable => _explainer.IsAvailable;
+    public string ProviderName => _explainer.ProviderShortName;
+    public string? LastError => _explainer.LastError;
 
     // Unknown (Source.None) folders and files with Size >= thresholdBytes, largest first, at most maxItems.
     // The scan root itself is never a candidate.
@@ -58,7 +61,7 @@ public sealed class AiCoordinator
         return result.OrderByDescending(n => n.Size).Take(maxItems).ToList();
     }
 
-    // Builds the request items, asks Claude in batches, invalidates answered nodes. Returns the number answered.
+    // Builds the request items, asks the provider in batches, invalidates answered nodes. Returns the number answered.
     public async Task<int> ExplainAsync(IReadOnlyList<ScanNode> nodes, IProgress<string>? status, CancellationToken ct)
     {
         var answered = 0;
@@ -68,7 +71,7 @@ public sealed class AiCoordinator
             ct.ThrowIfCancellationRequested();
             var chunk = nodes.Skip(b * BatchSize).Take(BatchSize).ToList();
             var noun = chunk.All(n => n.IsDirectory) ? "folder" : chunk.All(n => !n.IsDirectory) ? "file" : "item";
-            status?.Report($"Asking Claude about {chunk.Count} {noun}{(chunk.Count == 1 ? "" : "s")} ({b + 1}/{batches})…");
+            status?.Report($"Asking {_explainer.ProviderShortName} about {chunk.Count} {noun}{(chunk.Count == 1 ? "" : "s")} ({b + 1}/{batches})…");
 
             var items = chunk.Select(n => (Node: n, Item: BuildItem(n))).ToList();
             var answers = await _explainer.ExplainAsync(items, ct).ConfigureAwait(false);

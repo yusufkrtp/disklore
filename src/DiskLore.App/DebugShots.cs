@@ -15,8 +15,8 @@ namespace DiskLore.App;
 // Debug-only deterministic screenshots: renders the window to a PNG without needing focus.
 // Switches: --screenshot <png> [--theme <id>] [--tab <n>] [--select <path>] [--search <text>]
 //           [--window settings|confirm|critical] [--delay <ms>] [--size WxH]
-//           [--no-ai] [--no-auto-ai] [--ask <path>] [--probe <path>] [--shell on|off|status] [--log <file>]
-// --no-ai disables Claude completely (no auto run, no Ask button); --no-auto-ai only skips the automatic run.
+//           [--provider <id>] [--no-ai] [--no-auto-ai] [--ask <path>] [--probe <path>] [--shell on|off|status] [--log <file>]
+// --no-ai disables the AI completely (no auto run; the Ask button opens Settings); --no-auto-ai only skips the automatic run.
 internal static class DebugShots
 {
     public static string? Output;
@@ -30,6 +30,7 @@ internal static class DebugShots
     public static bool NoAi;
     public static bool NoAutoAi;
     public static string? Ask;
+    public static string? Provider;
     public static string? ShellMode;
     public static string? Probe;
     public static string? LogFile;
@@ -60,6 +61,7 @@ internal static class DebugShots
                 case "--no-ai": NoAi = true; break;
                 case "--no-auto-ai": NoAutoAi = true; break;
                 case "--ask": Ask = Next(); break;
+                case "--provider": Provider = Next(); break;
                 case "--shell": ShellMode = Next(); break;
                 case "--probe": Probe = Next(); break;
                 case "--log": LogFile = Next(); break;
@@ -81,6 +83,12 @@ internal static class DebugShots
             Log("started; startup path = " + (App.StartupPath ?? "(none)"));
             if (ShellMode != null) RunShell(vm);
             if (Theme != null) ThemeManager.Apply(Theme);
+            if (Provider != null)
+            {
+                // In memory only: the screenshot run must not change the saved provider.
+                vm.Settings.AiProviderId = Provider;
+                vm.RebuildAi();
+            }
             if (Size is { } s) { window.Width = s.W; window.Height = s.H; }
             var started = DateTime.UtcNow;
             // Wait for the scan (if any) and the first paint.
@@ -106,8 +114,8 @@ internal static class DebugShots
             if (Ask != null && vm.Current != null && Find(vm.Current.Root, Ask) is { } askNode)
             {
                 vm.Navigate(askNode);
-                Log($"asking Claude about {askNode.FullPath}; before: source={vm.Explain(askNode).Source} badge={vm.Explain(askNode).Badge} aiAvailable={vm.AiAvailable}");
-                await vm.AskClaudeAsync(askNode);
+                Log($"asking the AI about {askNode.FullPath}; before: source={vm.Explain(askNode).Source} badge={vm.Explain(askNode).Badge} aiAvailable={vm.AiAvailable}");
+                await vm.AskAiAsync(askNode);
                 Log("ask finished: " + vm.AiStatus + "; source = " + vm.Explain(askNode).Source);
             }
             if (Tab is { } t) vm.TabIndex = t;

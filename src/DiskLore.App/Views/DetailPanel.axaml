@@ -85,7 +85,8 @@
         <!-- Buttons -->
         <WrapPanel Margin="0,14,0,0" ItemSpacing="6" LineSpacing="6">
           <Button Content="Open in file manager" Command="{Binding RevealCommand}" />
-          <Button Command="{Binding AskClaudeCommand}" IsVisible="{Binding CanAsk}" IsEnabled="{Binding CanAskNow}">
+          <Button Command="{Binding AskAiCommand}" IsVisible="{Binding CanAsk}" IsEnabled="{Binding CanAskNow}"
+                  ToolTip.Tip="{Binding AskTooltip}">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <ProgressBar IsIndeterminate="True" Width="40" Height="3" MinHeight="0" IsVisible="{Binding IsAsking}"
                            Classes="mini" VerticalAlignment="Center" />
@@ -117,7 +118,7 @@
           <StackPanel Spacing="8">
             <TextBlock Text="DiskLore doesn't know this one yet." FontWeight="SemiBold" FontSize="15" />
             <TextBlock Classes="muted body" TextWrapping="Wrap" Text="{Binding UnknownHint}" />
-            <Button Content="Ask Claude" Classes="primary" Command="{Binding AskClaudeCommand}" HorizontalAlignment="Left"
+            <Button Content="Ask AI" Classes="primary" Command="{Binding AskAiCommand}" ToolTip.Tip="{Binding AskTooltip}" HorizontalAlignment="Left"
                     IsVisible="{Binding CanAsk}" IsEnabled="{Binding CanAskNow}" Margin="0,4,0,0" />
           </StackPanel>
         </Border>
