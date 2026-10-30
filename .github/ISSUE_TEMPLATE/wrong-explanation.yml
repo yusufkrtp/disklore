@@ -1,0 +1,43 @@
+name: Wrong or missing explanation
+description: DiskLore explained a folder or file incorrectly, or has no explanation for it.
+title: "Explanation: "
+labels: [knowledge-base]
+body:
+  - type: input
+    id: path
+    attributes:
+      label: Path
+      description: Remove personal parts of the path if you like, for example replace your user name.
+      placeholder: C:\Users\<you>\AppData\Local\SomeApp\Cache
+    validations:
+      required: true
+  - type: input
+    id: size
+    attributes:
+      label: Size
+      placeholder: 12.4 GB
+  - type: textarea
+    id: said
+    attributes:
+      label: What DiskLore said
+      description: The badge and the note, or "no explanation" (UNKNOWN badge).
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What it actually is
+      description: What the item is, whether it is safe to delete, and what happens if you delete it.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source link
+      description: Documentation or an official page that backs this up.
+      placeholder: https://
+  - type: input
+    id: version
+    attributes:
+      label: DiskLore version and OS
+      placeholder: 0.1.0, Windows 11
