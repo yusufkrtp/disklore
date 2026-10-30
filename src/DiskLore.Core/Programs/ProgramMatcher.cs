@@ -20,9 +20,29 @@ public sealed class ProgramMatcher : IExplainer
     private readonly Dictionary<string, InstalledProgram> _storeByFamily;
     private readonly Dictionary<string, InstalledProgram> _storeByPackageKey;   // "<name>_<publisherId>"
     private readonly ConditionalWeakTable<ScanNode, OwnerBox> _memo = new();
+    private readonly Dictionary<string, List<InstalledProgram>> _vendorFolders;   // Program Files child path -> programs inside it
+    private readonly HashSet<string> _vendorNames;                                // last segment of every key above
 
     public ProgramMatcher(IReadOnlyList<InstalledProgram> programs)
+        : this(programs, DefaultProgramFilesRoots()) { }
+
+    private static IEnumerable<string> DefaultProgramFilesRoots() => new[]
     {
+        Environment.GetEnvironmentVariable("ProgramFiles"),
+        Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
+        Environment.GetEnvironmentVariable("ProgramW6432"),
+    }.Where(s => !string.IsNullOrWhiteSpace(s))!;
+
+    // Test seam: explicit Program Files roots.
+    internal ProgramMatcher(IReadOnlyList<InstalledProgram> programs, IEnumerable<string?> programFilesRoots)
+    {
+        _vendorFolders = new Dictionary<string, List<InstalledProgram>>(PathComparer);
+        _vendorNames = new HashSet<string>(PathComparer);
+        var roots = programFilesRoots
+            .Select(r => r?.Trim().Trim('"').TrimEnd('\\', '/'))
+            .Where(r => !string.IsNullOrEmpty(r))
+            .Distinct(PathComparer)
+            .ToList();
         _byLocation = new Dictionary<string, InstalledProgram>(PathComparer);
         _rootNames = new HashSet<string>(PathComparer);
         _storeByFamily = new Dictionary<string, InstalledProgram>(StringComparer.OrdinalIgnoreCase);
@@ -38,6 +58,20 @@ public sealed class ProgramMatcher : IExplainer
             {
                 _storeByFamily.TryAdd(p.PackageFamilyName, p);
                 _storeByPackageKey.TryAdd(p.PackageFamilyName, p);
+            }
+
+            if (loc == null) continue;
+            foreach (var root in roots)
+            {
+                if (!loc.StartsWith(root + "\\", StringComparison.OrdinalIgnoreCase) &&
+                    !loc.StartsWith(root + "/", StringComparison.OrdinalIgnoreCase)) continue;
+                var segs = loc.Substring(root!.Length + 1).Split(new[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
+                if (segs.Length < 2) break;   // the child itself is the install root: handled by MatchSelf
+                var key = root + Path.DirectorySeparatorChar + segs[0];
+                if (!_vendorFolders.TryGetValue(key, out var list)) _vendorFolders[key] = list = new List<InstalledProgram>();
+                list.Add(p);
+                _vendorNames.Add(segs[0]);
+                break;
             }
         }
     }
@@ -116,7 +150,7 @@ public sealed class ProgramMatcher : IExplainer
     {
         var box = Resolve(node);
         var p = box.Program;
-        if (p == null) return null;
+        if (p == null) return ExplainVendorFolder(node);
 
         var publisher = string.IsNullOrWhiteSpace(p.Publisher) ? null : p.Publisher;
         var label = publisher == null ? p.DisplayName : $"{p.DisplayName} ({publisher})";
@@ -147,6 +181,43 @@ public sealed class ProgramMatcher : IExplainer
             new SaferAction("settingsUri", "Open Installed apps", "ms-settings:appsfeatures"),
             ExplanationSource.InstalledProgram,
             0.95,
+            null);
+    }
+
+    // A direct child of a Program Files root that only contains install roots ("Google" holding Chrome).
+    private Explanation? ExplainVendorFolder(ScanNode node)
+    {
+        if (_vendorFolders.Count == 0 || !node.IsDirectory || node.Parent == null) return null;
+        if (!_vendorNames.Contains(node.Name)) return null;
+        var full = NormalizeLocation(node.FullPath);
+        if (full == null || !_vendorFolders.TryGetValue(full, out var list)) return null;
+
+        var owner = list.Where(x => !string.IsNullOrWhiteSpace(x.Publisher))
+            .GroupBy(x => x.Publisher!, StringComparer.OrdinalIgnoreCase)
+            .OrderByDescending(g => g.Count()).Select(g => g.Key).FirstOrDefault() ?? node.Name;
+
+        string summary;
+        if (list.Count == 1) summary = $"Contains {list[0].DisplayName}";
+        else
+        {
+            summary = $"Contains {list.Count} installed programs: " + string.Join(", ", list.Select(x => x.DisplayName));
+            if (summary.Length > 90) summary = summary.Substring(0, 89) + "…";
+        }
+
+        var shown = list.Take(5).Select(x => string.IsNullOrWhiteSpace(x.Version) ? x.DisplayName : $"{x.DisplayName} {x.Version}");
+        var more = list.Count > 5 ? $" and {list.Count - 5} more" : "";
+        return new Explanation(
+            node.Name,
+            Badge.App,
+            owner,
+            summary,
+            $"This vendor folder holds the install folders of: {string.Join(", ", shown)}{more}.",
+            "Some vendors group their programs under one folder in Program Files.",
+            "These programs stop working; uninstall them from Settings > Apps instead",
+            "Uninstall the programs you don't need from Settings > Apps",
+            new SaferAction("settingsUri", "Open Installed apps", "ms-settings:appsfeatures"),
+            ExplanationSource.InstalledProgram,
+            1.0,
             null);
     }
 }
